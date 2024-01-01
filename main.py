@@ -7,7 +7,7 @@ from st_pages import Page, add_page_title, show_pages
 
 
 st.set_page_config(
-  page_title="Leetcodeforsnowflake",
+  page_title="PinkEnducationInsigts",
   page_icon=":house:",
   layout="wide",
   initial_sidebar_state="expanded",
@@ -105,28 +105,7 @@ with st.sidebar:
 
 
 def main(): 
-    st.title('How to use leetcodeforsnowsql ?')
-
-    # ... (other parts of your code)
-
-    # if st.sidebar.button("myconnn"):
-    #     connection = create_snowflake_connection(account, role, warehouse, database, schema, user, password)
-        
-    #     # Use the 'connection' object as needed
-    #     if connection:
-    #         st.error("All ok")
-    #     #     pass
-    #     else:
-    #         st.error("Snowflake connection could not be established.")
-
-# st.write(st.session_state.account)
-# st.write(st.session_state.role)
-# st.write(st.session_state.warehouse)
-# st.write(st.session_state.database)
-# st.write(st.session_state.schema)
-# st.write(st.session_state.user)
-# st.write(st.session_state.password)
-# st.write(create_snowflake_connection(account,',', role,',', warehouse,',', database,',', schema,',', user,',', password))
+    st.title('How to this app')
 
 if __name__ == "__main__":
     main()
