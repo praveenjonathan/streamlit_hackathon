@@ -16,9 +16,9 @@ st.set_page_config(
 show_pages(
           [
               Page("main.py", "Home", "🏠"),
-              Page("pages/Leet570.py", "Managers with at Least 5 Direct Reports", "1️⃣"),
-              Page("pages/Leet1321.py", "Restaurant Growth", "2️⃣"),
-              Page("pages/Leet185.py", "Department Top Three Salaries", "3️⃣"),
+              Page("pages/dropout_rate.py", "Female Drop out rates", "1️⃣"),
+            #   Page("pages/Leet1321.py", "Restaurant Growth", "2️⃣"),
+            #   Page("pages/Leet185.py", "Department Top Three Salaries", "3️⃣"),
           ]
       )  
 # add_page_title()
@@ -79,7 +79,7 @@ def create_snowflake_connection(account, role, warehouse, database, schema, user
 #         return None
 with st.sidebar:
 
-    st.markdown("[![Foo](https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Linkedin_unofficial_colored_svg-48.png)](https://www.linkedin.com/in/mahantesh-hiremath/) Connect me.")
+    st.markdown("[![Foo](https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Linkedin_unofficial_colored_svg-48.png)](https://www.linkedin.com/in/danammahiremath/) Connect me.")
     st.sidebar.header("Snowflake Credentials")
     expander = st.expander("Set Up SF Connection")
     account = expander.text_input('Acount','mx31337.ca-central-1.aws')
