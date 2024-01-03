@@ -42,9 +42,10 @@ def main():
         GROUP BY C.table_name,COMMENTS
         ORDER BY C.table_name'''
     R1 = execute_query(Q1)
+    r1_expander = st.expander("Data set used in this analysis")
     R1_DF = pd.DataFrame(R1)
-    st.markdown('Data set used in this analysis')
-    st.write(R1_DF)
+    r1_expander.write(R1_DF)
+
     # with left_column:
          
     #      st.markdown(""" 
