@@ -1,7 +1,5 @@
 import streamlit as st
 import snowflake.connector
-# from pathlib import Path
-# from snowflakesql import connect_to_snowflake, store_credentials
 from main import *
 from st_pages import Page, add_page_title, show_pages
 
