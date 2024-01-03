@@ -50,6 +50,7 @@ def main():
     R2 = execute_query(Q2)
     
     R2_DF = pd.DataFrame(R2)
+    st.write(R2_DF)
     # Set 'Year' as index for plotting
     R2_DF.set_index('Year', inplace=True)
 
