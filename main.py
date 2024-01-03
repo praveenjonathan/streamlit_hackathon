@@ -54,7 +54,7 @@ def create_snowflake_connection(account, role, warehouse, database, schema, user
         st.balloons()
     except Exception as e:
         st.error(f"Error connecting to Snowflake: {str(e)}")    
-    # return conn
+    return conn
 
 
 
