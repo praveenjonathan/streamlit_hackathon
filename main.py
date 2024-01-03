@@ -36,7 +36,7 @@ def store_credentials(account, role, warehouse, database, schema, user, password
 # Function to connect to Snowflake
 # @st.cache    
 # Create a Snowflake connection function
-   
+@st.cache_resource   
 def create_snowflake_connection(account, role, warehouse, database, schema, user, password):
     try:
         conn = snowflake.connector.connect(
