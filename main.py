@@ -17,7 +17,7 @@ st.set_page_config(
 show_pages(
           [
               Page("main.py", "START FORM HERE", "🏠"),
-              Page("pages/dropout_rate.py", "Female Drop out rates", "1️⃣"),
+              Page("pages/dropout_rate.py", "FEMALE DROP OUT ANALYSIS", "1️⃣"),
             #   Page("pages/Leet1321.py", "Restaurant Growth", "2️⃣"),
             #   Page("pages/Leet185.py", "Department Top Three Salaries", "3️⃣"),
           ]

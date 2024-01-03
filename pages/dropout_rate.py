@@ -30,80 +30,90 @@ def execute_query(query):
         st.error(f"Error executing query: {str(e)}")
         return None
 
-st.title('LeetCode 570. Managers with at Least 5 Direct Reports')
-left_column, right_column = st.columns(2)
+st.title('DROP OUT ANALYSIS ')
+# left_column, right_column = st.columns(2)
 
 def main():
-    with left_column:
+
+    Q1='''SELECT C.table_name, LISTAGG(C.column_name, ',') AS ALL_COLUMNS,T.COMMENT AS COMMENTS
+        FROM information_schema.columns C
+        inner join information_schema.tables T ON (T.table_name=C.table_name)
+        WHERE C.table_schema = 'IND_SCHEMA' AND C.table_name LIKE 'DRR_%'
+        GROUP BY C.table_name,COMMENTS
+        ORDER BY C.table_name'''
+    R1 = execute_query(Q1)
+    R1_DF = pd.DataFrame(R1)
+    st.write(R1_DF)
+    # with left_column:
          
-         st.markdown(""" 
-                Table: Employee
+    #      st.markdown(""" 
+    #             Table: Employee
     
-                | Column Name | Type    |
-                |-------------|---------|
-                | id          | int     |
-                | name        | varchar |
-                | department  | varchar |
-                | managerId   | int     |
+    #             | Column Name | Type    |
+    #             |-------------|---------|
+    #             | id          | int     |
+    #             | name        | varchar |
+    #             | department  | varchar |
+    #             | managerId   | int     |
     
-                id is the primary key (column with unique values) for this table.
-                Each row of this table indicates the name of an employee, their department, and the id of their manager.
-                If managerId is null, then the employee does not have a manager.
-                No employee will be the manager of themselves.
+    #             id is the primary key (column with unique values) for this table.
+    #             Each row of this table indicates the name of an employee, their department, and the id of their manager.
+    #             If managerId is null, then the employee does not have a manager.
+    #             No employee will be the manager of themselves.
     
-                Write a solution to find managers with at least five direct reports.
+    #             Write a solution to find managers with at least five direct reports.
     
-                Return the result table in any order.
+    #             Return the result table in any order.
     
-                The result format is in the following example.
+    #             The result format is in the following example.
     
-                **Example 1:**
+    #             **Example 1:**
     
-                **Input:** 
-                Employee table:
-                | id  | name  | department | managerId |
-                |-----|-------|------------|-----------|
-                | 101 | John  | A          | null      |
-                | 102 | Dan   | A          | 101       |
-                | 103 | James | A          | 101       |
-                | 104 | Amy   | A          | 101       |
-                | 105 | Anne  | A          | 101       |
-                | 106 | Ron   | B          | 101       |
+    #             **Input:** 
+    #             Employee table:
+    #             | id  | name  | department | managerId |
+    #             |-----|-------|------------|-----------|
+    #             | 101 | John  | A          | null      |
+    #             | 102 | Dan   | A          | 101       |
+    #             | 103 | James | A          | 101       |
+    #             | 104 | Amy   | A          | 101       |
+    #             | 105 | Anne  | A          | 101       |
+    #             | 106 | Ron   | B          | 101       |
     
-                **Output:** 
-                | name |
-                |------|
-                | John |
+    #             **Output:** 
+    #             | name |
+    #             |------|
+    #             | John |
 
-               ``` sql
-                CREATE or REPLACE TABLE Employee (
-                        id INT,
-                        name VARCHAR(50),
-                        department VARCHAR(50),
-                        managerId INT
-                    ) AS (
-                        SELECT * FROM VALUES
-                            (101, 'John', 'A', NULL),
-                            (102, 'Dan', 'A', 101),
-                            (103, 'James', 'A', 101),
-                            (104, 'Amy', 'A', 101),
-                            (105, 'Anne', 'A', 101),
-                            (106, 'Ron', 'B', 101)
-                            )
+    #            ``` sql
+    #             CREATE or REPLACE TABLE Employee (
+    #                     id INT,
+    #                     name VARCHAR(50),
+    #                     department VARCHAR(50),
+    #                     managerId INT
+    #                 ) AS (
+    #                     SELECT * FROM VALUES
+    #                         (101, 'John', 'A', NULL),
+    #                         (102, 'Dan', 'A', 101),
+    #                         (103, 'James', 'A', 101),
+    #                         (104, 'Amy', 'A', 101),
+    #                         (105, 'Anne', 'A', 101),
+    #                         (106, 'Ron', 'B', 101)
+    #                         )
 
 
-                ```
-                """)
+    #             ```
+    #             """)
     
-    with right_column:
-         query = st.text_area("Write query",height=250)
-         if st.button("Execute Queries"):
-              if query:
-                   with st.spinner("Executing all queries..."):
-                        result = execute_query(query)
-                        st.success("Query executed!")
-                        result_df = pd.DataFrame(result)
-                        st.write(result_df)
+    # with right_column:
+    #      query = st.text_area("Write query",height=250)
+    #      if st.button("Execute Queries"):
+    #           if query:
+    #                with st.spinner("Executing all queries..."):
+    #                     result = execute_query(query)
+    #                     st.success("Query executed!")
+    #                     result_df = pd.DataFrame(result)
+    #                     st.write(result_df)
                         
                     
 if __name__ == "__main__":
