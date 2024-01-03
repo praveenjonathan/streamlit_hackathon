@@ -2,6 +2,8 @@ import streamlit as st
 import snowflake.connector
 from main import *
 from st_pages import Page, add_page_title, show_pages
+import matplotlib.pyplot as plt
+
 
 st.set_page_config( layout="wide")
 
@@ -43,6 +45,26 @@ def main():
     r1_expander = st.expander("Data set used in this analysis")
     R1_DF = pd.DataFrame(R1)
     r1_expander.write(R1_DF)
+
+    Q2='''SELECT * FROM DRR_1960_TO_2011'''
+    R2 = execute_query(Q2)
+    
+    R2_DF = pd.DataFrame(R2)
+    # Set 'Year' as index for plotting
+    R2_DF.set_index('Year', inplace=True)
+
+    # Plotting the data
+    plt.figure(figsize=(10, 6))
+    for column in R2_DF.columns:
+        plt.plot(R2_DF.index, R2_DF[column], marker='o', label=column)
+
+    plt.title('Dropout Rates for Different Categories Over Time')
+    plt.xlabel('Year')
+    plt.ylabel('Dropout Rate')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
 
     # with left_column:
          
