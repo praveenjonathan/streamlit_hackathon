@@ -59,13 +59,13 @@ def main():
     for column in R2_DF.columns:
         plt.plot(R2_DF.index, R2_DF[column], marker='o', label=column)
 
-    plt.title('Dropout Rates for Different Categories Over Time')
-    plt.xlabel('Year')
-    plt.ylabel('Dropout Rate')
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
+        plt.title('Dropout Rates for Different Categories Over Time')
+        plt.xlabel('Year')
+        plt.ylabel('Dropout Rate')
+        plt.legend()
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
 
     # with left_column:
          
