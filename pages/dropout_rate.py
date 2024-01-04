@@ -52,93 +52,31 @@ def main():
     
     R2_DF = pd.DataFrame(R2)
     st.write(R2_DF)
-    # Set 'Year' as index for plotting
+    # # Set 'Year' as index for plotting
+    # df = pd.DataFrame(data)
+
+# Set the index to 'Year' column
     R2_DF.set_index('Year', inplace=True)
 
-    # Plotting the data
-    plt.figure(figsize=(10, 6))
-    for column in R2_DF.columns:
-        plt.plot(R2_DF.index, R2_DF[column], marker='o', label=column)
+    # Streamlit app
+    st.title('Visualization of Education Data')
+    st.write("Line chart showing education statistics over years")
 
-        plt.title('Dropout Rates for Different Categories Over Time')
-        plt.xlabel('Year')
-        plt.ylabel('Dropout Rate')
-        plt.legend()
-        plt.grid(True)
-        plt.tight_layout()
-        plt.show()
+    # Select columns for X-axis (except 'Year')
+    selected_columns = st.multiselect('Select columns for X-axis', R2_DF.columns[1:])
 
-    # with left_column:
-         
-    #      st.markdown(""" 
-    #             Table: Employee
-    
-    #             | Column Name | Type    |
-    #             |-------------|---------|
-    #             | id          | int     |
-    #             | name        | varchar |
-    #             | department  | varchar |
-    #             | managerId   | int     |
-    
-    #             id is the primary key (column with unique values) for this table.
-    #             Each row of this table indicates the name of an employee, their department, and the id of their manager.
-    #             If managerId is null, then the employee does not have a manager.
-    #             No employee will be the manager of themselves.
-    
-    #             Write a solution to find managers with at least five direct reports.
-    
-    #             Return the result table in any order.
-    
-    #             The result format is in the following example.
-    
-    #             **Example 1:**
-    
-    #             **Input:** 
-    #             Employee table:
-    #             | id  | name  | department | managerId |
-    #             |-----|-------|------------|-----------|
-    #             | 101 | John  | A          | null      |
-    #             | 102 | Dan   | A          | 101       |
-    #             | 103 | James | A          | 101       |
-    #             | 104 | Amy   | A          | 101       |
-    #             | 105 | Anne  | A          | 101       |
-    #             | 106 | Ron   | B          | 101       |
-    
-    #             **Output:** 
-    #             | name |
-    #             |------|
-    #             | John |
-
-    #            ``` sql
-    #             CREATE or REPLACE TABLE Employee (
-    #                     id INT,
-    #                     name VARCHAR(50),
-    #                     department VARCHAR(50),
-    #                     managerId INT
-    #                 ) AS (
-    #                     SELECT * FROM VALUES
-    #                         (101, 'John', 'A', NULL),
-    #                         (102, 'Dan', 'A', 101),
-    #                         (103, 'James', 'A', 101),
-    #                         (104, 'Amy', 'A', 101),
-    #                         (105, 'Anne', 'A', 101),
-    #                         (106, 'Ron', 'B', 101)
-    #                         )
-
-
-    #             ```
-    #             """)
-    
-    # with right_column:
-    #      query = st.text_area("Write query",height=250)
-    #      if st.button("Execute Queries"):
-    #           if query:
-    #                with st.spinner("Executing all queries..."):
-    #                     result = execute_query(query)
-    #                     st.success("Query executed!")
-    #                     result_df = pd.DataFrame(result)
-    #                     st.write(result_df)
-                        
+    # Plotting the line chart
+    if selected_columns:
+        fig, ax = plt.subplots()
+        for column in selected_columns:
+            ax.plot(R2_DF.index, R2_DF[column], marker='o', label=column)
+        ax.set_xlabel('Year')
+        ax.set_ylabel('Values')
+        ax.set_title('Education Statistics')
+        ax.legend()
+        st.pyplot(fig)
+    else:
+        st.write("Please select at least one column for visualization.")
                     
 if __name__ == "__main__":
     main()
