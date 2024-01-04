@@ -3,6 +3,8 @@ import snowflake.connector
 from main import *
 from st_pages import Page, add_page_title, show_pages
 import matplotlib.pyplot as plt
+import plotly.express as px
+
 
 
 st.set_page_config( layout="wide")
@@ -55,28 +57,24 @@ def main():
     # # Set 'Year' as index for plotting
     # df = pd.DataFrame(data)
 
-# Set the index to 'Year' column
-    R2_DF.set_index('Year', inplace=True)
-
     # Streamlit app
-    st.title('Visualization of Education Data')
-    st.write("Line chart showing education statistics over years")
+    st.title('Interactive Education Data Visualization')
+    st.write("Interactive line chart showing education statistics over years")
 
     # Select columns for X-axis (except 'Year')
     selected_columns = st.multiselect('Select columns for X-axis', R2_DF.columns[1:])
 
-    # Plotting the line chart
+    # Check if columns are selected for visualization
     if selected_columns:
-        fig, ax = plt.subplots()
-        for column in selected_columns:
-            ax.plot(R2_DF.index, R2_DF[column], marker='o', label=column)
-        ax.set_xlabel('Year')
-        ax.set_ylabel('Values')
-        ax.set_title('Education Statistics')
-        ax.legend()
-        st.pyplot(fig)
+        # Melt the DataFrame for Plotly
+        df_melted = R2_DF.melt(id_vars=["Year"], value_vars=selected_columns, var_name='Category', value_name='Value')
+        
+        # Create an interactive line chart using Plotly Express
+        fig = px.line(df_melted, x="Year", y="Value", color='Category', markers=True, title='Education Statistics')
+        st.plotly_chart(fig)
     else:
         st.write("Please select at least one column for visualization.")
+
                     
 if __name__ == "__main__":
     main()
