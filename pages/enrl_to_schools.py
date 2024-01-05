@@ -5,6 +5,7 @@ from st_pages import Page, add_page_title, show_pages
 # import matplotlib.pyplot as plt
 import plotly.express as px
 import altair as alt
+import io
 import geopandas as gpd
 
 
@@ -67,12 +68,12 @@ def main():
             enr_s_col_index = enr_s_col_options.index("PRIMARY_BOYS")
             enr_s_col = st.selectbox('Select class:', options=enr_s_col_options, index=enr_s_col_index)
         
-    Q2 = f'''WITH CTE AS 
+    Q2 = f''' WITH CTE AS 
     (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{enr_s_col}"), 0), 2) AS DROP_OUT_RATE
         FROM V01_ENRL_BY_GROSS_RATIO_2013_2015)
-        SELECT CTE.STATES, CTE.YEAR, CTE.DROP_OUT_RATE  
-        FROM CTE 
-        WHERE YEAR = '{enr_s_year}' '''
+        SELECT CTE.STATES,CTE.DROP_OUT_RATE,INDIA_STATES.LATITUDE,INDIA_STATES.LONGITUDE FROM CTE
+            INNER JOIN INDIA_STATES ON (CTE.STATES=INDIA_STATES.STATES)
+        WHERE YEAR = '{enr_s_year}'  '''
     R2 = execute_query(Q2)
 
     r2_expander = st.expander("Data sets used in this analysis")
@@ -80,30 +81,38 @@ def main():
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
     selected_items = f"Gross Enrolment Ratio from Year: {enr_s_year} for Class: {enr_s_col}"
-
-
     st.title('Indian Primary School Dropout Rates')
 
-    fig = px.choropleth(
+    fig = px.scatter_geo(
         R2_DF,
         locations='STATES',
-        locationmode='country names',
+        lat='LATITUDE',
+        lon='LONGITUDE',
         color='DROP_OUT_RATE',
         hover_name='STATES',
-        color_continuous_scale='Viridis',
+        size='DROP_OUT_RATE',
+        projection='natural earth',
         labels={'DROP_OUT_RATE': 'Dropout Rate (%)'}
     )
 
+    fig.update_geos(
+        visible=False,
+        showcountries=False,
+        showcoastlines=False,
+        showland=False,
+        showframe=False,
+    )
+
     fig.update_layout(
-        title='Primary School Dropout Rates in Indian States',
+        title=selected_items,
         geo=dict(
-            showframe=False,
-            showcoastlines=False,
-            projection_type='equirectangular'
+            scope='asia',
+            landcolor='rgb(217, 217, 217)',
         )
     )
 
     st.plotly_chart(fig)
+
 
     # base = alt.topo_feature('pages/India_State_Boundary.shp', 'objects.INDIA')
     # # Replace 'path_to_india_map_shapefile' with the correct path
