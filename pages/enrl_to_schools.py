@@ -93,51 +93,6 @@ def main():
     st.markdown("""---------------------------------""")
     st.title("3. Drop-out Rate for selected state and classes across 2009 TO 2012")
 
-    # # Select state and display dataset used in the analysis
-    # s_states_options = pd.DataFrame(execute_query('SELECT DISTINCT STATES FROM V01_DRR_STATEWISE_CLASSWISE_2009_2012'))
-    # s_states_col = st.selectbox('Select state:', options=s_states_options['STATES'].tolist())
-    # Q4 = f"SELECT * FROM V01_DRR_STATEWISE_CLASSWISE_2009_2012 WHERE STATES = '{s_states_col}'"
-    # R4 = execute_query(Q4)
-    # r4_expander = st.expander("Data sets used in this analysis")
-    # R4_DF = pd.DataFrame(R4)
-    # R4_DF.index = R4_DF.index + 1
-    # r4_expander.write(R4_DF)
-
-    # # Select categories
-    # selected_categories = st.multiselect('Select categories:', options=(R4_DF.columns)[2:],default=["I-V BOYS","I-V GIRLS"])
-
-    # # Filter data based on selected state and categories
-    # filtered_data = R4_DF[['YEAR', 'STATES'] + selected_categories]
-    # filtered_data = filtered_data[filtered_data['STATES'] == s_states_col]
-
-    # # Melt the DataFrame for visualization
-    # melted_df = filtered_data.melt(id_vars=['YEAR', 'STATES'], var_name='Category', value_name='Dropout Rate')
-    # r4_title = f"Dropout Rates for {', '.join(selected_categories)} in {s_states_col}"
-
-    # # Line chart using Altair
-    # line_chart = (
-    #     alt.Chart(melted_df)
-    #     .mark_line(point=True)
-    #     .encode(
-    #         x='YEAR:N',
-    #         y=alt.Y('Dropout Rate:Q', title='Dropout Rate'),
-    #         color='Category:N',
-    #         tooltip=['YEAR:N', 'STATES:N', 'Category:N', 'Dropout Rate:Q']
-    #     )
-    #     .properties( title=r4_title)
-    #     .configure_legend(
-    #     orient='left',
-    #     title=None,
-    #     labelFontSize=9)
-    #     .interactive()
-    # )
-
-    # # Display the chart using Streamlit
-    # st.altair_chart(line_chart, use_container_width=True)
-    # st.markdown("""---------------------------------""")
-
-    
-
     
 
  
