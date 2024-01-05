@@ -52,42 +52,32 @@ def main():
     st.divider()
     st.title("1.Gross Enrolment Ratio from 2013-14 to 2015-16")
 
-    s_states_options = pd.DataFrame(execute_query('SELECT DISTINCT STATES FROM V01_ENRL_BY_GROSS_RATIO_2013_2015'))
-    s_states_col = st.selectbox('Select state:', options=s_states_options['STATES'].tolist())
-    col1, col2,col3=st.columns(3)
+    col1,col2=st.columns(2)
+
     with col1:
-       s_states_col = st.selectbox('Select state:', options=s_states_options['STATES'].tolist())
+            enr_s_year_options = ["2013-14", "2015-16", "2014-15"]
+            enr_s_year_index = enr_s_year_options.index("2013-14")
+            enr_s_year = st.selectbox('Select which year:', options=enr_s_year_options, index=enr_s_year_index)
     with col2:
-        s_year_options = ["2013-14","2015-16","2014-15"]
-        s_year = st.selectbox('Select which year:', options=s_year_options, index=0)
-    with col3:
-        s_col_options = ["PRIMARY_BOYS",
-                        "PRIMARY_GIRLS",
-                        "PRIMARY_TOTAL",
-                        "UPPER_PRIMARY_BOYS",
-                        "UPPER_PRIMARY_GIRLS",
-                        "UPPER_PRIMARY_TOTAL",
-                        "SECONDARY_BOYS",
-                        "SECONDARY_GIRLS",
-                        "SECONDARY_TOTAL",
-                        "HIGHER_SECONDARY_BOYS",
-                        "HIGHER_SECONDARY_GIRLS",
-                        "HIGHER_SECONDARY_TOTAL"] 
-        s_col_index = s_col_options.index("PRIMARY_BOYS")  # Find the index of the default value
-        s_col = st.selectbox('Select class:', options=s_col_options, index=s_col_index)
-  
+            enr_s_col_options = ["PRIMARY_BOYS", "PRIMARY_GIRLS", "PRIMARY_TOTAL", "UPPER_PRIMARY_BOYS", "UPPER_PRIMARY_GIRLS",
+                                "UPPER_PRIMARY_TOTAL", "SECONDARY_BOYS", "SECONDARY_GIRLS", "SECONDARY_TOTAL",
+                                "HIGHER_SECONDARY_BOYS", "HIGHER_SECONDARY_GIRLS", "HIGHER_SECONDARY_TOTAL"]
+            enr_s_col_index = enr_s_col_options.index("PRIMARY_BOYS")
+            enr_s_col = st.selectbox('Select class:', options=enr_s_col_options, index=enr_s_col_index)
+        
     Q2 = f'''WITH CTE AS 
-        (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{s_col}"), 0), 2) AS DROP_OUT_RATE
-            FROM V01_ENRL_BY_GROSS_RATIO_2013_2015)
-            SELECT CTE.STATES,CTE.YEAR,CTE.DROP_OUT_RATE  FROM CTE WHERE YEAR = {s_year}'''
+    (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{enr_s_col}"), 0), 2) AS DROP_OUT_RATE
+        FROM V01_ENRL_BY_GROSS_RATIO_2013_2015)
+        SELECT CTE.STATES, CTE.YEAR, CTE.DROP_OUT_RATE  
+        FROM CTE 
+        WHERE YEAR = '{enr_s_year}' '''
     R2 = execute_query(Q2)
-    #AS "{s_col}"
+
     r2_expander = st.expander("Data sets used in this analysis")
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
-    r2_expander.write(R3_DF)
-    R3_DF = R3_DF.sort_values(by="DROP_OUT_RATE", ascending=False)
-    selected_items = f"Gross Enrolment Ratio from Year: {s_year} for Class: {s_col}"
+    r2_expander.write(R2_DF)
+    selected_items = f"Gross Enrolment Ratio from Year: {enr_s_year} for Class: {enr_s_col}"
     
 
     st.markdown("""---------------------------------""")
