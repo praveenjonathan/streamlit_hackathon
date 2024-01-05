@@ -7,6 +7,7 @@ import plotly.express as px
 import altair as alt
 import io
 import geopandas as gpd
+from vega_datasets import data
 
 
 
@@ -83,35 +84,67 @@ def main():
     selected_items = f"Gross Enrolment Ratio from Year: {enr_s_year} for Class: {enr_s_col}"
     st.title('Indian Primary School Dropout Rates')
 
-    fig = px.scatter_geo(
-        R2_DF,
-        locations='STATES',
-        lat='LATITUDE',
-        lon='LONGITUDE',
-        color='DROP_OUT_RATE',
-        hover_name='STATES',
-        size='DROP_OUT_RATE',
-        projection='natural earth',
-        labels={'DROP_OUT_RATE': 'Dropout Rate (%)'}
+
+
+    # Streamlit app
+    st.title('Indian Primary School Dropout Rates')
+
+    # Display the data
+    st.write(R2_DF)
+
+    # Load India map data from Altair
+    india = alt.topo_feature(data.world_110m.url, 'countries')
+
+    # Create a Choropleth map using Altair
+    chart = alt.Chart(india).mark_geoshape().encode(
+        color='DROP_OUT_RATE:Q'
+    ).transform_lookup(
+        lookup='id',
+        from_=alt.LookupData(R2_DF, 'id', ['DROP_OUT_RATE'])
+    ).properties(
+        width=800,
+        height=600,
+        title='Primary School Dropout Rates by State in India'
+    ).project(
+        type='mercator'
     )
 
-    fig.update_geos(
-        visible=False,
-        showcountries=False,
-        showcoastlines=False,
-        showland=False,
-        showframe=False,
-    )
+    # Display the map in Streamlit
+    st.altair_chart(chart)
 
-    fig.update_layout(
-        title=selected_items,
-        geo=dict(
-            scope='asia',
-            landcolor='rgb(217, 217, 217)',
-        )
-    )
+    # fig = px.scatter_geo(
+    #     R2_DF,
+    #     locations='STATES',
+    #     lat='LATITUDE',
+    #     lon='LONGITUDE',
+    #     color='DROP_OUT_RATE',
+    #     hover_name='STATES',
+    #     size='DROP_OUT_RATE',
+    #     projection='mercator',  # Using mercator projection
+    #     labels={'DROP_OUT_RATE': 'Dropout Rate (%)'}
+    # )
 
-    st.plotly_chart(fig)
+    # fig.update_geos(
+    # showcountries=True,  # Show country boundaries
+    # countrycolor="Black",
+    # showland=True,
+    # landcolor="rgb(217, 217, 217)",
+    # showocean=True,
+    # oceancolor="LightBlue",
+    # showcoastlines=True,
+    # coastlinewidth=1,
+    # coastlinecolor="Black",
+    # )
+
+    # fig.update_layout(
+    #     title=selected_items,
+    #     geo=dict(
+    #         scope='asia',
+    #         landcolor='rgb(217, 217, 217)',
+    #     )
+    # )
+
+    # st.plotly_chart(fig)
 
 
     # base = alt.topo_feature('pages/India_State_Boundary.shp', 'objects.INDIA')
