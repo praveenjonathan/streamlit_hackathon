@@ -222,4 +222,4 @@ text-align: center;
 <p>Developed with ❤️ by <a style='display: inline; text-align: center;' href="https://www.linkedin.com/in/danammahiremath/" target="_blank">DANAMMA HIREMATH</a></p>
 </div>
 """
-st.markdown(footer,unsafe_allow_html=True)
+st.markdown(footer,unsafe_allow_html=True)  

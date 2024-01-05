@@ -170,7 +170,7 @@ text-align: center;
 }
 </style>
 <div class="footer">
-<p>Developed with ❤️ by <a style='display: inline; text-align: center;' href="https://www.linkedin.com/in/danammahiremath/" target="_blank">MAHANTESH HIREMATH</a></p>
+<p>Developed with ❤️ by <a style='display: inline; text-align: center;' href="https://www.linkedin.com/in/danammahiremath/" target="_blank">DANAMMA HIREMATH</a></p>
 </div>
 """
 st.markdown(footer,unsafe_allow_html=True)    
