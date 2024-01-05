@@ -82,6 +82,7 @@ def main():
     selected_items = f"Gross Enrolment Ratio from Year: {enr_s_year} for Class: {enr_s_col}"
 
     # Load India map data
+    path_to_india_map_shapefile="pages/India_State_Boundary.shp"
     india = gpd.read_file('path_to_india_map_shapefile')  # Replace 'path_to_india_map_shapefile' with the correct path
 
     # Merge the map data with the retrieved dataset
