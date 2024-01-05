@@ -77,7 +77,7 @@ def main():
         orient='left',
         title=None,
         labelFontSize=8
-    )
+        ).interactive()
         return chart
     # Selecting X-axis (Year) and multiple Y-axis columns with 'GIRL' keyword
     girl_columns = [col for col in R2_DF.columns if 'GIRLS' in col]
@@ -135,6 +135,7 @@ def main():
             ]
         )
         .properties(width=800,  title=f"{selected_items}")
+        .interactive()
     )
 
     # Displaying the chart using Streamlit
@@ -153,7 +154,7 @@ def main():
     r4_expander.write(R4_DF)
 
     # Select categories
-    selected_categories = st.multiselect('Select categories:', options=(R4_DF.columns)[2:])
+    selected_categories = st.multiselect('Select categories:', options=(R4_DF.columns)[2:],default=["I-V BOYS","I-V GIRLS"])
 
     # Filter data based on selected state and categories
     filtered_data = R4_DF[['YEAR', 'STATES'] + selected_categories]
@@ -173,7 +174,7 @@ def main():
             color='Category:N',
             tooltip=['YEAR:N', 'STATES:N', 'Category:N', 'Dropout Rate:Q']
         )
-        .properties(width=600, height=400, title=r4_title)
+        .properties( title=r4_title)
         .configure_legend(
         orient='left',
         title=None,
