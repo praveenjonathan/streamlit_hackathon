@@ -5,6 +5,8 @@ from st_pages import Page, add_page_title, show_pages
 # import matplotlib.pyplot as plt
 import plotly.express as px
 import altair as alt
+import geopandas as gpd
+
 
 
 
@@ -78,6 +80,25 @@ def main():
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
     selected_items = f"Gross Enrolment Ratio from Year: {enr_s_year} for Class: {enr_s_col}"
+
+    # Load India map data
+    india = gpd.read_file('path_to_india_map_shapefile')  # Replace 'path_to_india_map_shapefile' with the correct path
+
+    # Merge the map data with the retrieved dataset
+    merged_data = india.merge(R2_DF, how='left', left_on='StatesColumnName', right_on='STATES')
+
+    # Create the map using Altair
+    map_chart = alt.Chart(merged_data).mark_geoshape().encode(
+        color=alt.Color('DROP_OUT_RATE:Q', title='Gross Enrolment Ratio'),
+        tooltip=['STATES:N', 'DROP_OUT_RATE:Q']
+    ).properties(
+        width=500,
+        height=600,
+        title=selected_items
+    ).project(type='identity')
+
+    # Display the map using Streamlit
+    st.altair_chart(map_chart, use_container_width=True)
     
 
     st.markdown("""---------------------------------""")
