@@ -51,7 +51,7 @@ def main():
     R1_DF.index = R1_DF.index + 1
     r1_expander.write(R1_DF)
     st.divider()
-    st.markdown("1.Drop out rates in India from 1960-61 to 2010-11")
+    st.title("1.Drop out rates in India from 1960-61 to 2010-11")
     Q2='''SELECT * FROM V01_DRR_1960_TO_2011'''
     R2 = execute_query(Q2)
     r2_expander = st.expander("Data set used in this  analysis")
@@ -89,7 +89,7 @@ def main():
     # Plotting the chart with multiple Y-axis columns
     st.altair_chart(plot_chart(R2_DF, x_axis_column, y_axis_columns), use_container_width=True)
     st.divider()
-    st.markdown("2.Drop-out Rate from 2009 TO 2012 state wise class wise for different category")
+    st.title("2.Drop-out Rate from 2009 TO 2012 state wise class wise for different category")
 
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -141,7 +141,7 @@ def main():
     # Displaying the chart using Streamlit
     st.altair_chart(chart, use_container_width=True)
     st.markdown("""---------------------------------""")
-    st.markdown("3. Drop-out Rate for selected state and classes across 2009 TO 2012")
+    st.title("3. Drop-out Rate for selected state and classes across 2009 TO 2012")
 
     # Select state and display dataset used in the analysis
     s_states_options = pd.DataFrame(execute_query('SELECT DISTINCT STATES FROM V01_DRR_STATEWISE_CLASSWISE_2009_2012'))

@@ -110,9 +110,9 @@ with st.sidebar:
 def main(): 
                 st.title('Detail steps how analysis done')
 
-                st.markdown('STEP1:DATA DOWNLOADED FROM data.gov.in IN CSV FORMAT')
+                st.markdown('STEP 1:DATA DOWNLOADED FROM data.gov.in IN CSV FORMAT')
 
-                st.markdown('STEP2:DATA DOWNLOADED LOADED ALL TABLES WITH MY OWN CREATED UTILITY')
+                st.markdown('STEP 2:DATA DOWNLOADED LOADED ALL TABLES WITH MY OWN CREATED UTILITY')
                 st.markdown('Upload file to Snowflake')
                 file = st.file_uploader('Upload file', type=['xls', 'xlsx', 'csv', 'txt'])
 
@@ -142,7 +142,7 @@ def main():
                                     st.error(f'Error: {str(e)}')
                         else:
                             st.error('Unable to connect to Snowflake. Please check your credentials.')
-                st.markdown('STEP3:COMPLEX SQL QUERUIES CREATED TO ANALYSE DATA SETS')
+                st.markdown('STEP 3:COMPLEX SQL QUERUIES CREATED TO ANALYSE DATA SETS')
 
 if __name__ == "__main__":
     main()
