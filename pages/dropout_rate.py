@@ -76,8 +76,8 @@ def main():
         ).configure_legend(
         orient='left',
         title=None,
-        labelFontSize=8
-        ).interactive()
+        labelFontSize=9
+        ).configure_axis(grid=False).interactive()
         return chart
     # Selecting X-axis (Year) and multiple Y-axis columns with 'GIRL' keyword
     girl_columns = [col for col in R2_DF.columns if 'GIRLS' in col]
@@ -178,7 +178,7 @@ def main():
         .configure_legend(
         orient='left',
         title=None,
-        labelFontSize=8)
+        labelFontSize=9)
         .interactive()
     )
 
