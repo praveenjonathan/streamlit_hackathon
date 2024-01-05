@@ -81,26 +81,50 @@ def main():
     r2_expander.write(R2_DF)
     selected_items = f"Gross Enrolment Ratio from Year: {enr_s_year} for Class: {enr_s_col}"
 
-    base = alt.topo_feature('pages/India_State_Boundary.shp', 'objects.INDIA')
-    # Replace 'path_to_india_map_shapefile' with the correct path
-    base = alt.topo_feature('base', 'objects.INDIA')
-    india = gpd.read_file('base')
 
-    # Merge the map data with the retrieved dataset
-    merged_data = india.merge(R2_DF, how='left', left_on='StatesColumnName', right_on='STATES')
+    st.title('Indian Primary School Dropout Rates')
 
-    # Create the map using Altair
-    map_chart = alt.Chart(merged_data).mark_geoshape().encode(
-        color=alt.Color('DROP_OUT_RATE:Q', title='Gross Enrolment Ratio'),
-        tooltip=['STATES:N', 'DROP_OUT_RATE:Q']
-    ).properties(
-        width=500,
-        height=600,
-        title=selected_items
-    ).project(type='identity')
+    fig = px.choropleth(
+        R2_DF,
+        locations='STATES',
+        locationmode='India',
+        color='DROP_OUT_RATE',
+        hover_name='STATES',
+        color_continuous_scale='Viridis',
+        labels={'DROP_OUT_RATE': 'Dropout Rate (%)'}
+    )
 
-    # Display the map using Streamlit
-    st.altair_chart(map_chart, use_container_width=True)
+    fig.update_layout(
+        title='Primary School Dropout Rates in Indian States',
+        geo=dict(
+            showframe=False,
+            showcoastlines=False,
+            projection_type='equirectangular'
+        )
+    )
+
+    st.plotly_chart(fig)
+
+    # base = alt.topo_feature('pages/India_State_Boundary.shp', 'objects.INDIA')
+    # # Replace 'path_to_india_map_shapefile' with the correct path
+    # base = alt.topo_feature('base', 'objects.INDIA')
+    # india = gpd.read_file('base')
+
+    # # Merge the map data with the retrieved dataset
+    # merged_data = india.merge(R2_DF, how='left', left_on='StatesColumnName', right_on='STATES')
+
+    # # Create the map using Altair
+    # map_chart = alt.Chart(merged_data).mark_geoshape().encode(
+    #     color=alt.Color('DROP_OUT_RATE:Q', title='Gross Enrolment Ratio'),
+    #     tooltip=['STATES:N', 'DROP_OUT_RATE:Q']
+    # ).properties(
+    #     width=500,
+    #     height=600,
+    #     title=selected_items
+    # ).project(type='identity')
+
+    # # Display the map using Streamlit
+    # st.altair_chart(map_chart, use_container_width=True)
     
 
     st.markdown("""---------------------------------""")
