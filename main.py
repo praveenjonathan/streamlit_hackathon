@@ -18,8 +18,11 @@ show_pages(
           [
               Page("main.py", "START FORM HERE", "🏠"),
               Page("pages/dropout_rate.py", "FEMALE DROP OUT ANALYSIS", "1️⃣"),
-            #   Page("pages/Leet1321.py", "Restaurant Growth", "2️⃣"),
-            #   Page("pages/Leet185.py", "Department Top Three Salaries", "3️⃣"),
+            #   Page("pages/enrl_to_schools.py", "CLASSWISE & AGEWISE ENROLLMENT TO SCHOOLS", "2️⃣"),
+            #   Page("pages/infra_stat.py", "SCHOOL'S INFRA STATISTICS", "3️⃣"),
+			#   Page("pages/aishe.py", "ALL INDIA SURVEY ON HIGHER EDUCATION", "4️⃣"),
+            #   Page("pages/girls_per_hundered.py", "CLASS-WISE GIRLS PER HUNDRED BOYS", "5️⃣"),
+			#   Page("pages/gender_parity.py", "GENDER PARITY INDEX IN HIGHER EDUCATION", "6️⃣"),
           ]
       )  
 # add_page_title()
@@ -143,3 +146,31 @@ def main():
 
 if __name__ == "__main__":
     main()
+footer="""<style>
+a:link , a:visited{
+color: blue;
+background-color: transparent;
+text-decoration: underline;
+}
+
+a:hover,  a:active {
+color: red;
+background-color: transparent;
+text-decoration: underline;
+}
+
+.footer {
+position: fixed;
+left: 0;
+bottom: 0;
+width: 100%;
+background-color: white;
+color: black;
+text-align: center;
+}
+</style>
+<div class="footer">
+<p>Developed with ❤️ by <a style='display: inline; text-align: center;' href="https://www.linkedin.com/in/danammahiremath/" target="_blank">MAHANTESH HIREMATH</a></p>
+</div>
+"""
+st.markdown(footer,unsafe_allow_html=True)    
