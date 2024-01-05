@@ -18,11 +18,11 @@ show_pages(
           [
               Page("main.py", "START FORM HERE", "🏠"),
               Page("pages/dropout_rate.py", "FEMALE DROP OUT ANALYSIS", "1️⃣"),
-            #   Page("pages/enrl_to_schools.py", "CLASSWISE & AGEWISE ENROLLMENT TO SCHOOLS", "2️⃣"),
-            #   Page("pages/infra_stat.py", "SCHOOL'S INFRA STATISTICS", "3️⃣"),
-			#   Page("pages/aishe.py", "ALL INDIA SURVEY ON HIGHER EDUCATION", "4️⃣"),
-            #   Page("pages/girls_per_hundered.py", "CLASS-WISE GIRLS PER HUNDRED BOYS", "5️⃣"),
-			#   Page("pages/gender_parity.py", "GENDER PARITY INDEX IN HIGHER EDUCATION", "6️⃣"),
+              Page("pages/enrl_to_schools.py", "CLASSWISE & AGEWISE ENROLLMENT TO SCHOOLS", "2️⃣"),
+              Page("pages/infra_stat.py", "SCHOOL'S INFRA STATISTICS", "3️⃣"),
+			  Page("pages/aishe.py", "ALL INDIA SURVEY ON HIGHER EDUCATION", "4️⃣"),
+              Page("pages/girls_per_hundered.py", "CLASS-WISE GIRLS PER HUNDRED BOYS", "5️⃣"),
+			  Page("pages/gender_parity.py", "GENDER PARITY INDEX IN HIGHER EDUCATION", "6️⃣"),
           ]
       )  
 # add_page_title()
