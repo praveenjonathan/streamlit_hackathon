@@ -87,7 +87,7 @@ def main():
     fig = px.choropleth(
         R2_DF,
         locations='STATES',
-        locationmode='India',
+        locationmode='country names',
         color='DROP_OUT_RATE',
         hover_name='STATES',
         color_continuous_scale='Viridis',
