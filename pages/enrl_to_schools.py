@@ -188,7 +188,17 @@ def main():
     r4_expander.markdown("  - Karnataka, Meghalaya, Bihar, Assam, Nagaland, Dadra & Nagar Haveli, Tripura, Jharkhand, Daman & Diu, Madhya Pradesh, West Bengal, Gujarat, Jammu & Kashmir")
 	
     st.markdown("""---------------------------------""")
-
+    st.title("3.Enrolment count from 2012 to 2020")
+    s_states_options = pd.DataFrame(execute_query('SELECT DISTINCT STATES FROM V01_CNT_ENRL_BY_AGE_CLSS_2012_2020'))
+    s_states_col = st.selectbox('Select state:', options=s_states_options['STATES'].tolist())
+	
+    Q4 = f'''SELECT * FROM V01_CNT_ENRL_BY_AGE_CLSS_2012_2020
+			WHERE STATES='{s_states_col}'''
+    R4 = execute_query(Q3)
+    R4_expander = st.expander("Data sets used in this analysis")
+    R4_DF = pd.DataFrame(R4)
+    R4_DF.index = R4_DF.index + 1
+    R4_expander.write(R4_DF)   
     
 
  
