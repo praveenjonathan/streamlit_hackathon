@@ -126,14 +126,14 @@ def main():
                             zoom=3,
                             opacity=0.5)
     # Add text annotations for DROP_OUT_RATE and STATES inside the map
-    for idx, row in merged_data.iterrows():
-        fig.add_annotation(
-        text=f"{row['STATES']}<br>GROSS_ENRL_RATIO: {row['GROSS_ENRL_RATIO']}",
-        x=row.geometry.centroid.x,
-        y=row.geometry.centroid.y,
-        showarrow=False,
-        font=dict(size=10, color='black')
-        )
+    # for idx, row in merged_data.iterrows():
+    #     fig.add_annotation(
+    #     text=f"{row['STATES']}<br>GROSS_ENRL_RATIO: {row['GROSS_ENRL_RATIO']}",
+    #     x=row.geometry.centroid.x,
+    #     y=row.geometry.centroid.y,
+    #     showarrow=False,
+    #     font=dict(size=10, color='black')
+    #     )
 
     # Update layout for better visualization
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0}, mapbox={'center': {'lat': 20, 'lon': 78}})
