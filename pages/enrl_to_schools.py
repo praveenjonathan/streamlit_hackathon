@@ -90,6 +90,10 @@ def main():
     selected_items = f"Gross Enrolment Ratio for Year: {enr_s_year}  Class: {enr_s_col}"
     st.title(selected_items)
 
+    india_states_shp = 'src/India_State_Boundary.shp'  # Replace with the path to your shapefile
+    india_states = gpd.read_file(india_states_shp)
+    st.write(india_states)
+
     india_states_geojson_url = 'src/india.geojson'
     # Load GeoJSON file into GeoDataFrame
     india_states = gpd.read_file(india_states_geojson_url)
