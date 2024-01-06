@@ -16,7 +16,7 @@ st.set_page_config(
 
 show_pages(
           [
-              Page("main.py", "START FORM HERE", "🏠"),
+              Page("/main.py", "START FORM HERE", "🏠"),
               Page("pages/dropout_rate.py", "FEMALE DROP OUT ANALYSIS", "1️⃣"),
               Page("pages/enrl_to_schools.py", "CLASSWISE & AGEWISE ENROLLMENT TO SCHOOLS", "2️⃣"),
               Page("pages/infra_stat.py", "SCHOOL'S INFRA STATISTICS", "3️⃣"),
