@@ -8,7 +8,7 @@ from st_pages import Page, add_page_title, show_pages
 
 
 st.set_page_config(
-  page_title="PinkEnducationInsigts",
+  page_title="INDIAN-FEMALE-EDUCATION-INSIGHTS",
   page_icon=":house:",
   layout="wide",
   initial_sidebar_state="expanded",
