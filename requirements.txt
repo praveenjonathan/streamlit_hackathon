@@ -5,3 +5,4 @@ geopandas
 pyshp
 openpyxl
 vega_datasets
+plotly
