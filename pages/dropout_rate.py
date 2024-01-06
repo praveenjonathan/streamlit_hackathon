@@ -134,7 +134,7 @@ def main():
             alt.Tooltip("DROP_OUT_RATE", title="Dropout Rate"),
             ]
         )
-        .properties(width=800,  title=f"{selected_items}")
+        .properties(width=900,  title=f"{selected_items}")
         .interactive()
     )
 

@@ -9,7 +9,6 @@ import io
 import geopandas as gpd
 from vega_datasets import data
 import matplotlib.pyplot as plt
-import matplotlib.pyplot as plt
 import seaborn as sns
 import geopandas as gpd
 import shapefile as shp
@@ -192,13 +191,56 @@ def main():
     s_states_options = pd.DataFrame(execute_query('SELECT DISTINCT STATES FROM V01_CNT_ENRL_BY_AGE_CLSS_2012_2020'))
     s_states_col = st.selectbox('Select state:', options=s_states_options['STATES'].tolist())
 	
-    Q4 = f'''SELECT * FROM V01_CNT_ENRL_BY_AGE_CLSS_2012_2020
-			 WHERE STATES='{s_states_col}'''
+    Q4 = f''' SELECT * FROM V01_CNT_ENRL_BY_AGE_CLSS_2012_2020  WHERE STATES='{s_states_col}' '''
     R4 = execute_query(Q4)
     R4_expander = st.expander("Data sets used in this analysis")
     R4_DF = pd.DataFrame(R4)
     R4_DF.index = R4_DF.index + 1
-    R4_expander.write(R4_DF)   
+    R4_expander.write(R4_DF)
+
+    # R4_DF.set_index('YEAR', inplace=True)
+
+    # # Create a Streamlit app
+    # st.title('Boys vs Girls Enrollment Comparison by Class')
+
+    # selected_class = st.selectbox('Select Class', R4_DF.columns[2:])
+
+
+    # # Filter the DataFrame based on the selected class
+    # class_data = R4_DF[[col for col in R4_DF.columns if selected_class in col]]
+
+    # # Plotting
+    # plt.figure(figsize=(10, 8))
+    # class_data.plot(kind='barh')
+    # plt.xlabel('Number of Students')
+    # plt.ylabel('Year')
+    # plt.title(f'Enrollment Comparison for {selected_class} - Boys vs Girls')
+    # st.pyplot(plt) 
+    st.title('Boys vs Girls Enrollment Comparison by Class')
+
+    selected_class = st.selectbox('Select Class', R4_DF.columns[2:])
+
+    # Create a new DataFrame for selected class boys and girls
+    selected_class_boys = selected_class
+    selected_class_girls = selected_class.replace('_BOYS', '_GIRLS')
+
+    chart_data = R4_DF[['YEAR', selected_class_boys, selected_class_girls]].melt('YEAR', var_name='Category', value_name='Enrollment')
+
+    # Filter the data for the selected class
+    filtered_chart_data = chart_data[chart_data['Category'].isin([selected_class_boys, selected_class_girls])]
+
+    # Plotting with Altair
+    chart = alt.Chart(filtered_chart_data).mark_bar().encode(
+        x='Enrollment:Q',
+        y='YEAR:N',
+        color='Category:N',
+        tooltip=['YEAR:N', 'Category:N', 'Enrollment:Q']
+    ).properties(
+        width=900,
+        title=f'{s_states_col} Enrollment Comparison for {selected_class} - Boys vs Girls'
+    ).interactive()
+
+    st.altair_chart(chart)  
     
 
  
