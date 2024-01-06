@@ -14,6 +14,7 @@ import seaborn as sns
 import geopandas as gpd
 import shapefile as shp
 from shapely.geometry import Point
+import numpy as np
 sns.set_style('whitegrid')
 
 
@@ -79,7 +80,7 @@ def main():
         (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{enr_s_col}"), 0), 2) AS GROSS_ENRL_RATIO
             FROM V01_ENRL_BY_GROSS_RATIO_2013_2015 WHERE YEAR ='{enr_s_year}'
             )           
-        SELECT INDIA_STATES.STATES,CTE.GROSS_ENRL_RATIO FROM INDIA_STATES 
+        SELECT INDIA_STATES.STATES,CTE.GROSS_ENRL_RATIO GROSS_ENRL_RATIO FROM INDIA_STATES 
             LEFT JOIN CTE ON (CTE.STATES=INDIA_STATES.STATES) '''
     R2 = execute_query(Q2)
 
@@ -98,51 +99,77 @@ def main():
     # Merge dropout rates with GeoDataFrame
     merged_data = india_states.merge(R2_DF, how='left', on='STATES')
 
-    # Define color ranges based on dropout rates
-    color_categories = pd.cut(
-        merged_data['GROSS_ENRL_RATIO'],
-        bins=[float('-inf'), 95, 105, float('inf')],
-        labels=['Below 95', '95 - 105', 'Above 105']
-    )
+    # Define bins and labels
+    bins = [float('-inf'), 95, 105, float('inf')]
+    labels = ['Below 95', '95 - 105', 'Above 105']
 
-    # Assign colors to each category
-    color_dict = {
-        'Below 95': 'Green',
-        '95 - 105': 'Blue',
-        'Above 105': 'green',
-        'NaN or Missing': 'white'  # Category for NaN or missing values
-    }
+    # Assigning values to bins and handling 'NA' values
+    conditions = [
+        merged_data['GROSS_ENRL_RATIO'] < 95,
+        (merged_data['GROSS_ENRL_RATIO'] >= 95) & (merged_data['GROSS_ENRL_RATIO'] <= 105),
+        merged_data['GROSS_ENRL_RATIO'] > 105
+    ]
 
-    # Map colors to each category
-    merged_data['color'] = color_categories.map(color_dict)
-    # For states with missing or NaN dropout rates, assign 'NaN or Missing' color
-    merged_data.loc[merged_data['GROSS_ENRL_RATIO'].isnull(), 'color'] = 'NaN or Missing'
+    # Assigning labels
+    merged_data['color'] = np.select(conditions, labels, default='NA')
+
     # Create a plotly figure with categorical colors
     fig = px.choropleth_mapbox(merged_data, geojson=merged_data.geometry, locations=merged_data.index,
                             color='color',
+                            color_discrete_map={'Below 95': 'Green', '95 - 105': 'Blue', 'Above 105': 'Red', 'NA': 'Yellow'},
                             mapbox_style="carto-positron",
                             hover_data={'STATES': True, 'GROSS_ENRL_RATIO': True},
                             center={"lat": 20.5937, "lon": 78.9629},
                             zoom=3,
                             opacity=0.5)
-    # Add text annotations for DROP_OUT_RATE and STATES inside the map
-    # for idx, row in merged_data.iterrows():
-    #     fig.add_annotation(
-    #     text=f"{row['STATES']}<br>GROSS_ENRL_RATIO: {row['GROSS_ENRL_RATIO']}",
-    #     x=row.geometry.centroid.x,
-    #     y=row.geometry.centroid.y,
-    #     showarrow=False,
-    #     font=dict(size=10, color='black')
-    #     )
+    
 
-    # Update layout for better visualization
+# Update layout for better visualization
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0}, mapbox={'center': {'lat': 20, 'lon': 78}})
 
-    # Display the map in Streamlit
+# Display the map in Streamlit
     st.plotly_chart(fig)
 
     st.markdown("""---------------------------------""")
-    st.title("3. Drop-out Rate for selected state and classes across 2009 TO 2012")
+    st.title("2.Top Gross Enrolment Ratio from 2013-14 to 2015-16")
+
+    # col1 = st.columns(1)
+    # with col1:
+    top_options = list(range(1, 31))  # Generates a list from 1 to 30
+    top = st.selectbox('Select top GROSS_ENRL_RATIO:', options=top_options, index=9)
+    
+    Q3 = f'''WITH CTE AS 
+            (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{enr_s_col}"), 0), 2) AS GROSS_ENRL_RATIO, 
+                DENSE_RANK() OVER (PARTITION BY YEAR ORDER BY GROSS_ENRL_RATIO DESC) DNK 
+                FROM V01_ENRL_BY_GROSS_RATIO_2013_2015)
+                SELECT CTE.STATES,CTE.YEAR,CTE.GROSS_ENRL_RATIO , CTE.DNK RANK FROM CTE WHERE YEAR = '{enr_s_year}' AND DNK <= {top}'''
+    R3 = execute_query(Q3)
+        #AS "{s_col}"
+    r3_expander = st.expander("Data sets used in this analysis")
+    R3_DF = pd.DataFrame(R3)
+    R3_DF.index = R3_DF.index + 1
+    r3_expander.write(R3_DF)
+    R3_DF = R3_DF.sort_values(by="GROSS_ENRL_RATIO", ascending=False)
+    selected_items = f"Top  {top} dropout states of the Year: {enr_s_year} for Class: {enr_s_col}"
+    # Creating the Altair chart
+    chart = (
+        alt.Chart(R3_DF)
+        .mark_bar()
+        .encode(
+            x=alt.X("GROSS_ENRL_RATIO:Q", title="  Dropout Rate"),
+            y=alt.Y("STATES:N", title="States", sort="-x"),
+            tooltip=[
+            alt.Tooltip("STATES", title="State"),
+            alt.Tooltip("GROSS_ENRL_RATIO", title="Dropout Rate"),
+            ]
+        )
+        .properties(width=800,  title=f"{selected_items}")
+        .interactive()
+    )
+
+        # Displaying the chart using Streamlit
+    st.altair_chart(chart, use_container_width=True)
+    st.markdown("""---------------------------------""")
 
     
 

@@ -4,3 +4,4 @@ streamlit>=1.25.0
 geopandas
 pyshp
 openpyxl
+vega_datasets
