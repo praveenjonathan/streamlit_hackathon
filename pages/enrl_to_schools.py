@@ -76,11 +76,11 @@ def main():
             enr_s_col = st.selectbox('Select class:', options=enr_s_col_options, index=enr_s_col_index)
         
     Q2 = f''' WITH CTE AS 
-    (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{enr_s_col}"), 0), 2) AS DROP_OUT_RATE
-        FROM V01_ENRL_BY_GROSS_RATIO_2013_2015)
-        SELECT CTE.STATES,CTE.DROP_OUT_RATE  FROM CTE---,INDIA_STATES.LATITUDE,INDIA_STATES.LONGITUDE FROM CTE
-            ----INNER JOIN INDIA_STATES ON (CTE.STATES=INDIA_STATES.STATES)
-        WHERE YEAR = '{enr_s_year}'  '''
+        (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{enr_s_col}"), 0), 2) AS GROSS_ENRL_RATIO
+            FROM V01_ENRL_BY_GROSS_RATIO_2013_2015 WHERE YEAR ='{enr_s_year}'
+            )           
+        SELECT INDIA_STATES.STATES,CTE.GROSS_ENRL_RATIO FROM INDIA_STATES 
+            LEFT JOIN CTE ON (CTE.STATES=INDIA_STATES.STATES) '''
     R2 = execute_query(Q2)
 
     r2_expander = st.expander("Data sets used in this analysis")
@@ -90,11 +90,10 @@ def main():
     selected_items = f"Gross Enrolment Ratio for Year: {enr_s_year}  Class: {enr_s_col}"
     st.title(selected_items)
 
-    india_states_shp = 'https://github.com/Princenihith/Maps_with_python/raw/master/india-polygon.shp'  # Replace with the path to your shapefile
     india_states_shp = 'https://github.com/97Danu/Maps_with_python/raw/master/india-polygon.shp'
     india_states = gpd.read_file(india_states_shp)
     st.write(india_states)
-    india_states.rename(columns={'Name': 'STATES'}, inplace=True)
+    india_states.rename(columns={'st_nm': 'STATES'}, inplace=True)
     # india_states_geojson_url = 'src/india.geojson'
     # # Load GeoJSON file into GeoDataFrame
     # india_states = gpd.read_file(india_states_geojson_url)
@@ -103,9 +102,9 @@ def main():
     # Merge dropout rates with GeoDataFrame
     merged_data = india_states.merge(R2_DF, how='left', on='STATES')
 
-# Define color ranges based on dropout rates
+    # Define color ranges based on dropout rates
     color_categories = pd.cut(
-        merged_data['DROP_OUT_RATE'],
+        merged_data['GROSS_ENRL_RATIO'],
         bins=[float('-inf'), 95, 105, float('inf')],
         labels=['Below 95', '95 - 105', 'Above 105']
     )
@@ -121,12 +120,12 @@ def main():
     # Map colors to each category
     merged_data['color'] = color_categories.map(color_dict)
     # For states with missing or NaN dropout rates, assign 'NaN or Missing' color
-    merged_data.loc[merged_data['DROP_OUT_RATE'].isnull(), 'color'] = 'NaN or Missing'
+    merged_data.loc[merged_data['GROSS_ENRL_RATIO'].isnull(), 'color'] = 'NaN or Missing'
     # Create a plotly figure with categorical colors
     fig = px.choropleth_mapbox(merged_data, geojson=merged_data.geometry, locations=merged_data.index,
                             color='color',
                             mapbox_style="carto-positron",
-                            hover_data={'STATES': True, 'DROP_OUT_RATE': True},
+                            hover_data={'STATES': True, 'GROSS_ENRL_RATIO': True},
                             center={"lat": 20.5937, "lon": 78.9629},
                             zoom=3,
                             opacity=0.5)
@@ -138,9 +137,9 @@ def main():
     st.plotly_chart(fig)
 
     # fig, ax = plt.subplots(1, 1, figsize=(10, 10))
-    # merged_data.plot(column='DROP_OUT_RATE', cmap='YlOrRd', linewidth=0.8, ax=ax, edgecolor='0.8', legend=True)
+    # merged_data.plot(column='GROSS_ENRL_RATIO', cmap='YlOrRd', linewidth=0.8, ax=ax, edgecolor='0.8', legend=True)
     # for idx, row in merged_data.iterrows():
-    #     plt.annotate(text=f"{row['DROP_OUT_RATE']}", xy=(row.geometry.centroid.x, row.geometry.centroid.y), 
+    #     plt.annotate(text=f"{row['GROSS_ENRL_RATIO']}", xy=(row.geometry.centroid.x, row.geometry.centroid.y), 
     #              horizontalalignment='center', color='black')
     
     # ax.axis('off')
