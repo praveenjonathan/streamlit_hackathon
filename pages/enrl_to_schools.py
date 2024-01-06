@@ -91,7 +91,7 @@ def main():
     st.title('Indian Primary School Dropout Rates')
 
     # GeoJSON file for Indian states
-    india_states_geojson_url = 'https://raw.githubusercontent.com/geohacker/india/master/state/india_telengana.geojson'
+    india_states_geojson_url = 'https://github.com/97Danu/streamlit_hackathon/blob/main/src/india.geojson'
 
     # Load GeoJSON file into GeoDataFrame
     india_states = gpd.read_file(india_states_geojson_url)
