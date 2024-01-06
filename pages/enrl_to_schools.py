@@ -8,7 +8,13 @@ import altair as alt
 import io
 import geopandas as gpd
 from vega_datasets import data
-
+import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
+import seaborn as sns
+import geopandas as gpd
+import shapefile as shp
+from shapely.geometry import Point
+sns.set_style('whitegrid')
 
 
 
@@ -72,7 +78,7 @@ def main():
     Q2 = f''' WITH CTE AS 
     (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{enr_s_col}"), 0), 2) AS DROP_OUT_RATE
         FROM V01_ENRL_BY_GROSS_RATIO_2013_2015)
-        SELECT CTE.STATES,CTE.DROP_OUT_RATE,INDIA_STATES.LATITUDE,INDIA_STATES.LONGITUDE FROM CTE
+        SELECT CTE.STATES STATE,CTE.DROP_OUT_RATE,INDIA_STATES.LATITUDE,INDIA_STATES.LONGITUDE FROM CTE
             INNER JOIN INDIA_STATES ON (CTE.STATES=INDIA_STATES.STATES)
         WHERE YEAR = '{enr_s_year}'  '''
     R2 = execute_query(Q2)
@@ -84,33 +90,29 @@ def main():
     selected_items = f"Gross Enrolment Ratio from Year: {enr_s_year} for Class: {enr_s_col}"
     st.title('Indian Primary School Dropout Rates')
 
+    # GeoJSON file for Indian states
+    india_states_geojson_url = 'https://raw.githubusercontent.com/geohacker/india/master/state/india_telengana.geojson'
 
+    # Load GeoJSON file into GeoDataFrame
+    india_states = gpd.read_file(india_states_geojson_url)
+    st.write(india_states)
+    # Rename the column for state name to match the DataFrame
+    india_states.rename(columns={'NAME_1': 'STATE'}, inplace=True)
 
+    # Merge dropout rates with GeoDataFrame
+    merged_data = india_states.merge(R2_DF, how='left', on='STATE')
+    st.write(merged_data)
     # Streamlit app
     st.title('Indian Primary School Dropout Rates')
 
-    # Display the data
-    st.write(R2_DF)
 
-    # Load India map data from Altair
-    india = alt.topo_feature(data.world_110m.url, 'countries')
-
-    # Create a Choropleth map using Altair
-    chart = alt.Chart(india).mark_geoshape().encode(
-        color='DROP_OUT_RATE:Q'
-    ).transform_lookup(
-        lookup='id',
-        from_=alt.LookupData(R2_DF, 'id', ['DROP_OUT_RATE'])
-    ).properties(
-        width=800,
-        height=600,
-        title='Primary School Dropout Rates by State in India'
-    ).project(
-        type='mercator'
-    )
+    # Plotting the map
+    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    merged_data.plot(column='DROP_OUT_RATE', cmap='YlOrRd', linewidth=0.8, ax=ax, edgecolor='0.8', legend=True)
+    ax.axis('off')
 
     # Display the map in Streamlit
-    st.altair_chart(chart)
+    st.pyplot(fig)
 
     # fig = px.scatter_geo(
     #     R2_DF,
