@@ -90,7 +90,7 @@ def main():
     selected_items = f"Gross Enrolment Ratio for Year: {enr_s_year}  Class: {enr_s_col}"
     st.title(selected_items)
 
-    india_states_shp = 'src/India_State_Boundary.shp'  # Replace with the path to your shapefile
+    india_states_shp = 'https://github.com/Princenihith/Maps_with_python/raw/master/india-polygon.shp'  # Replace with the path to your shapefile
     india_states = gpd.read_file(india_states_shp)
     st.write(india_states)
 
