@@ -34,7 +34,7 @@ def execute_query(query):
         st.error(f"Error executing query: {str(e)}")
         return None
 
-st.title('DROP OUT ANALYSIS ')
+st.title('3️⃣ 📊 SCHOOLS_INFRA_STATISTICS')
 # left_column, right_column = st.columns(2)
 
 def main():
