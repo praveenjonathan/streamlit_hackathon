@@ -91,10 +91,10 @@ def main():
     st.title(selected_items)
 
     india_states_shp = 'https://github.com/Princenihith/Maps_with_python/raw/master/india-polygon.shp'  # Replace with the path to your shapefile
-    india_states_shp = 'https://github.com/97Danu/streamlit_hackathon/raw/main/src/India_State_Shapefile/India_State_Boundary.shp'
+    india_states_shp = 'https://github.com/97Danu/Maps_with_python/raw/master/india-polygon.shp'
     india_states = gpd.read_file(india_states_shp)
     st.write(india_states)
-    india_states.rename(columns={'st_nm': 'STATES'}, inplace=True)
+    india_states.rename(columns={'Name': 'STATES'}, inplace=True)
     # india_states_geojson_url = 'src/india.geojson'
     # # Load GeoJSON file into GeoDataFrame
     # india_states = gpd.read_file(india_states_geojson_url)
