@@ -1,6 +1,6 @@
 import streamlit as st
 import snowflake.connector
-from main import *
+import pandas as pd
 from st_pages import Page, add_page_title, show_pages
 # import matplotlib.pyplot as plt
 import plotly.express as px

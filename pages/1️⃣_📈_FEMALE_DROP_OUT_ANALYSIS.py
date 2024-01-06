@@ -1,8 +1,8 @@
 import streamlit as st
 import snowflake.connector
-from main import *
+import pandas as pd
+# from 0_🏠_Home import *
 from st_pages import Page, add_page_title, show_pages
-# import matplotlib.pyplot as plt
 import plotly.express as px
 import altair as alt
 
@@ -134,7 +134,7 @@ def main():
             alt.Tooltip("DROP_OUT_RATE", title="Dropout Rate"),
             ]
         )
-        .properties(width=800,  title=f"{selected_items}")
+        .properties(width=900,  title=f"{selected_items}")
         .interactive()
     )
 
