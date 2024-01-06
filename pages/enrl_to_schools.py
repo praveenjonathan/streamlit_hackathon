@@ -169,7 +169,7 @@ def main():
 
         # Displaying the chart using Streamlit
     st.altair_chart(chart, use_container_width=True)
-    r4_expander = st.expander("Insights from 2013 to 2016**")
+    r4_expander = st.expander("****Insights from 2013 to 2016*****")
     r4_expander.markdown("1. **During 2015-16:**")
     r4_expander.markdown("- **GER in Higher Secondary Schools:** Boys - 55.95, Girls - 56.41, Total - 56.16")
     r4_expander.markdown("- **States/UTs below Nation value (56.16):**")
