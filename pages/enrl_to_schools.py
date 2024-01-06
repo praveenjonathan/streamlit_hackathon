@@ -193,8 +193,8 @@ def main():
     s_states_col = st.selectbox('Select state:', options=s_states_options['STATES'].tolist())
 	
     Q4 = f'''SELECT * FROM V01_CNT_ENRL_BY_AGE_CLSS_2012_2020
-			WHERE STATES='{s_states_col}'''
-    R4 = execute_query(Q3)
+			 WHERE STATES='{s_states_col}'''
+    R4 = execute_query(Q4)
     R4_expander = st.expander("Data sets used in this analysis")
     R4_DF = pd.DataFrame(R4)
     R4_DF.index = R4_DF.index + 1
