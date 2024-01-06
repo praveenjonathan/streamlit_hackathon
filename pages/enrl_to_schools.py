@@ -78,8 +78,8 @@ def main():
     Q2 = f''' WITH CTE AS 
     (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{enr_s_col}"), 0), 2) AS DROP_OUT_RATE
         FROM V01_ENRL_BY_GROSS_RATIO_2013_2015)
-        SELECT CTE.STATES STATE,CTE.DROP_OUT_RATE,INDIA_STATES.LATITUDE,INDIA_STATES.LONGITUDE FROM CTE
-            INNER JOIN INDIA_STATES ON (CTE.STATES=INDIA_STATES.STATES)
+        SELECT CTE.STATES STATE,CTE.DROP_OUT_RATE  FROM CTE---,INDIA_STATES.LATITUDE,INDIA_STATES.LONGITUDE FROM CTE
+            ----INNER JOIN INDIA_STATES ON (CTE.STATES=INDIA_STATES.STATES)
         WHERE YEAR = '{enr_s_year}'  '''
     R2 = execute_query(Q2)
 
@@ -87,24 +87,17 @@ def main():
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
-    selected_items = f"Gross Enrolment Ratio from Year: {enr_s_year} for Class: {enr_s_col}"
-    st.title('Indian Primary School Dropout Rates')
+    selected_items = f"Gross Enrolment Ratio for Year: {enr_s_year}  Class: {enr_s_col}"
+    st.title(selected_items)
 
-    # GeoJSON file for Indian states
-    india_states_geojson_url = 'https://raw.githubusercontent.com/geohacker/india/master/state/india_telengana.geojson'
     india_states_geojson_url = 'src/india.geojson'
     # Load GeoJSON file into GeoDataFrame
     india_states = gpd.read_file(india_states_geojson_url)
     st.write(india_states)
-    # Rename the column for state name to match the DataFrame
-    india_states.rename(columns={'NAME_1': 'STATE'}, inplace=True)
 
     # Merge dropout rates with GeoDataFrame
     merged_data = india_states.merge(R2_DF, how='left', on='STATE')
     st.write(merged_data)
-    # Streamlit app
-    st.title('Indian Primary School Dropout Rates')
-
 
     # Plotting the map
     fig, ax = plt.subplots(1, 1, figsize=(10, 10))
