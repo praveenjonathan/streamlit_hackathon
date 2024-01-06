@@ -97,72 +97,49 @@ def main():
 
     # Merge dropout rates with GeoDataFrame
     merged_data = india_states.merge(R2_DF, how='left', on='STATES')
-    st.write(merged_data)
 
-    # Plotting the map
-    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
-    merged_data.plot(column='DROP_OUT_RATE', cmap='YlOrRd', linewidth=0.8, ax=ax, edgecolor='0.8', legend=True)
-    ax.axis('off')
+# Define color ranges based on dropout rates
+    color_categories = pd.cut(
+        merged_data['DROP_OUT_RATE'],
+        bins=[float('-inf'), 95, 105, float('inf')],
+        labels=['Below 95', '95 - 105', 'Above 105']
+    )
+
+    # Assign colors to each category
+    color_dict = {
+        'Below 95': 'green',
+        '95 - 105': 'blue',
+        'Above 105': 'green',
+        'NaN or Missing': 'white'  # Category for NaN or missing values
+    }
+
+    # Map colors to each category
+    merged_data['color'] = color_categories.map(color_dict)
+    # For states with missing or NaN dropout rates, assign 'NaN or Missing' color
+    merged_data.loc[merged_data['DROP_OUT_RATE'].isnull(), 'color'] = 'NaN or Missing'
+    # Create a plotly figure with categorical colors
+    fig = px.choropleth_mapbox(merged_data, geojson=merged_data.geometry, locations=merged_data.index,
+                            color='color',
+                            mapbox_style="carto-positron",
+                            hover_data={'STATES': True, 'DROP_OUT_RATE': True},
+                            center={"lat": 20.5937, "lon": 78.9629},
+                            zoom=3,
+                            opacity=0.5)
+
+    # Update layout for better visualization
+    fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0}, mapbox={'center': {'lat': 20, 'lon': 78}})
 
     # Display the map in Streamlit
-    st.pyplot(fig)
+    st.plotly_chart(fig)
 
-    # fig = px.scatter_geo(
-    #     R2_DF,
-    #     locations='STATES',
-    #     lat='LATITUDE',
-    #     lon='LONGITUDE',
-    #     color='DROP_OUT_RATE',
-    #     hover_name='STATES',
-    #     size='DROP_OUT_RATE',
-    #     projection='mercator',  # Using mercator projection
-    #     labels={'DROP_OUT_RATE': 'Dropout Rate (%)'}
-    # )
-
-    # fig.update_geos(
-    # showcountries=True,  # Show country boundaries
-    # countrycolor="Black",
-    # showland=True,
-    # landcolor="rgb(217, 217, 217)",
-    # showocean=True,
-    # oceancolor="LightBlue",
-    # showcoastlines=True,
-    # coastlinewidth=1,
-    # coastlinecolor="Black",
-    # )
-
-    # fig.update_layout(
-    #     title=selected_items,
-    #     geo=dict(
-    #         scope='asia',
-    #         landcolor='rgb(217, 217, 217)',
-    #     )
-    # )
-
-    # st.plotly_chart(fig)
-
-
-    # base = alt.topo_feature('pages/India_State_Boundary.shp', 'objects.INDIA')
-    # # Replace 'path_to_india_map_shapefile' with the correct path
-    # base = alt.topo_feature('base', 'objects.INDIA')
-    # india = gpd.read_file('base')
-
-    # # Merge the map data with the retrieved dataset
-    # merged_data = india.merge(R2_DF, how='left', left_on='StatesColumnName', right_on='STATES')
-
-    # # Create the map using Altair
-    # map_chart = alt.Chart(merged_data).mark_geoshape().encode(
-    #     color=alt.Color('DROP_OUT_RATE:Q', title='Gross Enrolment Ratio'),
-    #     tooltip=['STATES:N', 'DROP_OUT_RATE:Q']
-    # ).properties(
-    #     width=500,
-    #     height=600,
-    #     title=selected_items
-    # ).project(type='identity')
-
-    # # Display the map using Streamlit
-    # st.altair_chart(map_chart, use_container_width=True)
+    # fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    # merged_data.plot(column='DROP_OUT_RATE', cmap='YlOrRd', linewidth=0.8, ax=ax, edgecolor='0.8', legend=True)
+    # for idx, row in merged_data.iterrows():
+    #     plt.annotate(text=f"{row['DROP_OUT_RATE']}", xy=(row.geometry.centroid.x, row.geometry.centroid.y), 
+    #              horizontalalignment='center', color='black')
     
+    # ax.axis('off')
+    # st.pyplot(fig)
 
     st.markdown("""---------------------------------""")
     st.title("3. Drop-out Rate for selected state and classes across 2009 TO 2012")
