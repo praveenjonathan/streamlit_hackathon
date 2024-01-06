@@ -16,13 +16,13 @@ st.set_page_config(
 
 show_pages(
           [
-              Page("0_🏠_Home.py", "START FORM HERE", "🏠"),
-              Page("pages/dropout_rate.py", "FEMALE DROP OUT ANALYSIS", "1️⃣"),
-              Page("pages/enrl_to_schools.py", "CLASSWISE & AGEWISE ENROLLMENT TO SCHOOLS", "2️⃣"),
-              Page("pages/infra_stat.py", "SCHOOL'S INFRA STATISTICS", "3️⃣"),
-			  Page("pages/aishe.py", "ALL INDIA SURVEY ON HIGHER EDUCATION", "4️⃣"),
-              Page("pages/girls_per_hundered.py", "CLASS-WISE GIRLS PER HUNDRED BOYS", "5️⃣"),
-			  Page("pages/gender_parity.py", "GENDER PARITY INDEX IN HIGHER EDUCATION", "6️⃣"),
+              Page("0_Home.py", "START FORM HERE", "🏠"),
+              Page("pages/1️⃣_📈_FEMALE_DROP_OUT_ANALYSIS.py", "FEMALE DROP OUT ANALYSIS", "1️⃣"),
+              Page("pages/2️⃣_🌍_CLASS_&_AGEWISE_ENROLLMENT_TO_SCHOOLS.py", "CLASSWISE & AGEWISE ENROLLMENT TO SCHOOLS", "2️⃣"),
+              Page("pages/3️⃣_📊_SCHOOLS_INFRA_STATISTICS.py", "SCHOOL'S INFRA STATISTICS", "3️⃣"),
+			  Page("pages/4️⃣_ALL_INDIA_SURVEY_ON_HIGHER_EDUCATION.py", "ALL INDIA SURVEY ON HIGHER EDUCATION", "4️⃣"),
+              Page("pages/5️⃣_CLASSWISE_GIRLS_PER_HUNDRED_BOYS.py", "CLASS-WISE GIRLS PER HUNDRED BOYS", "5️⃣"),
+			  Page("pages/6️⃣_GENDER_PARITY_INDEX_IN_HIGHER_EDUCATION.py", "GENDER PARITY INDEX IN HIGHER EDUCATION", "6️⃣"),
           ]
       )  
 # add_page_title()
