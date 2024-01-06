@@ -6,3 +6,4 @@ pyshp
 openpyxl
 vega_datasets
 plotly
+matplotlib

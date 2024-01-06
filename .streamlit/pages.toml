@@ -1,0 +1,34 @@
+[[pages]]
+path = "main.py"
+name = "Home"
+icon = "🏠"
+
+[[pages]]
+path = "pages/dropout_rate.py"
+name = "FEMALE DROP OUT ANALYSIS"
+icon="1️⃣"
+
+[[pages]]
+path = "enrl_to_schools.py"
+name = "CLASSWISE & AGEWISE ENROLLMENT TO SCHOOLS"
+icon="2️⃣"
+
+[[pages]]
+path = "pages/infra_stat.py"
+name = "SCHOOL'S INFRA STATISTICS"
+icon="3️⃣"
+
+[[pages]]
+path = "pages/aishe.py"
+name = "ALL INDIA SURVEY ON HIGHER EDUCATION"
+icon="4️⃣"
+
+[[pages]]
+path = "pages/girls_per_hundered.py"
+name = "CLASS-WISE GIRLS PER HUNDRED BOYS"
+icon="5️⃣"
+
+[[pages]]
+path = "pages/gender_parity.py"
+name = "GENDER PARITY INDEX IN HIGHER EDUCATION"
+icon="6️⃣"
