@@ -96,7 +96,7 @@ def main():
     st.write(india_states)
 
     # Merge dropout rates with GeoDataFrame
-    merged_data = india_states.merge(R2_DF, how='left', on='STATE')
+    merged_data = india_states.merge(R2_DF, how='left', on='STATES')
     st.write(merged_data)
 
     # Plotting the map
