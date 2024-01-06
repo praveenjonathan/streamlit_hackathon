@@ -92,12 +92,8 @@ def main():
 
     india_states_shp = 'https://github.com/97Danu/Maps_with_python/raw/master/india-polygon.shp'
     india_states = gpd.read_file(india_states_shp)
-    st.write(india_states)
-    india_states.rename(columns={'st_nm': 'STATES'}, inplace=True)
-    # india_states_geojson_url = 'src/india.geojson'
-    # # Load GeoJSON file into GeoDataFrame
-    # india_states = gpd.read_file(india_states_geojson_url)
     # st.write(india_states)
+    india_states.rename(columns={'st_nm': 'STATES'}, inplace=True)
 
     # Merge dropout rates with GeoDataFrame
     merged_data = india_states.merge(R2_DF, how='left', on='STATES')
@@ -135,15 +131,6 @@ def main():
 
     # Display the map in Streamlit
     st.plotly_chart(fig)
-
-    # fig, ax = plt.subplots(1, 1, figsize=(10, 10))
-    # merged_data.plot(column='GROSS_ENRL_RATIO', cmap='YlOrRd', linewidth=0.8, ax=ax, edgecolor='0.8', legend=True)
-    # for idx, row in merged_data.iterrows():
-    #     plt.annotate(text=f"{row['GROSS_ENRL_RATIO']}", xy=(row.geometry.centroid.x, row.geometry.centroid.y), 
-    #              horizontalalignment='center', color='black')
-    
-    # ax.axis('off')
-    # st.pyplot(fig)
 
     st.markdown("""---------------------------------""")
     st.title("3. Drop-out Rate for selected state and classes across 2009 TO 2012")
