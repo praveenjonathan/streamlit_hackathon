@@ -155,14 +155,14 @@ def main():
     st.altair_chart(chart, use_container_width=True)
  
     st.markdown("""---------------------------------""")
-    st.title("3.Count of students who got Education Loan across India in 2015-16")
+    st.title("3.Education loan distribution stats across India in 2015-16")
 
     col5,col6=st.columns(2)
     with col5:
         ais_loan_options = ["Standalone Institutes" ,"Universities" ]
         ais_loan_index = ais_loan_options.index("Universities")
         ais_loan_edu= st.selectbox('Select Education type:', options=ais_loan_options, index=ais_loan_index)
-        selected_items = f"Education type: {ais_loan_edu} "
+        # selected_items = f"Education type: {ais_loan_edu} "
 
     with col6:
         ais_loan_col_options = ["TOTAL_GENERAL_TOTAL", "TOTAL_GENERAL_FEMALES",
@@ -187,9 +187,10 @@ def main():
                                 "OTHER_MINORITY_TOTAL_PERSONS", "OTHER_MINORITY_TOTAL_FEMALES"]
         ais_loan_col_index = ais_loan_col_options.index("PWD_TOTAL_FEMALES")
         ais_loan_col = st.selectbox('Select cast of category :', options=ais_loan_col_options, index=ais_loan_col_index)
+    selected_items = f"Education loan distribution for Education type: {ais_loan_edu}  category: {ais_loan_col}  in India  Year: 2015-16"
     st.title(selected_items)
     Q3 = f''' WITH CTE AS 
-                (SELECT STATES,TOTAL_GENERAL_TOTAL LOAN_COUNT 
+                (SELECT STATES,"{ais_loan_col}" LOAN_COUNT 
                     FROM V01_AISHE_EDUCATION_TYPE_LOANS_2015_2016 WHERE  EDUCATION_TYPE= '{ais_loan_edu}' 
                     )           
                 SELECT INDIA_STATES.STATES,CTE.LOAN_COUNT  FROM INDIA_STATES 
