@@ -86,7 +86,7 @@ def main():
             infra_f_options = ["TOILET","WATER","ELECTRICITY","GIRLS_TOILET","BOYS_TOILET"] 
             infra_f_col_index = infra_f_options.index("TOILET") 
             infra_f_col = st.selectbox('Select infra facility:', options=infra_f_options, index=infra_f_col_index)
-     
+    st.write(infra_f_col) 
     Q2 = f''' WITH CTE AS 
         (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{infra_s_col}"), 0), 2) AS INFRA_PERCENTAGE
             FROM V01_SCLS_WITH_INFRA_2014_2016 WHERE YEAR ='{infra_s_year}' AND INFRA='{infra_f_col}'
