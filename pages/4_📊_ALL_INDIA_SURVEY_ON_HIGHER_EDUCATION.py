@@ -257,7 +257,7 @@ def main():
     R4_DF.index = R4_DF.index + 1
     r4_expander.write(R4_DF)
     R4_DF = R4_DF.sort_values(by="LOAN_COUNT", ascending=False)
-    selected_items = f"Top  {top_loan}  Education type : {ais_loan_edu} category: {ais_loan_col}  in India  Year: 2015-16"
+    selected_items = f"Top  {top_loan}  states for edu loan Education type : {ais_loan_edu} category: {ais_loan_col}  in India  Year: 2015-16"
     # Creating the Altair chart
     chart = (
         alt.Chart(R4_DF)
