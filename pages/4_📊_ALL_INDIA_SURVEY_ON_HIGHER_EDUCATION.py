@@ -61,52 +61,26 @@ def main():
     st.divider()
     st.title("1.Number of colleges,Institutes and across India in 2015-16")
 
-    col1,col2,col3=st.columns(3)
-
-    with col1:
-            infra_s_year_options = ["2013-14", "2015-16", "2014-15"]
-            infra_s_year_index = infra_s_year_options.index("2013-14")
-            infra_s_year = st.selectbox('Select which year:', options=infra_s_year_options, index=infra_s_year_index)
-    with col2:
-            infra_s_col_options = ["PRIMARY_ONLY",
-                                    "PRIMARY_WITH_U_PRIMARY",
-                                    "PRIMARY_WITH_U_PRIMARY_SEC_HRSEC",
-                                    "U_PRIMARY_ONLY",
-                                    "U_PRIMARY_WITH_SEC_HRSEC",
-                                    "PRIMARY_WITH_U_PRIMARY_SEC",
-                                    "U_PRIMARY_WITH_SEC",
-                                    "SEC_ONLY",
-                                    "SEC_WITH_HRSEC",
-                                    "HRSEC_ONLY",
-                                    "ALL_SCHOOLS"
-                                    ]
-            infra_s_col_index = infra_s_col_options.index("PRIMARY_ONLY")
-            infra_s_col = st.selectbox('Select class:', options=infra_s_col_options, index=infra_s_col_index)
-    with col3: 
-            infra_f_options = ["TOILET","WATER","ELECTRICITY","GIRLS_TOILET","BOYS_TOILET","COMPUTER"] 
-            infra_f_col_index = infra_f_options.index("TOILET") 
-            infra_f_col = st.selectbox('Select infra facility:', options=infra_f_options, index=infra_f_col_index)
-    # st.write(infra_f_col) 
-    selected_items = f"Infra stat for facility: {infra_f_col}  Year: {infra_s_year}  Class: {infra_s_col}"
+    ais_edu_options = ["Colleges",  "Standalone Institutes" ,"Universities" ]
+    ais_edu_index = ais_edu_options.index("Colleges")
+    ais_edu= st.selectbox('Select which year:', options=ais_edu_options, index=ais_edu_index)
+    selected_items = f"Education type: {ais_edu} "
     st.title(selected_items)
     Q2 = f''' WITH CTE AS 
-        (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{infra_s_col}"), 0), 2) AS INFRA_PERCENTAGE
-            FROM V01_SCLS_WITH_INFRA_2014_2016 WHERE YEAR ='{infra_s_year}' AND INFRA='{infra_f_col}'
-            )           
-        SELECT INDIA_STATES.STATES,CTE.INFRA_PERCENTAGE  FROM INDIA_STATES 
-            LEFT JOIN CTE ON (CTE.STATES=INDIA_STATES.STATES) '''
+                (SELECT STATES, YEAR,COUNT 
+                    FROM V01_AISHE_EDUCATION_TYPE WHERE  EDUCATION_TYPE= '{ais_edu}' 
+                    )           
+                SELECT INDIA_STATES.STATES,CTE.COUNT  FROM INDIA_STATES 
+                    LEFT JOIN CTE ON (CTE.STATES=INDIA_STATES.STATES) '''
     R2 = execute_query(Q2)
 
     r2_expander = st.expander("Data sets used in this analysis")
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
-    # selected_items = f"Infra stat for facility:{infra_f_col} Year: {infra_s_year}  Class: {infra_s_col}"
-    # st.title(selected_items)
 
     india_states_shp = 'https://github.com/97Danu/Maps_with_python/raw/master/india-polygon.shp'
     india_states = gpd.read_file(india_states_shp)
-    # st.write(india_states)
     india_states.rename(columns={'st_nm': 'STATES'}, inplace=True)
 
     # Merge dropout rates with GeoDataFrame
@@ -118,9 +92,9 @@ def main():
 
     # Assigning values to bins and handling 'NA' values
     conditions = [
-        merged_data['INFRA_PERCENTAGE'] < 50,
-        (merged_data['INFRA_PERCENTAGE'] >= 50) & (merged_data['INFRA_PERCENTAGE'] <= 100),
-        merged_data['INFRA_PERCENTAGE'] > 100
+        merged_data['COUNT'] < 50,
+        (merged_data['COUNT'] >= 50) & (merged_data['COUNT'] <= 100),
+        merged_data['COUNT'] > 100
     ]
 
     # Assigning labels
@@ -131,7 +105,7 @@ def main():
                             color='color',
                             color_discrete_map={'Below 50': 'Green', '50 - 100': 'Blue', 'Above 100': 'Red', 'NA': 'Yellow'},
                             mapbox_style="carto-positron",
-                            hover_data={'STATES': True, 'INFRA_PERCENTAGE': True},
+                            hover_data={'STATES': True, 'COUNT': True},
                             center={"lat": 20.5937, "lon": 78.9629},
                             zoom=3,
                             opacity=0.5)
@@ -144,33 +118,33 @@ def main():
     st.plotly_chart(fig)
 
     st.markdown("""---------------------------------""")
-    st.title("2.Top INFRA stats from 2013-14 to 2015-16")
+    st.title("2.Top count of colleges,Institutes and across India in 2015-16")
 
     top_options = list(range(1, 31))  # Generates a list from 1 to 30
-    top = st.selectbox('Select top INFRA_PERCENTAGE:', options=top_options, index=15)
+    top = st.selectbox('Select top COUNT:', options=top_options, index=15)
     
-    Q3 = f''' WITH CTE AS 
-            (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{infra_s_col}"), 0), 2) AS INFRA_PERCENTAGE, 
-                DENSE_RANK() OVER (PARTITION BY YEAR ORDER BY INFRA_PERCENTAGE DESC) DNK 
-                FROM V01_SCLS_WITH_INFRA_2014_2016 where  YEAR ='{infra_s_year}' AND INFRA='{infra_f_col}')
-                SELECT CTE.STATES,CTE.YEAR,CTE.INFRA_PERCENTAGE , CTE.DNK RANK FROM CTE where DNK <=   {top}  '''
+    Q3 = f'''  WITH CTE AS 
+            (SELECT STATES, YEAR,COUNT, 
+                DENSE_RANK() OVER (PARTITION BY YEAR ORDER BY COUNT DESC) DNK 
+                FROM V01_AISHE_EDUCATION_TYPE WHERE  EDUCATION_TYPE='Colleges')
+                SELECT CTE.STATES,CTE.YEAR,CTE.COUNT , CTE.DNK RANK FROM CTE where DNK <= {top}  '''
     R3 = execute_query(Q3)
     r3_expander = st.expander("Data sets used in this analysis")
     R3_DF = pd.DataFrame(R3)
     R3_DF.index = R3_DF.index + 1
     r3_expander.write(R3_DF)
-    R3_DF = R3_DF.sort_values(by="INFRA_PERCENTAGE", ascending=False)
-    selected_items = f"Top  {top} Infra stat for facility: {infra_f_col}  Year: {infra_s_year}  Class: {infra_s_col}"
+    R3_DF = R3_DF.sort_values(by="COUNT", ascending=False)
+    selected_items = f"Top  {top}  Education type : {ais_edu} in India  Year: 2015-16"
     # Creating the Altair chart
     chart = (
         alt.Chart(R3_DF)
         .mark_bar()
         .encode(
-            x=alt.X("INFRA_PERCENTAGE:Q", title="INFRA PERCENTAGE"),
+            x=alt.X("COUNT:Q", title="COUNT"),
             y=alt.Y("STATES:N", title="States", sort="-x"),
             tooltip=[
             alt.Tooltip("STATES", title="State"),
-            alt.Tooltip("INFRA_PERCENTAGE", title="INFRA PERCENTAGE"),
+            alt.Tooltip("COUNT", title="COUNT"),
             ]
         )
         .properties(width=800,  title=f"{selected_items}")

@@ -64,7 +64,7 @@ def main():
     col1,col2,col3=st.columns(3)
 
     with col1:
-            infra_s_year_options = ["2013-14", "2015-16", "2014-15"]
+            infra_s_year_options = ["2013-14", "2014-15","2015-16"]
             infra_s_year_index = infra_s_year_options.index("2013-14")
             infra_s_year = st.selectbox('Select which year:', options=infra_s_year_options, index=infra_s_year_index)
     with col2:
