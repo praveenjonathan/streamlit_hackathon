@@ -59,7 +59,7 @@ def main():
 
 
     st.divider()
-    st.title("1.Scholl INFRA stats from 2013-14 to 2015-16")
+    st.title("1.Schooll INFRA stats from 2013-14 to 2015-16")
 
     col1,col2,col3=st.columns(3)
 
@@ -144,20 +144,17 @@ def main():
     st.plotly_chart(fig)
 
     st.markdown("""---------------------------------""")
-    st.title("2.Top Gross Enrolment Ratio from 2013-14 to 2015-16")
+    st.title("3.Top INFRA stats from 2013-14 to 2015-16")
 
-    # col1 = st.columns(1)
-    # with col1:
     top_options = list(range(1, 31))  # Generates a list from 1 to 30
     top = st.selectbox('Select top INFRA_PERCENTAGE:', options=top_options, index=9)
     
-    Q3 = f'''WITH CTE AS 
+    Q3 = f''' WITH CTE AS 
             (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{infra_s_col}"), 0), 2) AS INFRA_PERCENTAGE, 
                 DENSE_RANK() OVER (PARTITION BY YEAR ORDER BY INFRA_PERCENTAGE DESC) DNK 
-                FROM V01_ENRL_BY_GROSS_RATIO_2013_2015)
-                SELECT CTE.STATES,CTE.YEAR,CTE.INFRA_PERCENTAGE , CTE.DNK RANK FROM CTE WHERE YEAR = '{infra_s_year}' AND DNK <= {top}'''
+                FROM V01_SCLS_WITH_INFRA_2014_2016 where  YEAR ='{infra_s_year}' AND INFRA='{infra_f_col}')
+                SELECT CTE.STATES,CTE.YEAR,CTE.INFRA_PERCENTAGE , CTE.DNK RANK FROM CTE where DNK <=   {top}  '''
     R3 = execute_query(Q3)
-        #AS "{s_col}"
     r3_expander = st.expander("Data sets used in this analysis")
     R3_DF = pd.DataFrame(R3)
     R3_DF.index = R3_DF.index + 1
