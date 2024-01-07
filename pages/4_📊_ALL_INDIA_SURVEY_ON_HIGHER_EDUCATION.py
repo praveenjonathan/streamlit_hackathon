@@ -247,9 +247,9 @@ def main():
     top_loan = st.selectbox('Select top LOAN_COUNT:', options=top_loan_options, index=15)
     
     Q4 = f'''   WITH CTE AS 
-            (SELECT STATES,TOTAL_GENERAL_TOTAL LOAN_COUNT, 
+            (SELECT STATES,"{ais_loan_col}" LOAN_COUNT, 
                 DENSE_RANK() OVER ( ORDER BY LOAN_COUNT DESC) DNK 
-                FROM  V01_AISHE_EDUCATION_TYPE_LOANS_2015_2016 WHERE  EDUCATION_TYPE= 'Universities' )
+                FROM  V01_AISHE_EDUCATION_TYPE_LOANS_2015_2016 WHERE  EDUCATION_TYPE= '{ais_loan_edu}' )
                 SELECT CTE.STATES,CTE.LOAN_COUNT, CTE.DNK RANK FROM CTE where DNK <= 10  '''
     R4 = execute_query(Q4)
     r4_expander = st.expander("Data sets used in this analysis")
@@ -257,7 +257,7 @@ def main():
     R4_DF.index = R4_DF.index + 1
     r4_expander.write(R4_DF)
     R4_DF = R4_DF.sort_values(by="LOAN_COUNT", ascending=False)
-    selected_items = f"Top  {top_loan}  Education type : {ais_edu} in India  Year: 2015-16"
+    selected_items = f"Top  {top_loan}  Education type : {ais_loan_edu} category: {ais_loan_col}  in India  Year: 2015-16"
     # Creating the Altair chart
     chart = (
         alt.Chart(R4_DF)
