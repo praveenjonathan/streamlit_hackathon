@@ -156,10 +156,11 @@ def main():
  
     st.markdown("""---------------------------------""")
     st.title("3.Count of students who got Education Loan across India in 2015-16")
+
     col5,col6=st.columns(2)
     with col5:
         ais_loan_options = ["Standalone Institutes" ,"Universities" ]
-        ais_loan_index = ais_loan_options.index("Colleges")
+        ais_loan_index = ais_loan_options.index("Universities")
         ais_loan_edu= st.selectbox('Select Education type:', options=ais_loan_options, index=ais_loan_index)
         selected_items = f"Education type: {ais_loan_edu} "
 
