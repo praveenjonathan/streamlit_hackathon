@@ -99,7 +99,7 @@ def main():
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
-    selected_items = f"Gross Enrolment Ratio for Year: {infra_s_year}  Class: {infra_s_col}"
+    selected_items = f"Infra stat for Year: {infra_s_year}  Class: {infra_s_col} facility:{infra_col}"
     st.title(selected_items)
 
     india_states_shp = 'https://github.com/97Danu/Maps_with_python/raw/master/india-polygon.shp'
@@ -111,14 +111,14 @@ def main():
     merged_data = india_states.merge(R2_DF, how='left', on='STATES')
 
     # Define bins and labels
-    bins = [float('-inf'), 95, 105, float('inf')]
-    labels = ['Below 95', '95 - 105', 'Above 105']
+    bins = [float('-inf'), 50, 100, float('inf')]
+    labels = ['Below 50', '50 - 100', 'Above 100']
 
     # Assigning values to bins and handling 'NA' values
     conditions = [
-        merged_data['INFRA_PERCENTAGE'] < 95,
-        (merged_data['INFRA_PERCENTAGE'] >= 95) & (merged_data['INFRA_PERCENTAGE'] <= 105),
-        merged_data['INFRA_PERCENTAGE'] > 105
+        merged_data['INFRA_PERCENTAGE'] < 50,
+        (merged_data['INFRA_PERCENTAGE'] >= 50) & (merged_data['INFRA_PERCENTAGE'] <= 100),
+        merged_data['INFRA_PERCENTAGE'] > 100
     ]
 
     # Assigning labels
@@ -127,7 +127,7 @@ def main():
     # Create a plotly figure with categorical colors
     fig = px.choropleth_mapbox(merged_data, geojson=merged_data.geometry, locations=merged_data.index,
                             color='color',
-                            color_discrete_map={'Below 95': 'Green', '95 - 105': 'Blue', 'Above 105': 'Red', 'NA': 'Yellow'},
+                            color_discrete_map={'Below 50': 'Green', '50 - 100': 'Blue', 'Above 100': 'Red', 'NA': 'Yellow'},
                             mapbox_style="carto-positron",
                             hover_data={'STATES': True, 'INFRA_PERCENTAGE': True},
                             center={"lat": 20.5937, "lon": 78.9629},
@@ -182,11 +182,11 @@ def main():
     st.altair_chart(chart, use_container_width=True)
     r4_expander = st.expander("****Insights from 2013 to 2016*****")
     r4_expander.markdown("1. **During 2015-16:**")
-    r4_expander.markdown("- **GER in Higher Secondary Schools:** Boys - 55.95, Girls - 56.41, Total - 56.16")
+    r4_expander.markdown("- **GER in Higher Secondary Schools:** Boys - 55.50, Girls - 56.41, Total - 56.16")
     r4_expander.markdown("- **States/UTs below Nation value (56.16):**")
     r4_expander.markdown("  - Daman & Diu (21.54), Bihar (35.62), Nagaland (36.43), Odisha (36.54), Assam (38.81), Karnataka (39.86), Meghalaya (43.35), Gujarat (43.43), Tripura (43.46), Madhya Pradesh (45.25), Jharkhand (48.32), Dadra & Nagar Haveli (48.49), West Bengal (51.54), Chhattisgarh (54), Mizoram (55.68)")
     r4_expander.markdown("- **States/UTs above Nation value (56.16):**")
-    r4_expander.markdown("  - Lakshadweep (98.16), Himachal Pradesh (95.53), Chandigarh (83.28), Tamil Nadu (82.03), Delhi (77.9), Kerala (77.56), Goa (75.84), Uttarakhand (75.83), Puducherry (74.8), Andaman & Nicobar Islands (74.62), Punjab (70.19), Sikkim (68.23), Manipur (67.95), Maharashtra (67.81), Arunachal Pradesh (61.81), Telangana (61.32), Uttar Pradesh (60.78), Andhra Pradesh (60.16), Haryana (59.59), Rajasthan (59.31), Jammu & Kashmir (58.6)")
+    r4_expander.markdown("  - Lakshadweep (98.16), Himachal Pradesh (50.53), Chandigarh (83.28), Tamil Nadu (82.03), Delhi (77.9), Kerala (77.56), Goa (75.84), Uttarakhand (75.83), Puducherry (74.8), Andaman & Nicobar Islands (74.62), Punjab (70.19), Sikkim (68.23), Manipur (67.50), Maharashtra (67.81), Arunachal Pradesh (61.81), Telangana (61.32), Uttar Pradesh (60.78), Andhra Pradesh (60.16), Haryana (59.59), Rajasthan (59.31), Jammu & Kashmir (58.6)")
 
     r4_expander.markdown("2. **During 2014-15:**")
     r4_expander.markdown("- **GER in Higher Secondary Schools:** Boys - 54.57, Girls - 53.81, Total - 54.21")
