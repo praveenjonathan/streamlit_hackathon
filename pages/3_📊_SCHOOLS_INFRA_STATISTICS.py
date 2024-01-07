@@ -84,7 +84,7 @@ def main():
             infra_s_col = st.selectbox('Select class:', options=infra_s_col_options, index=infra_s_col_index)
     with col3: 
             infra_options = ["TOILET","WATER","ELECTRICITY","GIRLS_TOILET","BOYS_TOILET"] 
-            infra_col_index = infra_s_col_options.index("TOILET") 
+            infra_col_index = infra_options.index("TOILET") 
             infra_col = st.selectbox('Select infra facility:', options=infra_options, index=infra_col_index)
      
     Q2 = f''' WITH CTE AS 
