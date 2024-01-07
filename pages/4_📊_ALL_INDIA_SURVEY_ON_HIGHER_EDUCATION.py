@@ -164,7 +164,7 @@ def main():
         ais_loan_edu= st.selectbox('Select Education type:', options=ais_loan_options, index=ais_loan_index)
         selected_items = f"Education type: {ais_loan_edu} "
 
-    with col5:
+    with col6:
         ais_loan_col_options = ["TOTAL_GENERAL_TOTAL", "TOTAL_GENERAL_FEMALES",
                                 "TOTAL_SC_TOTAL", "TOTAL_SC_FEMALES",
                                 "TOTAL_ST_TOTAL", "TOTAL_ST_FEMALES",
