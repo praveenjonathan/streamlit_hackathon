@@ -83,13 +83,13 @@ def main():
             infra_s_col_index = infra_s_col_options.index("PRIMARY_ONLY")
             infra_s_col = st.selectbox('Select class:', options=infra_s_col_options, index=infra_s_col_index)
     with col3: 
-            infra_options = ["TOILET","WATER","ELECTRICITY","GIRLS_TOILET","BOYS_TOILET"] 
-            infra_col_index = infra_options.index("TOILET") 
-            infra_col = st.selectbox('Select infra facility:', options=infra_options, index=infra_col_index)
+            infra_f_options = ["TOILET","WATER","ELECTRICITY","GIRLS_TOILET","BOYS_TOILET"] 
+            infra_f_col_index = infra_f_options.index("TOILET") 
+            infra_f_col = st.selectbox('Select infra facility:', options=infra_f_options, index=infra_f_col_index)
      
     Q2 = f''' WITH CTE AS 
         (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{infra_s_col}"), 0), 2) AS INFRA_PERCENTAGE
-            FROM V01_SCLS_WITH_INFRA_2014_2016 WHERE YEAR ='{infra_s_year}' AND INFRA='{infra_col}'
+            FROM V01_SCLS_WITH_INFRA_2014_2016 WHERE YEAR ='{infra_s_year}' AND INFRA='{infra_f_col}'
             )           
         SELECT INDIA_STATES.STATES,CTE.INFRA_PERCENTAGE  FROM INDIA_STATES 
             LEFT JOIN CTE ON (CTE.STATES=INDIA_STATES.STATES) '''
@@ -99,7 +99,7 @@ def main():
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
-    selected_items = f"Infra stat for Year: {infra_s_year}  Class: {infra_s_col} facility:{infra_col}"
+    selected_items = f"Infra stat for Year: {infra_s_year}  Class: {infra_s_col} facility:{infra_f_col}"
     st.title(selected_items)
 
     india_states_shp = 'https://github.com/97Danu/Maps_with_python/raw/master/india-polygon.shp'
