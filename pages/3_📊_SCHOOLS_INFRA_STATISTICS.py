@@ -41,7 +41,7 @@ def execute_query(query):
         st.error(f"Error executing query: {str(e)}")
         return None
 
-st.title('3️⃣ 📊 SCHOOL''S INFRA STATISTICS')
+st.title('📊 SCHOOL''S INFRA STATISTICS')
 
 def main():
 
@@ -59,26 +59,39 @@ def main():
 
 
     st.divider()
-    st.title("1.Gross Enrolment Ratio from 2013-14 to 2015-16")
+    st.title("1.Scholl INFRA stats from 2013-14 to 2015-16")
 
-    col1,col2=st.columns(2)
+    col1,col2,col3=st.columns(3)
 
     with col1:
-            enr_s_year_options = ["2013-14", "2015-16", "2014-15"]
-            enr_s_year_index = enr_s_year_options.index("2013-14")
-            enr_s_year = st.selectbox('Select which year:', options=enr_s_year_options, index=enr_s_year_index)
+            infra_s_year_options = ["2013-14", "2015-16", "2014-15"]
+            infra_s_year_index = infra_s_year_options.index("2013-14")
+            infra_s_year = st.selectbox('Select which year:', options=infra_s_year_options, index=infra_s_year_index)
     with col2:
-            enr_s_col_options = ["PRIMARY_BOYS", "PRIMARY_GIRLS", "PRIMARY_TOTAL", "UPPER_PRIMARY_BOYS", "UPPER_PRIMARY_GIRLS",
-                                "UPPER_PRIMARY_TOTAL", "SECONDARY_BOYS", "SECONDARY_GIRLS", "SECONDARY_TOTAL",
-                                "HIGHER_SECONDARY_BOYS", "HIGHER_SECONDARY_GIRLS", "HIGHER_SECONDARY_TOTAL"]
-            enr_s_col_index = enr_s_col_options.index("PRIMARY_BOYS")
-            enr_s_col = st.selectbox('Select class:', options=enr_s_col_options, index=enr_s_col_index)
-        
+            infra_s_col_options = ["PRIMARY_ONLY",
+                                "PRIMARY_WITH_U_PRIMARY",
+                                "PRIMARY_WITH_U_PRIMARY_SEC_HRSEC",
+                                "U_PRIMARY_ONLY",
+                                "U_PRIMARY_WITH_SEC_HRSEC",
+                                "PRIMARY_WITH_U_PRIMARY_SEC",
+                                "U_PRIMARY_WITH_SEC",
+                                "SEC_ONLY",
+                                "SEC_WITH_HRSEC",
+                                "HRSEC_ONLY",
+                                "ALL_SCHOOLS"
+                                ]
+            infra_s_col_index = infra_s_col_options.index("PRIMARY_ONLY")
+            infra_s_col = st.selectbox('Select class:', options=infra_s_col_options, index=infra_s_col_index)
+    with col3: 
+            infra_options = ["TOILET","WATER","ELECTRICITY","GIRLS_TOILET","BOYS_TOILET"] 
+            infra_col_index = infra_s_col_options.index("TOILET") 
+            infra_col = st.selectbox('Select infra facility:', options=infra_options, index=infra_col_index)
+     
     Q2 = f''' WITH CTE AS 
-        (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{enr_s_col}"), 0), 2) AS GROSS_ENRL_RATIO
-            FROM V01_ENRL_BY_GROSS_RATIO_2013_2015 WHERE YEAR ='{enr_s_year}'
+        (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{infra_s_col}"), 0), 2) AS INFRA_PERCENTAGE
+            FROM V01_SCLS_WITH_INFRA_2014_2016 WHERE YEAR ='{infra_s_year}' AND INFRA='{infra_col}'
             )           
-        SELECT INDIA_STATES.STATES,CTE.GROSS_ENRL_RATIO GROSS_ENRL_RATIO FROM INDIA_STATES 
+        SELECT INDIA_STATES.STATES,CTE.INFRA_PERCENTAGE  FROM INDIA_STATES 
             LEFT JOIN CTE ON (CTE.STATES=INDIA_STATES.STATES) '''
     R2 = execute_query(Q2)
 
@@ -86,7 +99,7 @@ def main():
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
-    selected_items = f"Gross Enrolment Ratio for Year: {enr_s_year}  Class: {enr_s_col}"
+    selected_items = f"Gross Enrolment Ratio for Year: {infra_s_year}  Class: {infra_s_col}"
     st.title(selected_items)
 
     india_states_shp = 'https://github.com/97Danu/Maps_with_python/raw/master/india-polygon.shp'
@@ -103,9 +116,9 @@ def main():
 
     # Assigning values to bins and handling 'NA' values
     conditions = [
-        merged_data['GROSS_ENRL_RATIO'] < 95,
-        (merged_data['GROSS_ENRL_RATIO'] >= 95) & (merged_data['GROSS_ENRL_RATIO'] <= 105),
-        merged_data['GROSS_ENRL_RATIO'] > 105
+        merged_data['INFRA_PERCENTAGE'] < 95,
+        (merged_data['INFRA_PERCENTAGE'] >= 95) & (merged_data['INFRA_PERCENTAGE'] <= 105),
+        merged_data['INFRA_PERCENTAGE'] > 105
     ]
 
     # Assigning labels
@@ -116,7 +129,7 @@ def main():
                             color='color',
                             color_discrete_map={'Below 95': 'Green', '95 - 105': 'Blue', 'Above 105': 'Red', 'NA': 'Yellow'},
                             mapbox_style="carto-positron",
-                            hover_data={'STATES': True, 'GROSS_ENRL_RATIO': True},
+                            hover_data={'STATES': True, 'INFRA_PERCENTAGE': True},
                             center={"lat": 20.5937, "lon": 78.9629},
                             zoom=3,
                             opacity=0.5)
@@ -134,31 +147,31 @@ def main():
     # col1 = st.columns(1)
     # with col1:
     top_options = list(range(1, 31))  # Generates a list from 1 to 30
-    top = st.selectbox('Select top GROSS_ENRL_RATIO:', options=top_options, index=9)
+    top = st.selectbox('Select top INFRA_PERCENTAGE:', options=top_options, index=9)
     
     Q3 = f'''WITH CTE AS 
-            (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{enr_s_col}"), 0), 2) AS GROSS_ENRL_RATIO, 
-                DENSE_RANK() OVER (PARTITION BY YEAR ORDER BY GROSS_ENRL_RATIO DESC) DNK 
+            (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{infra_s_col}"), 0), 2) AS INFRA_PERCENTAGE, 
+                DENSE_RANK() OVER (PARTITION BY YEAR ORDER BY INFRA_PERCENTAGE DESC) DNK 
                 FROM V01_ENRL_BY_GROSS_RATIO_2013_2015)
-                SELECT CTE.STATES,CTE.YEAR,CTE.GROSS_ENRL_RATIO , CTE.DNK RANK FROM CTE WHERE YEAR = '{enr_s_year}' AND DNK <= {top}'''
+                SELECT CTE.STATES,CTE.YEAR,CTE.INFRA_PERCENTAGE , CTE.DNK RANK FROM CTE WHERE YEAR = '{infra_s_year}' AND DNK <= {top}'''
     R3 = execute_query(Q3)
         #AS "{s_col}"
     r3_expander = st.expander("Data sets used in this analysis")
     R3_DF = pd.DataFrame(R3)
     R3_DF.index = R3_DF.index + 1
     r3_expander.write(R3_DF)
-    R3_DF = R3_DF.sort_values(by="GROSS_ENRL_RATIO", ascending=False)
-    selected_items = f"Top  {top} dropout states of the Year: {enr_s_year} for Class: {enr_s_col}"
+    R3_DF = R3_DF.sort_values(by="INFRA_PERCENTAGE", ascending=False)
+    selected_items = f"Top  {top} dropout states of the Year: {infra_s_year} for Class: {infra_s_col}"
     # Creating the Altair chart
     chart = (
         alt.Chart(R3_DF)
         .mark_bar()
         .encode(
-            x=alt.X("GROSS_ENRL_RATIO:Q", title="  Dropout Rate"),
+            x=alt.X("INFRA_PERCENTAGE:Q", title="  Dropout Rate"),
             y=alt.Y("STATES:N", title="States", sort="-x"),
             tooltip=[
             alt.Tooltip("STATES", title="State"),
-            alt.Tooltip("GROSS_ENRL_RATIO", title="Dropout Rate"),
+            alt.Tooltip("INFRA_PERCENTAGE", title="Dropout Rate"),
             ]
         )
         .properties(width=800,  title=f"{selected_items}")
