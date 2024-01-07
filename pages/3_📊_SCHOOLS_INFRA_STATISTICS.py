@@ -86,7 +86,7 @@ def main():
             infra_f_options = ["TOILET","WATER","ELECTRICITY","GIRLS_TOILET","BOYS_TOILET"] 
             infra_f_col_index = infra_f_options.index("TOILET") 
             infra_f_col = st.selectbox('Select infra facility:', options=infra_f_options, index=infra_f_col_index)
-    st.write(infra_f_col) 
+    # st.write(infra_f_col) 
     selected_items = f"Infra stat for facility: {infra_f_col}  Year: {infra_s_year}  Class: {infra_s_col}"
     st.title(selected_items)
     Q2 = f''' WITH CTE AS 
@@ -102,7 +102,7 @@ def main():
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
     # selected_items = f"Infra stat for facility:{infra_f_col} Year: {infra_s_year}  Class: {infra_s_col}"
-    st.title(selected_items)
+    # st.title(selected_items)
 
     india_states_shp = 'https://github.com/97Danu/Maps_with_python/raw/master/india-polygon.shp'
     india_states = gpd.read_file(india_states_shp)
