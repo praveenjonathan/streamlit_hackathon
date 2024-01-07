@@ -17,12 +17,12 @@ st.set_page_config(
 show_pages(
           [
               Page("0_Home.py", "START FORM HERE", "🏠"),
-              Page("pages/1️⃣_📈_FEMALE_DROP_OUT_ANALYSIS.py", "FEMALE DROP OUT ANALYSIS", "1️⃣"),
-              Page("pages/2️⃣_🌍_CLASS_&_AGEWISE_ENROLLMENT_TO_SCHOOLS.py", "CLASSWISE & AGEWISE ENROLLMENT TO SCHOOLS", "2️⃣"),
-              Page("pages/3️⃣_📊_SCHOOLS_INFRA_STATISTICS.py", "SCHOOL'S INFRA STATISTICS", "3️⃣"),
-			  Page("pages/4️⃣_ALL_INDIA_SURVEY_ON_HIGHER_EDUCATION.py", "ALL INDIA SURVEY ON HIGHER EDUCATION", "4️⃣"),
-              Page("pages/5️⃣_CLASSWISE_GIRLS_PER_HUNDRED_BOYS.py", "CLASS-WISE GIRLS PER HUNDRED BOYS", "5️⃣"),
-			  Page("pages/6️⃣_GENDER_PARITY_INDEX_IN_HIGHER_EDUCATION.py", "GENDER PARITY INDEX IN HIGHER EDUCATION", "6️⃣"),
+              Page("pages/1️⃣_📈_FEMALE_DROP_OUT_ANALYSIS.py", "FEMALE DROP OUT ANALYSIS", "📈"),
+              Page("pages/2️⃣_🌍_CLASS_&_AGEWISE_ENROLLMENT_TO_SCHOOLS.py", "CLASSWISE & AGEWISE ENROLLMENT TO SCHOOLS", "🌍"),
+              Page("pages/3️⃣_📊_SCHOOLS_INFRA_STATISTICS.py", "SCHOOL'S INFRA STATISTICS", "📈"),
+			  Page("pages/4️⃣_📈_ALL_INDIA_SURVEY_ON_HIGHER_EDUCATION.py", "ALL INDIA SURVEY ON HIGHER EDUCATION", "📈"),
+              Page("pages/5️⃣_📈_CLASSWISE_GIRLS_PER_HUNDRED_BOYS.py", "CLASS-WISE GIRLS PER HUNDRED BOYS", "📈"),
+			  Page("pages/6️⃣_📈_GENDER_PARITY_INDEX_IN_HIGHER_EDUCATION.py", "GENDER PARITY INDEX IN HIGHER EDUCATION", "📈"),
           ]
       )  
 # add_page_title()
