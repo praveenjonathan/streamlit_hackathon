@@ -83,7 +83,7 @@ def main():
             infra_s_col_index = infra_s_col_options.index("PRIMARY_ONLY")
             infra_s_col = st.selectbox('Select class:', options=infra_s_col_options, index=infra_s_col_index)
     with col3: 
-            infra_f_options = ["TOILET","WATER","ELECTRICITY","GIRLS_TOILET","BOYS_TOILET"] 
+            infra_f_options = ["TOILET","WATER","ELECTRICITY","GIRLS_TOILET","BOYS_TOILET","COMPUTER"] 
             infra_f_col_index = infra_f_options.index("TOILET") 
             infra_f_col = st.selectbox('Select infra facility:', options=infra_f_options, index=infra_f_col_index)
     # st.write(infra_f_col) 
