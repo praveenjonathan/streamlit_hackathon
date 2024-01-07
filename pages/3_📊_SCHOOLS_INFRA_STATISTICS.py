@@ -166,11 +166,11 @@ def main():
         alt.Chart(R3_DF)
         .mark_bar()
         .encode(
-            x=alt.X("INFRA_PERCENTAGE:Q", title="  Dropout Rate"),
+            x=alt.X("INFRA_PERCENTAGE:Q", title="INFRA PERCENTAGE"),
             y=alt.Y("STATES:N", title="States", sort="-x"),
             tooltip=[
             alt.Tooltip("STATES", title="State"),
-            alt.Tooltip("INFRA_PERCENTAGE", title="Dropout Rate"),
+            alt.Tooltip("INFRA_PERCENTAGE", title="INFRA PERCENTAGE"),
             ]
         )
         .properties(width=800,  title=f"{selected_items}")
