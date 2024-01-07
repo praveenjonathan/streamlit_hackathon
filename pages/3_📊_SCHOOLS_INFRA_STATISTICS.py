@@ -69,17 +69,17 @@ def main():
             infra_s_year = st.selectbox('Select which year:', options=infra_s_year_options, index=infra_s_year_index)
     with col2:
             infra_s_col_options = ["PRIMARY_ONLY",
-                                "PRIMARY_WITH_U_PRIMARY",
-                                "PRIMARY_WITH_U_PRIMARY_SEC_HRSEC",
-                                "U_PRIMARY_ONLY",
-                                "U_PRIMARY_WITH_SEC_HRSEC",
-                                "PRIMARY_WITH_U_PRIMARY_SEC",
-                                "U_PRIMARY_WITH_SEC",
-                                "SEC_ONLY",
-                                "SEC_WITH_HRSEC",
-                                "HRSEC_ONLY",
-                                "ALL_SCHOOLS"
-                                ]
+                                    "PRIMARY_WITH_U_PRIMARY",
+                                    "PRIMARY_WITH_U_PRIMARY_SEC_HRSEC",
+                                    "U_PRIMARY_ONLY",
+                                    "U_PRIMARY_WITH_SEC_HRSEC",
+                                    "PRIMARY_WITH_U_PRIMARY_SEC",
+                                    "U_PRIMARY_WITH_SEC",
+                                    "SEC_ONLY",
+                                    "SEC_WITH_HRSEC",
+                                    "HRSEC_ONLY",
+                                    "ALL_SCHOOLS"
+                                    ]
             infra_s_col_index = infra_s_col_options.index("PRIMARY_ONLY")
             infra_s_col = st.selectbox('Select class:', options=infra_s_col_options, index=infra_s_col_index)
     with col3: 
