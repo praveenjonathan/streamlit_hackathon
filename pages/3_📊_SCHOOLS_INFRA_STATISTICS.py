@@ -144,7 +144,7 @@ def main():
     st.plotly_chart(fig)
 
     st.markdown("""---------------------------------""")
-    st.title("3.Top INFRA stats from 2013-14 to 2015-16")
+    st.title("2.Top INFRA stats from 2013-14 to 2015-16")
 
     top_options = list(range(1, 31))  # Generates a list from 1 to 30
     top = st.selectbox('Select top INFRA_PERCENTAGE:', options=top_options, index=15)
