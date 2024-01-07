@@ -99,7 +99,7 @@ def main():
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
-    selected_items = f"Infra stat for Year: {infra_s_year}  Class: {infra_s_col} facility:{infra_f_col}"
+    selected_items = f"Infra stat for facility:{infra_f_col} Year: {infra_s_year}  Class: {infra_s_col}"
     st.title(selected_items)
 
     india_states_shp = 'https://github.com/97Danu/Maps_with_python/raw/master/india-polygon.shp'
