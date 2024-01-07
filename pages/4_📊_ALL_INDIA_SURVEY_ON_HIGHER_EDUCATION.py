@@ -126,7 +126,7 @@ def main():
     Q3 = f'''  WITH CTE AS 
             (SELECT STATES, YEAR,COUNT, 
                 DENSE_RANK() OVER (PARTITION BY YEAR ORDER BY COUNT DESC) DNK 
-                FROM V01_AISHE_EDUCATION_TYPE WHERE  EDUCATION_TYPE='Colleges')
+                FROM V01_AISHE_EDUCATION_TYPE WHERE  EDUCATION_TYPE = '{ais_edu}' )
                 SELECT CTE.STATES,CTE.YEAR,CTE.COUNT , CTE.DNK RANK FROM CTE where DNK <= {top}  '''
     R3 = execute_query(Q3)
     r3_expander = st.expander("Data sets used in this analysis")
