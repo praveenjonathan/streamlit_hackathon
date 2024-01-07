@@ -247,10 +247,10 @@ def main():
     top_loan = st.selectbox('Select top LOAN_COUNT:', options=top_loan_options, index=15)
     
     Q4 = f'''   WITH CTE AS 
-            (SELECT STATES,TOTAL_GENERAL_TOTAL LOAN_LOAN_COUNT, 
+            (SELECT STATES,TOTAL_GENERAL_TOTAL LOAN_COUNT, 
                 DENSE_RANK() OVER ( ORDER BY LOAN_LOAN_COUNT DESC) DNK 
                 FROM  V01_AISHE_EDUCATION_TYPE_LOANS_2015_2016 WHERE  EDUCATION_TYPE= 'Universities' )
-                SELECT CTE.STATES,CTE.LOAN_LOAN_COUNT, CTE.DNK RANK FROM CTE where DNK <= 10  '''
+                SELECT CTE.STATES,CTE.LOAN_COUNT, CTE.DNK RANK FROM CTE where DNK <= 10  '''
     R4 = execute_query(Q4)
     r4_expander = st.expander("Data sets used in this analysis")
     R4_DF = pd.DataFrame(R4)
