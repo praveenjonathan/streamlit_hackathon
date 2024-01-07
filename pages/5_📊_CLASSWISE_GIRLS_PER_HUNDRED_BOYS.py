@@ -34,7 +34,7 @@ def execute_query(query):
         st.error(f"Error executing query: {str(e)}")
         return None
 
-st.title('DROP OUT ANALYSIS ')
+st.title('📊 CLASSWISE_GIRLS_PER_HUNDRED_BOYS ')
 # left_column, right_column = st.columns(2)
 
 def main():
@@ -42,7 +42,7 @@ def main():
     Q1='''SELECT C.table_name, LISTAGG(C.column_name, ',') AS ALL_COLUMNS,T.COMMENT AS COMMENTS
         FROM information_schema.columns C
         inner join information_schema.tables T ON (T.table_name=C.table_name)
-        WHERE C.table_schema = 'IND_SCHEMA' AND C.table_name LIKE 'DRR_%'
+        WHERE C.table_schema = 'IND_SCHEMA' AND C.table_name LIKE 'GIRLS_PER_%'
         GROUP BY C.table_name,COMMENTS
         ORDER BY C.table_name'''
     R1 = execute_query(Q1)
