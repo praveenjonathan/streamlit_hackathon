@@ -241,6 +241,41 @@ def main():
 
     st.markdown("""---------------------------------""")
     
+    st.title("4.Top states based on education loan distribution across India in 2015-16")
+
+    top_loan_options = list(range(1, 31))  # Generates a list from 1 to 30
+    top_loan = st.selectbox('Select top LOAN_COUNT:', options=top_loan_options, index=15)
+    
+    Q4 = f'''   WITH CTE AS 
+            (SELECT STATES,TOTAL_GENERAL_TOTAL LOAN_LOAN_COUNT, 
+                DENSE_RANK() OVER ( ORDER BY LOAN_LOAN_COUNT DESC) DNK 
+                FROM  V01_AISHE_EDUCATION_TYPE_LOANS_2015_2016 WHERE  EDUCATION_TYPE= 'Universities' )
+                SELECT CTE.STATES,CTE.LOAN_LOAN_COUNT, CTE.DNK RANK FROM CTE where DNK <= 10  '''
+    R4 = execute_query(Q4)
+    r4_expander = st.expander("Data sets used in this analysis")
+    R4_DF = pd.DataFrame(R4)
+    R4_DF.index = R4_DF.index + 1
+    r4_expander.write(R4_DF)
+    R4_DF = R4_DF.sort_values(by="LOAN_COUNT", ascending=False)
+    selected_items = f"Top  {top_loan}  Education type : {ais_edu} in India  Year: 2015-16"
+    # Creating the Altair chart
+    chart = (
+        alt.Chart(R4_DF)
+        .mark_bar()
+        .encode(
+            x=alt.X("LOAN_COUNT:Q", title="LOAN_COUNT"),
+            y=alt.Y("STATES:N", title="States", sort="-x"),
+            tooltip=[
+            alt.Tooltip("STATES", title="State"),
+            alt.Tooltip("LOAN_COUNT", title="LOAN_COUNT"),
+            ]
+        )
+        .properties(width=800,  title=f"{selected_items}")
+        .interactive()
+    )
+
+        # Displaying the chart using Streamlit
+    st.altair_chart(chart, use_container_width=True)
     
 
  
