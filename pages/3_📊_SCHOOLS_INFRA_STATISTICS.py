@@ -147,7 +147,7 @@ def main():
     st.title("3.Top INFRA stats from 2013-14 to 2015-16")
 
     top_options = list(range(1, 31))  # Generates a list from 1 to 30
-    top = st.selectbox('Select top INFRA_PERCENTAGE:', options=top_options, index=9)
+    top = st.selectbox('Select top INFRA_PERCENTAGE:', options=top_options, index=15)
     
     Q3 = f''' WITH CTE AS 
             (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{infra_s_col}"), 0), 2) AS INFRA_PERCENTAGE, 
@@ -160,7 +160,7 @@ def main():
     R3_DF.index = R3_DF.index + 1
     r3_expander.write(R3_DF)
     R3_DF = R3_DF.sort_values(by="INFRA_PERCENTAGE", ascending=False)
-    selected_items = f"Top  {top} dropout states of the Year: {infra_s_year} for Class: {infra_s_col}"
+    selected_items = f"Top  {top} Infra stat for facility: {infra_f_col}  Year: {infra_s_year}  Class: {infra_s_col}"
     # Creating the Altair chart
     chart = (
         alt.Chart(R3_DF)
