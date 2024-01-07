@@ -215,7 +215,7 @@ def main():
     # Assigning values to bins and handling 'NA' values
     conditions = [
         merged_data['LOAN_COUNT'] < 100,
-        (merged_data['COUNT'] >= 100) & (merged_data['LOAN_COUNT'] <= 1000),
+        (merged_data['LOAN_COUNT'] >= 100) & (merged_data['LOAN_COUNT'] <= 1000),
         merged_data['LOAN_COUNT'] > 1000
     ]
 
