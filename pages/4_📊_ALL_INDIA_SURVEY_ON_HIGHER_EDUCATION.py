@@ -244,7 +244,7 @@ def main():
     st.title("4.Top states based on education loan distribution across India in 2015-16")
 
     top_loan_options = list(range(1, 10))  # Generates a list from 1 to 30
-    top_loan = st.selectbox('Select top LOAN_COUNT:', options=top_loan_options, index=9)
+    top_loan = st.selectbox('Select top LOAN_COUNT:', options=top_loan_options, index=8)
     
     Q4 = f'''   WITH CTE AS 
             (SELECT STATES,"{ais_loan_col}" LOAN_COUNT, 
