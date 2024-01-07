@@ -63,7 +63,7 @@ def main():
 
     ais_edu_options = ["Colleges",  "Standalone Institutes" ,"Universities" ]
     ais_edu_index = ais_edu_options.index("Colleges")
-    ais_edu= st.selectbox('Select which year:', options=ais_edu_options, index=ais_edu_index)
+    ais_edu= st.selectbox('Select Education type:', options=ais_edu_options, index=ais_edu_index)
     selected_items = f"Education type: {ais_edu} "
     st.title(selected_items)
     Q2 = f''' WITH CTE AS 
@@ -87,14 +87,14 @@ def main():
     merged_data = india_states.merge(R2_DF, how='left', on='STATES')
 
     # Define bins and labels
-    bins = [float('-inf'), 50, 100, float('inf')]
-    labels = ['Below 50', '50 - 100', 'Above 100']
+    bins = [float('-inf'), 100, 1000, float('inf')]
+    labels = ['Below 100', '100 - 1000', 'Above 1000']
 
     # Assigning values to bins and handling 'NA' values
     conditions = [
-        merged_data['COUNT'] < 50,
-        (merged_data['COUNT'] >= 50) & (merged_data['COUNT'] <= 100),
-        merged_data['COUNT'] > 100
+        merged_data['COUNT'] < 100,
+        (merged_data['COUNT'] >= 100) & (merged_data['COUNT'] <= 1000),
+        merged_data['COUNT'] > 1000
     ]
 
     # Assigning labels
@@ -103,7 +103,7 @@ def main():
     # Create a plotly figure with categorical colors
     fig = px.choropleth_mapbox(merged_data, geojson=merged_data.geometry, locations=merged_data.index,
                             color='color',
-                            color_discrete_map={'Below 50': 'Green', '50 - 100': 'Blue', 'Above 100': 'Red', 'NA': 'Yellow'},
+                            color_discrete_map={'Below 100': 'Green', '100 - 1000': 'Blue', 'Above 1000': 'Red', 'NA': 'Yellow'},
                             mapbox_style="carto-positron",
                             hover_data={'STATES': True, 'COUNT': True},
                             center={"lat": 20.5937, "lon": 78.9629},
