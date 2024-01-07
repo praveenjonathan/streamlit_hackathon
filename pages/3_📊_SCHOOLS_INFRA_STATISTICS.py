@@ -179,79 +179,9 @@ def main():
 
         # Displaying the chart using Streamlit
     st.altair_chart(chart, use_container_width=True)
-    r4_expander = st.expander("****Insights from 2013 to 2016*****")
-    r4_expander.markdown("1. **During 2015-16:**")
-    r4_expander.markdown("- **GER in Higher Secondary Schools:** Boys - 55.50, Girls - 56.41, Total - 56.16")
-    r4_expander.markdown("- **States/UTs below Nation value (56.16):**")
-    r4_expander.markdown("  - Daman & Diu (21.54), Bihar (35.62), Nagaland (36.43), Odisha (36.54), Assam (38.81), Karnataka (39.86), Meghalaya (43.35), Gujarat (43.43), Tripura (43.46), Madhya Pradesh (45.25), Jharkhand (48.32), Dadra & Nagar Haveli (48.49), West Bengal (51.54), Chhattisgarh (54), Mizoram (55.68)")
-    r4_expander.markdown("- **States/UTs above Nation value (56.16):**")
-    r4_expander.markdown("  - Lakshadweep (98.16), Himachal Pradesh (50.53), Chandigarh (83.28), Tamil Nadu (82.03), Delhi (77.9), Kerala (77.56), Goa (75.84), Uttarakhand (75.83), Puducherry (74.8), Andaman & Nicobar Islands (74.62), Punjab (70.19), Sikkim (68.23), Manipur (67.50), Maharashtra (67.81), Arunachal Pradesh (61.81), Telangana (61.32), Uttar Pradesh (60.78), Andhra Pradesh (60.16), Haryana (59.59), Rajasthan (59.31), Jammu & Kashmir (58.6)")
-
-    r4_expander.markdown("2. **During 2014-15:**")
-    r4_expander.markdown("- **GER in Higher Secondary Schools:** Boys - 54.57, Girls - 53.81, Total - 54.21")
-    r4_expander.markdown("- **States/UTs below Nation value (54.21):**")
-    r4_expander.markdown("  - Bihar, Karnataka, Nagaland, Assam, Meghalaya, Daman & Diu, Dadra & Nagar Haveli, Tripura, Gujarat, Madhya Pradesh, Jharkhand, West Bengal, Andhra Pradesh")
-
-    r4_expander.markdown("3. **During 2013-14:**")
-    r4_expander.markdown("- **GER in Higher Secondary Schools:** Boys - 52.77, Girls - 51.58, Total - 52.21")
-    r4_expander.markdown("- **States/UTs below Nation value (52.21):**")
-    r4_expander.markdown("  - Karnataka, Meghalaya, Bihar, Assam, Nagaland, Dadra & Nagar Haveli, Tripura, Jharkhand, Daman & Diu, Madhya Pradesh, West Bengal, Gujarat, Jammu & Kashmir")
-	
+ 
     st.markdown("""---------------------------------""")
-    st.title("3.Enrolment count from 2012 to 2020")
-    s_states_options = pd.DataFrame(execute_query('SELECT DISTINCT STATES FROM V01_CNT_ENRL_BY_AGE_CLSS_2012_2020'))
-    s_states_col = st.selectbox('Select state:', options=s_states_options['STATES'].tolist())
-	
-    Q4 = f''' SELECT * FROM V01_CNT_ENRL_BY_AGE_CLSS_2012_2020  WHERE STATES='{s_states_col}' '''
-    R4 = execute_query(Q4)
-    R4_expander = st.expander("Data sets used in this analysis")
-    R4_DF = pd.DataFrame(R4)
-    R4_DF.index = R4_DF.index + 1
-    R4_expander.write(R4_DF)
-
-    # R4_DF.set_index('YEAR', inplace=True)
-
-    # # Create a Streamlit app
-    # st.title('Boys vs Girls Enrollment Comparison by Class')
-
-    # selected_class = st.selectbox('Select Class', R4_DF.columns[2:])
-
-
-    # # Filter the DataFrame based on the selected class
-    # class_data = R4_DF[[col for col in R4_DF.columns if selected_class in col]]
-
-    # # Plotting
-    # plt.figure(figsize=(10, 8))
-    # class_data.plot(kind='barh')
-    # plt.xlabel('Number of Students')
-    # plt.ylabel('Year')
-    # plt.title(f'Enrollment Comparison for {selected_class} - Boys vs Girls')
-    # st.pyplot(plt) 
-    st.title('Boys vs Girls Enrollment Comparison by Class')
-
-    selected_class = st.selectbox('Select Class', R4_DF.columns[2:])
-
-    # Create a new DataFrame for selected class boys and girls
-    selected_class_boys = selected_class
-    selected_class_girls = selected_class.replace('_BOYS', '_GIRLS')
-
-    chart_data = R4_DF[['YEAR', selected_class_boys, selected_class_girls]].melt('YEAR', var_name='Category', value_name='Enrollment')
-
-    # Filter the data for the selected class
-    filtered_chart_data = chart_data[chart_data['Category'].isin([selected_class_boys, selected_class_girls])]
-
-    # Plotting with Altair
-    chart = alt.Chart(filtered_chart_data).mark_bar().encode(
-        x='Enrollment:Q',
-        y='YEAR:N',
-        color='Category:N',
-        tooltip=['YEAR:N', 'Category:N', 'Enrollment:Q']
-    ).properties(
-        width=900,
-        title=f'{s_states_col} Enrollment Comparison for {selected_class} - Boys vs Girls'
-    ).interactive()
-
-    st.altair_chart(chart)  
+    
     
 
  
