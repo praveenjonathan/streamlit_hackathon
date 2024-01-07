@@ -248,7 +248,7 @@ def main():
     
     Q4 = f'''   WITH CTE AS 
             (SELECT STATES,TOTAL_GENERAL_TOTAL LOAN_COUNT, 
-                DENSE_RANK() OVER ( ORDER BY LOAN_LOAN_COUNT DESC) DNK 
+                DENSE_RANK() OVER ( ORDER BY LOAN_COUNT DESC) DNK 
                 FROM  V01_AISHE_EDUCATION_TYPE_LOANS_2015_2016 WHERE  EDUCATION_TYPE= 'Universities' )
                 SELECT CTE.STATES,CTE.LOAN_COUNT, CTE.DNK RANK FROM CTE where DNK <= 10  '''
     R4 = execute_query(Q4)
