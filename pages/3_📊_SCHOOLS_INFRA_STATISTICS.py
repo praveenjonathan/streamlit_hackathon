@@ -41,7 +41,7 @@ def execute_query(query):
         st.error(f"Error executing query: {str(e)}")
         return None
 
-st.title('📊 SCHOOL''S INFRA STATISTICS')
+st.title('📊 SCHOOLS INFRA STATISTICS')
 
 def main():
 
