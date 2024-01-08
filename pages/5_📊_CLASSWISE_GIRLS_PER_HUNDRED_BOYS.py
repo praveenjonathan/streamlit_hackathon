@@ -34,7 +34,7 @@ def execute_query(query):
         st.error(f"Error executing query: {str(e)}")
         return None
 
-st.title('📊 CLASSWISE_GIRLS_PER_HUNDRED_BOYS ')
+st.title('📊 CLASSWISE GIRLS PER HUNDRED BOYS ')
 # left_column, right_column = st.columns(2)
 
 def main():
@@ -51,8 +51,8 @@ def main():
     R1_DF.index = R1_DF.index + 1
     r1_expander.write(R1_DF)
     st.divider()
-    st.title("1.Drop out rates in India from 1960-61 to 2010-11")
-    Q2='''  SELECT * FROM V01_GIRLS_PER_100_2008_2012
+    st.title("1.Classwise girls per hundred boys in entire india from 2008 to 2012")
+    Q2='''    SELECT * exclude STATES  FROM V01_GIRLS_PER_100_2008_2012
             where STATES='INDIA'
             ORDER BY 1'''
     R2 = execute_query(Q2)
@@ -60,9 +60,11 @@ def main():
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
-    st.write('Year-wise drop out rate for all categories')
+    
+    st.title('Gender Disparity in Education')
 
-    st.title('Education Trends in India')
+    # Line Chart Visualization
+    st.subheader('Girls per Hundred Boys in Different Classes')
 
     # Dropdown for selecting Category
     selected_category = st.selectbox('Select Category', R2_DF['CATEGORY'].unique())
@@ -71,12 +73,10 @@ def main():
     filtered_data = R2_DF[R2_DF['CATEGORY'] == selected_category]
 
     # Line Chart Visualization
-    st.subheader('Trend of Classes Over Years')
-    line_chart = alt.Chart(filtered_data).mark_line().encode(
+    line_chart = alt.Chart(filtered_data).mark_line(point=True).encode(
         x='YEAR',
-        y=alt.Y('CLASSES I-XII', title='Number of Classes'),
-        color='STATES',
-        tooltip=['YEAR', 'STATES', 'CLASSES I-XII']
+        y=alt.Y('CLASSES I-XII', title='Girls per Hundred Boys'),
+        tooltip=['YEAR', 'CLASSES I-XII']
     ).properties(
         width=600,
         height=400
@@ -86,11 +86,9 @@ def main():
 
     # Insights in Markdown
     st.markdown('## Insights')
-    st.markdown('- **Increase in Classes**: Across all categories (All Categories, SC, ST), there is a general trend of an increase in the number of classes from 2008 to 2012.')
-    st.markdown('- **Disparity among Categories**: ST category shows a consistently lower number of classes compared to the other categories over the years.')
-    st.markdown('- **Fluctuations in Specific Class Ranges**: There are fluctuations in specific class ranges over the years, indicating variations in educational development.')
-
-
+    st.markdown('- **Gender Disparity**: The ratio of girls to boys in education varies across different class levels and categories.')
+    st.markdown('- **Changes Over Time**: From 2008 to 2012, there are fluctuations in the girls per hundred boys ratio in different classes.')
+    st.markdown('- **Classwise Trends**: Some classes show a consistent increase in the ratio while others display varying trends over the years.')
  
 
                     
