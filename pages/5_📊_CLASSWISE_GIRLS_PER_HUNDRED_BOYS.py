@@ -5,6 +5,7 @@ from st_pages import Page, add_page_title, show_pages
 # import matplotlib.pyplot as plt
 import plotly.express as px
 import altair as alt
+import seaborn as sns
 
 
 
@@ -107,7 +108,22 @@ def main():
     R3_DF = pd.DataFrame(R3)
     R3_DF.index = R3_DF.index + 1
     r3_expander.write(R3_DF)
+    # Sidebar - Multiple selection for states, categories, and year
+    selected_states = st.multiselect('Select States', R3_DF['STATES'].unique())
+    selected_categories = st.multiselect('Select Categories', R3_DF['CATEGORY'].unique())
+    selected_year = st.selectbox('Select Year', R3_DF['YEAR'].unique())
 
+    # Filter the data based on user selection
+    filtered_data = R3_DF[
+        (R3_DF['STATES'].isin(selected_states)) &
+        (R3_DF['CATEGORY'].isin(selected_categories)) &
+        (R3_DF['YEAR'] == selected_year)
+    ]
+
+
+
+    # Plotting using Plotly - X-axis: Year, Y-axis: Classes I-XII (Example, replace with your desired columns)
+    fig = px.bar(filtered_data, x='YEAR', y='CLASSES I-XII', color='STATES', barmode='group')
     st.divider()
 if __name__ == "__main__":
     main()
