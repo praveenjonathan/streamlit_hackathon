@@ -120,8 +120,6 @@ def main():
         (R3_DF['YEAR'] == selected_year)
     ]
 
-
-
     # Plotting using Plotly - X-axis: Year, Y-axis: Classes I-XII (Example, replace with your desired columns)
     fig = px.bar(filtered_data, x='YEAR', y='CLASSES I-XII', color='STATES', barmode='group')
     st.divider()
