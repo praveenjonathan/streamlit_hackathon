@@ -34,7 +34,7 @@ def execute_query(query):
         return None
 
 st.title('DROP OUT ANALYSIS ')
-# left_column, right_column = st.columns(2)
+
 
 def main():
 
@@ -45,7 +45,7 @@ def main():
         GROUP BY C.table_name,COMMENTS
         ORDER BY C.table_name'''
     R1 = execute_query(Q1)
-    r1_expander = st.expander("Data sets used in this entire analysis")
+    r1_expander = st.expander("Data sets used in this entire analysis.")
     R1_DF = pd.DataFrame(R1)
     R1_DF.index = R1_DF.index + 1
     r1_expander.write(R1_DF)
@@ -87,6 +87,38 @@ def main():
 
     # Plotting the chart with multiple Y-axis columns
     st.altair_chart(plot_chart(R2_DF, x_axis_column, y_axis_columns), use_container_width=True)
+    r2_expander_1 = st.expander("Insights from School Dropouts (1960-2011)")
+
+    r2_expander_1.markdown("""
+    ### Insights:
+
+    1. **Declining Dropout Rates Over Time:**
+    - The dropout rates for primary education (I-V) have gradually decreased from approximately 64.9% in 1960-61 to around 27.4% in 2010-11.
+    - Similar declining trends are observed across other educational levels (I-VIII, I-X), indicating an overall improvement in student retention over the years.
+
+    2. **Gender Disparities in Dropout Rates:**
+    - Historically, dropout rates for girls across all educational levels were slightly higher compared to boys.
+    - However, over time, this gap has narrowed significantly, showcasing a positive trend towards gender parity in educational retention.
+
+    3. **Socioeconomic Impact on Dropout Rates:**
+    - Students from Scheduled Castes (SC) and Scheduled Tribes (ST) communities experienced higher dropout rates compared to the general population.
+    - The dropout rates for SC/ST students were consistently higher across all educational levels compared to non-SC/ST students, indicating an existing educational disparity.
+
+    4. **Impact of Education Level on Dropout Rates:**
+    - The dropout rates notably increase as the education level progresses. For instance, dropout rates for I-X are significantly higher than those for I-V.
+    - This trend suggests that students tend to be more susceptible to dropping out as they advance to higher classes.
+
+    5. **Fluctuations in Dropout Rates:**
+    - Throughout the years, certain periods exhibit fluctuations in dropout rates, indicating potential external factors influencing student retention, such as economic conditions, policies, or social changes.
+
+    6. **Regional Disparities:**
+    - Regional disparities in dropout rates are noticeable, with certain states or regions consistently showing higher or lower dropout rates compared to the national average.
+    - Variances among states may signify differences in educational infrastructure, socio-economic factors, or cultural influences impacting dropout rates.
+
+    ### Summary:
+    The analysis of the dataset on school dropouts from 1960 to 2011 indicates an overall positive trend in reducing dropout rates across various educational levels. However, persistent disparities related to gender, socioeconomic backgrounds, educational levels, and regional influences emphasize the need for targeted interventions and policies to ensure equitable access to education and reduce dropout rates further.
+
+    """)
     st.divider()
     st.title("2.Drop-out Rate from 2009 TO 2012 state wise class wise for different category")
 
@@ -185,15 +217,105 @@ def main():
     st.altair_chart(line_chart, use_container_width=True)
     st.markdown("""---------------------------------""")
 
-    
+    dropout_expander= st.expander("Complete insights for School Dropouts")
+    dropout_expander.markdown('''
+    # Insights on Girls' Dropout Rates
 
-    
+    ## Gender Disparity:
+
+    - **Higher Education Levels:** In several states, particularly in higher education levels (I-VIII, I-X), girls tend to exhibit higher dropout rates compared to boys during the specified period.
+
+    ## State-wise Disparities:
+
+    - **Bihar, Rajasthan, and Uttar Pradesh:** These states consistently demonstrate higher dropout rates among girls across various education levels, highlighting persistent challenges in retaining girls in schools.
+
+    ## Regional Variances:
+
+    - **Southern States:** States like Kerala and Tamil Nadu generally exhibit lower dropout rates among girls, especially in higher education levels, indicating better educational retention for girls in these regions.
+
+    ## Year-wise Changes:
+
+    - **2012 Increase:** Some states witness a slight increase in girls' dropout rates in 2012, especially noticeable in higher education levels, suggesting a potential challenge or trend that needs attention.
+
+    ## Scheduled Castes and Tribes:
+
+    - **Disparity Within Groups:** Within Scheduled Castes (SC) and Scheduled Tribes (ST), there are variations in dropout rates among girls across different states, emphasizing the need for targeted interventions within these communities.
+
+    ## Efforts and Implications:
+
+    - **Policy Impact:** States with lower dropout rates among girls might have implemented successful policies or programs promoting girls' education and retention.
+
+    These insights underscore the importance of addressing the specific challenges faced by girls in continuing their education across different states and education levels. Policy measures focusing on girls' education, socio-economic support, and community engagement could help mitigate the disparities and improve retention rates among girls, thereby fostering a more inclusive and equitable educational landscape.
+    ''')
+
+    Recommendation_expander= st.expander("Recommendations to decrese School Dropouts")
+    Recommendation_expander.markdown('''
+        # Global Level:
+        ## Advocacy and Support:
+
+        - **Campaigns and Advocacy:** Collaborate with international organizations and NGOs to launch global campaigns advocating for girls' education, emphasizing its crucial role in societal development.
+        - **Financial Support:** Allocate funding and resources to support educational programs targeting girls in developing countries.
+
+        ## Knowledge Sharing and Collaboration:
+
+        - **Data Sharing:** Encourage countries to share their dropout rate data to identify global trends and best practices.
+        - **Collaborative Research:** Foster collaborations among research institutions globally to understand the underlying causes and solutions for girls' dropout rates.
+
+        # National Level:
+
+        ## Policy Implementation and Reform:
+
+        - **Policy Review:** Conduct regular reviews of education policies to ensure they address the specific challenges faced by girls in education.
+        - **Incentives and Scholarships:** Offer scholarships and incentives specifically targeting girls to encourage their continuous education.
+
+        ## Community Engagement:
+
+        - **Awareness Programs:** Launch nationwide awareness campaigns to emphasize the importance of girls' education and combat societal norms that discourage girls from pursuing education.
+        - **Parental Involvement:** Engage parents and local communities to highlight the benefits of educating girls and involve them in promoting girls' education.
+
+        # State Level:
+
+        ## Targeted Interventions:
+
+        - **State-specific Programs:** Develop state-specific programs addressing the unique challenges faced by girls in each region.
+        - **Resource Allocation:** Allocate resources towards improving infrastructure, teacher training, and educational materials targeting girls' education.
+
+        ## Data-Driven Strategies:
+
+        - **Data Monitoring:** Implement systems to continuously monitor dropout rates among girls, enabling timely intervention and adjustment of strategies.
+        - **Local Partnerships:** Collaborate with local NGOs and community leaders to implement grassroots initiatives addressing girls' dropout issues.
+
+        ## Gender-Sensitive Curriculum:
+
+        - **Curriculum Revision:** Develop a gender-sensitive curriculum that fosters inclusivity and encourages girls' participation in various subjects and extracurricular activities.
+
+        By implementing these recommendations at different levels—global, national, and state—agencies can work towards reducing girls' dropout rates, promoting gender equality in education, and creating an environment where girls feel empowered to pursue their education to higher levels. ''')
+
+            
 
  
 
                     
 if __name__ == "__main__":
     main()
+
+
+st.markdown(
+    '''
+    <style>
+    .streamlit-expanderHeader {
+        background-color: blue;
+        color: white; # Adjust this for expander header color
+    }
+    .streamlit-expanderContent {
+        background-color: blue;
+        color: white; # Expander content color
+    }
+    </style>
+    ''',
+    unsafe_allow_html=True
+)
+
 footer="""<style>
 a:link , a:visited{
 color: blue;
