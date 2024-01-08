@@ -60,34 +60,32 @@ def main():
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
-    st.title('Gender Disparity in Education')
 
     # Multi-select for selecting Categories with default all selected
-    selected_categories = st.multiselect('Select Categories', R2_DF['CATEGORY'].unique(), default=R2_DF['CATEGORY'].unique())
+    selected_categories = st.multiselect('Select Categories', R2_DF['CATEGORY'].unique(), default=list(R2_DF['CATEGORY'].unique()))
 
-    # Checkbox for selecting classes
-    selected_classes = st.multiselect('Select Classes', R2_DF.columns[2:], default=R2_DF.columns[2:])
+    # Select for choosing a single class
+    selected_class = st.selectbox('Select Class', R2_DF.columns[2:], index=0)
 
     # Filter data based on selected categories
     filtered_data = R2_DF[R2_DF['CATEGORY'].isin(selected_categories)]
 
-    # Filter data based on selected classes
-    filtered_data = filtered_data[['YEAR', 'CATEGORY'] + selected_classes]
+    # Filter data based on selected class
+    filtered_data = filtered_data[['YEAR', 'CATEGORY', selected_class]]
 
     # Melt the DataFrame for visualization
-    filtered_data = filtered_data.melt(id_vars=['YEAR', 'CATEGORY'], var_name='Class', value_name='Girls per Hundred Boys')
+    filtered_data_melted = pd.melt(filtered_data, id_vars=['YEAR', 'CATEGORY'], value_vars=[selected_class], var_name='Class', value_name='Girls per Hundred Boys')
 
     # Line Chart Visualization with points
-    st.subheader('Girls per Hundred Boys in Different Classes')
+    st.subheader(f'Girls per Hundred Boys in {selected_class}')
 
-    line_chart = alt.Chart(filtered_data).mark_line(point=True).encode(
+    line_chart = alt.Chart(filtered_data_melted).mark_line(point=True).encode(
         x='YEAR',
         y='Girls per Hundred Boys',
         color='CATEGORY',
         tooltip=['YEAR', 'Girls per Hundred Boys']
     ).properties(
-        width=600,
-        height=400
+        width=900
     ).interactive()
 
     st.altair_chart(line_chart)
@@ -96,7 +94,7 @@ def main():
     st.markdown('## Insights')
     st.markdown('- **Disparity Among Categories**: Selecting multiple categories shows varying trends in gender disparity across different educational categories.')
     st.markdown('- **Temporal Variations**: Over the years, fluctuations in the ratio of girls per hundred boys are observed among the selected categories.')
-    st.markdown('- **Classwise Trends**: Different class levels display diverse trends, showcasing the varying gender ratio in education.')
+    st.markdown(f'- **Classwise Trends in {selected_class}**: Displays the gender ratio in the chosen class across different categories.')
 if __name__ == "__main__":
     main()
 footer="""<style>
