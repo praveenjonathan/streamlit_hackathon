@@ -60,12 +60,14 @@ def main():
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
-    st.title('Gender Disparity in Education')
 
-    # Multi-select for selecting Categories
-    selected_categories = st.multiselect('Select Categories', R2_DF['CATEGORY'].unique())
+    # Multi-select for selecting Categories with default all selected
+    selected_categories = st.multiselect('Select Categories', R2_DF['CATEGORY'].unique(), default=R2_DF['CATEGORY'].unique())
 
-    # Filter data based on selected categories
+    # Multi-select for selecting classes
+    selected_classes = st.multiselect('Select Classes', R2_DF.columns[2:], default=R2_DF.columns[2:])
+
+    # Filter data based on selected categories and classes
     filtered_data = R2_DF[R2_DF['CATEGORY'].isin(selected_categories)]
 
     # Line Chart Visualization with points
@@ -73,12 +75,17 @@ def main():
 
     line_chart = alt.Chart(filtered_data).mark_line(point=True).encode(
         x='YEAR',
-        y=alt.Y('CLASSES I-XII', title='Girls per Hundred Boys'),
+        y=alt.Y(alt.repeat("column"), title='Girls per Hundred Boys'),
         color='CATEGORY',
-        tooltip=['YEAR', 'CLASSES I-XII']
+        tooltip=['YEAR'] + selected_classes
+    ).transform_fold(
+        selected_classes,
+        as_=['Class', 'Girls per Hundred Boys']
     ).properties(
         width=600,
         height=400
+    ).repeat(
+        column=selected_classes
     ).interactive()
 
     st.altair_chart(line_chart)
@@ -88,8 +95,6 @@ def main():
     st.markdown('- **Disparity Among Categories**: Selecting multiple categories shows varying trends in gender disparity across different educational categories.')
     st.markdown('- **Temporal Variations**: Over the years, fluctuations in the ratio of girls per hundred boys are observed among the selected categories.')
     st.markdown('- **Classwise Trends**: Different class levels display diverse trends, showcasing the varying gender ratio in education.')
-
-                        
 if __name__ == "__main__":
     main()
 footer="""<style>
