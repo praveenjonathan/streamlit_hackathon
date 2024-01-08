@@ -196,25 +196,7 @@ def main():
     R4_DF = pd.DataFrame(R4)
     R4_DF.index = R4_DF.index + 1
     R4_expander.write(R4_DF)
-
-    # R4_DF.set_index('YEAR', inplace=True)
-
-    # # Create a Streamlit app
-    # st.title('Boys vs Girls Enrollment Comparison by Class')
-
-    # selected_class = st.selectbox('Select Class', R4_DF.columns[2:])
-
-
-    # # Filter the DataFrame based on the selected class
-    # class_data = R4_DF[[col for col in R4_DF.columns if selected_class in col]]
-
-    # # Plotting
-    # plt.figure(figsize=(10, 8))
-    # class_data.plot(kind='barh')
-    # plt.xlabel('Number of Students')
-    # plt.ylabel('Year')
-    # plt.title(f'Enrollment Comparison for {selected_class} - Boys vs Girls')
-    # st.pyplot(plt) 
+ 
     st.title('Boys vs Girls Enrollment Comparison by Class')
 
     selected_class = st.selectbox('Select Class', R4_DF.columns[2:])
@@ -239,9 +221,41 @@ def main():
         title=f'{s_states_col} Enrollment Comparison for {selected_class} - Boys vs Girls'
     ).interactive()
 
-    st.altair_chart(chart)  
-    
 
+    st.altair_chart(chart, use_container_width=True)
+    
+    enr_expander= st.expander("Complete Insights/Recommendations for Enrolment count")
+    enr_expander.markdown(''' 
+    # Trends in Girl Enrollments (2012-2020)
+
+    ## Consistent Improvement in Enrollment Numbers:
+
+    - Across different education stages (I-V, I-VIII, I-X), there is a general trend of growth in the enrollment of girls over the years. This trend indicates a positive trajectory in girls' education.
+
+    ## State-Wise Variation:
+
+    - There are noticeable disparities in girl enrollments across states. States like Mizoram, Meghalaya, and Kerala consistently maintain high enrollment numbers, while some other states fluctuate over the years, showcasing varying levels of emphasis on girls' education.
+
+    ## Regional Influence on Education:
+
+    s- States in the northeastern region, such as Mizoram, Meghalaya, and Manipur, tend to exhibit higher enrollment rates for girls compared to other regions in India.
+
+    ## Differences Among Education Stages:
+
+    - There's a progressive decline in enrollment numbers as the education stage advances from I-V to I-VIII and I-X. This might suggest challenges faced by girls in continuing their education beyond primary levels, indicating a need for targeted initiatives to support their continued education.
+
+    ## Impact of Socio-Economic Factors:
+
+    - Enrollment rates for girls might be influenced by socio-economic conditions, as seen in variations among different states. States with higher economic development and social awareness tend to exhibit better enrollment rates for girls across education stages.
+
+    ## Need for Targeted Interventions:
+
+    - States showing fluctuations or lower enrollment rates for girls, especially at higher education stages, could benefit from targeted interventions, including awareness campaigns, scholarships, and infrastructure development, to promote and sustain girls' education.
+
+    These insights provide a broad understanding of the trends and disparities in girl enrollments across different states and education stages. Targeted initiatives, coupled with comprehensive policies, could help bridge the gaps and ensure more consistent and improved enrollment rates for girls across the nation.
+
+
+    ''')
  
 
                     
