@@ -277,7 +277,58 @@ def main():
         # Displaying the chart using Streamlit
     st.altair_chart(chart, use_container_width=True)
     
+    aishe_expander= st.expander("Complete Insights/Recommendations for  all India survey on education")
+    aishe_expander.markdown(''' 
+    1. **Colleges Dominate Educational Landscape**: Colleges account for the majority of educational institutions across all states, with a total count of 37,038 in 2015-16. This highlights the significant role colleges play in providing higher education opportunities to students.
 
+    2. **Maharashtra Leads in All Categories**: Maharashtra has the highest number of Colleges (3931), Standalone Institutes (1402), and Universities (45) among all states in India. This indicates Maharashtra's commitment to providing diverse educational options to its students.
+
+    3. **Uttar Pradesh Has Most Colleges**: Uttar Pradesh boasts the highest number of Colleges (5573) among all states in India. This suggests that the state has a strong focus on expanding access to higher education through colleges.
+
+    4. **Tamil Nadu and Karnataka Excel in Standalone Institutes and Universities**: Tamil Nadu and Karnataka have the highest number of Standalone Institutes (991 and 889, respectively) and Universities (57 and 50, respectively) among all states. This indicates their efforts in establishing specialized educational institutions and promoting research and higher learning.
+
+    5. **North-Eastern States Have Lower Numbers of Institutions**: North-Eastern states like Arunachal Pradesh, Mizoram, and Nagaland have lower numbers of Colleges, Standalone Institutes, and Universities compared to other states. This suggests the need for increased investment and focus on educational infrastructure in these regions.
+
+    6. **Delhi and Chandigarh Have Strong University Presence**: Delhi and Chandigarh, despite being relatively smaller regions, have a significant presence of Universities. This highlights their role as centers of higher learning and academic excellence in India.
+
+    ### Strategies to Increase the Quality of Educational Institutions:
+
+    1. **Faculty Development and Training:**
+        - Conduct professional development programs for faculty.
+        - Encourage and support faculty research activities.
+
+    2. **Curriculum Enhancement:**
+        - Regularly review and update curricula to align with industry standards.
+        - Integrate practical learning experiences into the curriculum.
+
+    3. **Infrastructure Development:**
+        - Invest in state-of-the-art facilities and technology-enabled classrooms.
+        - Provide access to digital resources and modern libraries.
+
+    4. **Quality Assurance and Accreditation:**
+        - Encourage institutions to pursue accreditation from recognized bodies.
+        - Implement quality monitoring mechanisms and assessments.
+
+    5. **Student Support and Services:**
+        - Offer career counseling and guidance services.
+        - Establish student support programs and mentorship initiatives.
+
+    6. **Research and Innovation:**
+        - Promote a culture of research and innovation.
+        - Facilitate collaborations with industries for research projects.
+
+    7. **Governance and Leadership:**
+        - Ensure transparent and efficient administrative processes.
+        - Foster visionary leadership for academic excellence.
+
+    8. **Inclusivity and Diversity:**
+        - Promote diversity and inclusivity in the student population.
+        - Create a culturally rich learning environment.
+
+    Implementing these strategies can significantly enhance the quality of education and academic standards in colleges, standalone institutes, and universities across all states.
+                        
+
+    ''')
  
 
                     
