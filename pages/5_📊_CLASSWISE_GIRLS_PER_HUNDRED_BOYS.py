@@ -60,32 +60,34 @@ def main():
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
+    st.title('Gender Disparity in Education')
 
     # Multi-select for selecting Categories with default all selected
     selected_categories = st.multiselect('Select Categories', R2_DF['CATEGORY'].unique(), default=R2_DF['CATEGORY'].unique())
 
-    # Multi-select for selecting classes
+    # Checkbox for selecting classes
     selected_classes = st.multiselect('Select Classes', R2_DF.columns[2:], default=R2_DF.columns[2:])
 
-    # Filter data based on selected categories and classes
+    # Filter data based on selected categories
     filtered_data = R2_DF[R2_DF['CATEGORY'].isin(selected_categories)]
+
+    # Filter data based on selected classes
+    filtered_data = filtered_data[['YEAR', 'CATEGORY'] + selected_classes]
+
+    # Melt the DataFrame for visualization
+    filtered_data = filtered_data.melt(id_vars=['YEAR', 'CATEGORY'], var_name='Class', value_name='Girls per Hundred Boys')
 
     # Line Chart Visualization with points
     st.subheader('Girls per Hundred Boys in Different Classes')
 
     line_chart = alt.Chart(filtered_data).mark_line(point=True).encode(
         x='YEAR',
-        y=alt.Y(alt.repeat("column"), title='Girls per Hundred Boys'),
+        y='Girls per Hundred Boys',
         color='CATEGORY',
-        tooltip=['YEAR'] + selected_classes
-    ).transform_fold(
-        selected_classes,
-        as_=['Class', 'Girls per Hundred Boys']
+        tooltip=['YEAR', 'Girls per Hundred Boys']
     ).properties(
         width=600,
         height=400
-    ).repeat(
-        column=selected_classes
     ).interactive()
 
     st.altair_chart(line_chart)
