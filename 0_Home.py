@@ -22,7 +22,7 @@ show_pages(
               Page("pages/3_📊_SCHOOLS_INFRA_STATISTICS.py", "SCHOOL'S INFRA STATISTICS", "📈"),
 			  Page("pages/4_📊_ALL_INDIA_SURVEY_ON_HIGHER_EDUCATION.py", "ALL INDIA SURVEY ON HIGHER EDUCATION", "📈"),
               Page("pages/5_📊_CLASSWISE_GIRLS_PER_HUNDRED_BOYS.py", "CLASS-WISE GIRLS PER HUNDRED BOYS", "📈"),
-			  Page("pages/6_📊_GENDER_PARITY_INDEX_IN_HIGHER_EDUCATION.py", "GENDER PARITY INDEX IN HIGHER EDUCATION", "📈"),
+			  Page("pages/6_📊_INDIAN_EDUCATION_FORECASTS.py", "INDIAN EDUCATION FORECASTS", "📈"),
           ]
       )  
 # add_page_title()
