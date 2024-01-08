@@ -144,14 +144,14 @@ def main():
     st.plotly_chart(fig)
 
     st.markdown("""---------------------------------""")
-    st.title("2.Top INFRA stats from 2013-14 to 2015-16")
+    st.title("2.Bottom INFRA stats from 2013-14 to 2015-16")
 
     top_options = list(range(1, 31))  # Generates a list from 1 to 30
-    top = st.selectbox('Select top INFRA_PERCENTAGE:', options=top_options, index=15)
+    top = st.selectbox('Select bottom INFRA_PERCENTAGE:', options=top_options, index=15)
     
     Q3 = f''' WITH CTE AS 
             (SELECT STATES, YEAR, ROUND(IFNULL(TRY_TO_DOUBLE("{infra_s_col}"), 0), 2) AS INFRA_PERCENTAGE, 
-                DENSE_RANK() OVER (PARTITION BY YEAR ORDER BY INFRA_PERCENTAGE DESC) DNK 
+                DENSE_RANK() OVER (PARTITION BY YEAR ORDER BY INFRA_PERCENTAGE asc) DNK 
                 FROM V01_SCLS_WITH_INFRA_2014_2016 where  YEAR ='{infra_s_year}' AND INFRA='{infra_f_col}')
                 SELECT CTE.STATES,CTE.YEAR,CTE.INFRA_PERCENTAGE , CTE.DNK RANK FROM CTE where DNK <=   {top}  '''
     R3 = execute_query(Q3)
@@ -160,14 +160,14 @@ def main():
     R3_DF.index = R3_DF.index + 1
     r3_expander.write(R3_DF)
     R3_DF = R3_DF.sort_values(by="INFRA_PERCENTAGE", ascending=False)
-    selected_items = f"Top  {top} Infra stat for facility: {infra_f_col}  Year: {infra_s_year}  Class: {infra_s_col}"
+    selected_items = f"Bottom  {top} Infra stat for facility: {infra_f_col}  Year: {infra_s_year}  Class: {infra_s_col}"
     # Creating the Altair chart
     chart = (
         alt.Chart(R3_DF)
         .mark_bar()
         .encode(
             x=alt.X("INFRA_PERCENTAGE:Q", title="INFRA PERCENTAGE"),
-            y=alt.Y("STATES:N", title="States", sort="-x"),
+            y=alt.Y("STATES:N", title="States", sort="x"),
             tooltip=[
             alt.Tooltip("STATES", title="State"),
             alt.Tooltip("INFRA_PERCENTAGE", title="INFRA PERCENTAGE"),
@@ -181,6 +181,24 @@ def main():
     st.altair_chart(chart, use_container_width=True)
  
     st.markdown("""---------------------------------""")
+    infra_expander= st.expander("Complete Insights/Recommendations for  facilities in schools")
+    infra_expander.markdown(''' 
+    1. The number of schools with toilet facility has increased significantly over the years.
+
+    2. In 2013-14, only 53.03% of schools in Andhra Pradesh had toilets, while in 2015-16, 99.58% of schools had toilets. This shows a remarkable improvement in the access to basic sanitation facilities in schools.
+
+    3. Similar trends can be seen in other states as well. For example, in Arunachal Pradesh, the percentage of schools with toilets increased from 38.24% in 2013-14 to 93.55% in 2015-16.
+
+    4. In most states, the percentage of schools with toilets for boys is higher than that of schools with toilets for girls. This suggests that there is still a need to address the gender disparity in access to sanitation facilities in schools.
+
+    5. The data also shows that the percentage of schools with toilets varies across different states. For example, in 2015-16, 100% of schools in Andaman and Nicobar Islands, Chandigarh, Dadra and Nagar Haveli, Daman and Diu, and Delhi had toilets. On the other hand, only 66.51% of schools in Chhattisgarh had toilets.
+
+    6. This variation across states may be due to a number of factors, such as the level of development, the availability of resources, and the commitment of the state government to providing sanitation facilities in schools.
+
+    7. Overall, the data shows that there has been significant progress in increasing the number of schools with toilet facilities in India. However, there is still a need to address the gender disparity in access to sanitation facilities and to ensure that all schools have adequate and functional toilets.
+
+
+    ''')
     
     
 
