@@ -62,6 +62,34 @@ def main():
     r2_expander.write(R2_DF)
     st.write('Year-wise drop out rate for all categories')
 
+    st.title('Education Trends in India')
+
+    # Dropdown for selecting Category
+    selected_category = st.selectbox('Select Category', R2_DF['CATEGORY'].unique())
+
+    # Filter data based on selected category
+    filtered_data = R2_DF[R2_DF['CATEGORY'] == selected_category]
+
+    # Line Chart Visualization
+    st.subheader('Trend of Classes Over Years')
+    line_chart = alt.Chart(filtered_data).mark_line().encode(
+        x='YEAR',
+        y=alt.Y('CLASSES I-XII', title='Number of Classes'),
+        color='STATES',
+        tooltip=['YEAR', 'STATES', 'CLASSES I-XII']
+    ).properties(
+        width=600,
+        height=400
+    ).interactive()
+
+    st.altair_chart(line_chart)
+
+    # Insights in Markdown
+    st.markdown('## Insights')
+    st.markdown('- **Increase in Classes**: Across all categories (All Categories, SC, ST), there is a general trend of an increase in the number of classes from 2008 to 2012.')
+    st.markdown('- **Disparity among Categories**: ST category shows a consistently lower number of classes compared to the other categories over the years.')
+    st.markdown('- **Fluctuations in Specific Class Ranges**: There are fluctuations in specific class ranges over the years, indicating variations in educational development.')
+
 
  
 
