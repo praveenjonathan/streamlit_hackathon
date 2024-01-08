@@ -80,7 +80,7 @@ def main():
     st.subheader(f'Girls per Hundred Boys in {selected_class}')
 
     line_chart = alt.Chart(filtered_data_melted).mark_line(point=True).encode(
-        x='YEAR',
+        x=alt.X('YEAR:O', axis=alt.Axis(format='d'), title='Year'),
         y='Girls per Hundred Boys',
         color='CATEGORY',
         tooltip=['YEAR', 'Girls per Hundred Boys']
