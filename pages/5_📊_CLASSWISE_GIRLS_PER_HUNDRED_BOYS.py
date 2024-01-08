@@ -95,6 +95,20 @@ def main():
     st.markdown('- **Disparity Among Categories**: Selecting multiple categories shows varying trends in gender disparity across different educational categories.')
     st.markdown('- **Temporal Variations**: Over the years, fluctuations in the ratio of girls per hundred boys are observed among the selected categories.')
     st.markdown(f'- **Classwise Trends in {selected_class}**: Displays the gender ratio in the chosen class across different categories.')
+
+    st.divider()
+    st.title("2.Classwise girls per hundred boys in states from 2008 to 2012 across different catergory")
+
+    Q3=''' SELECT *   FROM V01_GIRLS_PER_100_2008_2012
+            where STATES<>'INDIA'
+            ORDER BY 1'''
+    R3 = execute_query(Q3)
+    r3_expander = st.expander("Data set used in this  analysis")
+    R3_DF = pd.DataFrame(R3)
+    R3_DF.index = R3_DF.index + 1
+    r3_expander.write(R3_DF)
+
+    st.divider()
 if __name__ == "__main__":
     main()
 footer="""<style>
