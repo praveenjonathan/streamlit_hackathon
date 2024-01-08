@@ -150,6 +150,29 @@ def main():
     st.altair_chart(plot_chart(R3_DF, x_axis_column, y_axis_columns), use_container_width=True)   
 
 
+    g_per_expander= st.expander("Complete Insights/Recommendations for  classwise girls per hundred boys")
+    g_per_expander.markdown('''  
+    1. **Significant Variations in Gender Ratio Across States:**
+        - Some states like Kerala, Himachal Pradesh, and Tamil Nadu have consistently shown high gender ratios in favor of females across all years and categories, while others like Rajasthan, Bihar, and Jharkhand have consistently low ratios.
+
+    2. **Urban-Rural Divide:**
+        - In most states, urban areas tend to have lower gender ratios compared to rural areas. This is evident in states like Andhra Pradesh, Gujarat, and Maharashtra, where the gender ratio in urban areas is lower than in rural areas for all years and categories.
+
+    3. **Increasing Trend of Gender Ratios Over Time:**
+        - In many states, the gender ratio has shown a gradual increase over the years, indicating a positive trend towards bridging the gender gap. This is particularly noticeable in states like Andhra Pradesh, Assam, and Odisha.
+
+    4. **Wide Disparities in Gender Ratios Among Different Categories:**
+        - Scheduled Tribes (ST) consistently have the lowest gender ratios compared to other categories (ALL_CAT, SC, and General) in almost all states and years. This disparity highlights the need for targeted interventions to address the specific challenges faced by tribal communities.
+
+    5. **Fluctuations in Gender Ratios:**
+        - While some states show a consistent pattern, others exhibit fluctuations in gender ratios over the years. These fluctuations may be influenced by various factors such as changes in policies, socio-economic conditions, and cultural norms.
+
+    6. **Need for Continued Efforts:**
+        - Despite the progress made in improving gender ratios, there is still a significant gap between the number of girls and boys in many states, particularly in certain categories and regions. This underscores the need for continued efforts and targeted interventions to achieve gender equality and bridge the gender divide.
+
+    
+    ''' )
+
     
     st.divider()
 if __name__ == "__main__":
