@@ -1,7 +1,6 @@
 import streamlit as st
 import snowflake.connector
 import pandas as pd
-# from 0_🏠_Home import *
 from st_pages import Page, add_page_title, show_pages
 import plotly.express as px
 import altair as alt
@@ -9,7 +8,7 @@ import altair as alt
 
 
 
-# st.set_page_config( layout="wide")
+
 
 def execute_query(query):
     try:
