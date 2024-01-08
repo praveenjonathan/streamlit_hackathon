@@ -60,22 +60,21 @@ def main():
     R2_DF = pd.DataFrame(R2)
     R2_DF.index = R2_DF.index + 1
     r2_expander.write(R2_DF)
-    
     st.title('Gender Disparity in Education')
 
-    # Line Chart Visualization
+    # Multi-select for selecting Categories
+    selected_categories = st.multiselect('Select Categories', R2_DF['CATEGORY'].unique())
+
+    # Filter data based on selected categories
+    filtered_data = R2_DF[R2_DF['CATEGORY'].isin(selected_categories)]
+
+    # Line Chart Visualization with points
     st.subheader('Girls per Hundred Boys in Different Classes')
 
-    # Dropdown for selecting Category
-    selected_category = st.selectbox('Select Category', R2_DF['CATEGORY'].unique())
-
-    # Filter data based on selected category
-    filtered_data = R2_DF[R2_DF['CATEGORY'] == selected_category]
-
-    # Line Chart Visualization
     line_chart = alt.Chart(filtered_data).mark_line(point=True).encode(
         x='YEAR',
         y=alt.Y('CLASSES I-XII', title='Girls per Hundred Boys'),
+        color='CATEGORY',
         tooltip=['YEAR', 'CLASSES I-XII']
     ).properties(
         width=600,
@@ -86,12 +85,11 @@ def main():
 
     # Insights in Markdown
     st.markdown('## Insights')
-    st.markdown('- **Gender Disparity**: The ratio of girls to boys in education varies across different class levels and categories.')
-    st.markdown('- **Changes Over Time**: From 2008 to 2012, there are fluctuations in the girls per hundred boys ratio in different classes.')
-    st.markdown('- **Classwise Trends**: Some classes show a consistent increase in the ratio while others display varying trends over the years.')
- 
+    st.markdown('- **Disparity Among Categories**: Selecting multiple categories shows varying trends in gender disparity across different educational categories.')
+    st.markdown('- **Temporal Variations**: Over the years, fluctuations in the ratio of girls per hundred boys are observed among the selected categories.')
+    st.markdown('- **Classwise Trends**: Different class levels display diverse trends, showcasing the varying gender ratio in education.')
 
-                    
+                        
 if __name__ == "__main__":
     main()
 footer="""<style>
