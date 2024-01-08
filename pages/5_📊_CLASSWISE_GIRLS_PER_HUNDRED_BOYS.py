@@ -10,7 +10,6 @@ import seaborn as sns
 
 
 
-# st.set_page_config( layout="wide")
 
 def execute_query(query):
     try:
@@ -36,7 +35,7 @@ def execute_query(query):
         return None
 
 st.title('📊 CLASSWISE GIRLS PER HUNDRED BOYS ')
-# left_column, right_column = st.columns(2)
+
 
 def main():
 
@@ -99,29 +98,59 @@ def main():
 
     st.divider()
     st.title("2.Classwise girls per hundred boys in states from 2008 to 2012 across different catergory")
-
-    Q3=''' SELECT *   FROM V01_GIRLS_PER_100_2008_2012
-            where STATES<>'INDIA'
-            ORDER BY 1'''
+    
+    col5,col6=st.columns(2)
+    with col5:
+        q3_states_options = pd.DataFrame(execute_query('SELECT DISTINCT STATES FROM V01_GIRLS_PER_100_2008_2012'))
+        q3_selected_state = st.selectbox('Select State', q3_states_options, index=5)
+    with col6:
+        q3_category_options=["SC","ST","ALL_CAT"]
+        q3_category_index = q3_category_options.index("ALL_CAT")
+        q3_selected_category = st.selectbox('Select Category', q3_category_options, q3_category_index)
+    q3_title=f' Classwise girls per hundred boys in State: {q3_selected_state} and category: {q3_selected_category} '
+    
+    Q3=f'''WITH CTE
+            AS
+            (
+            SELECT * FROM V01_GIRLS_PER_100_2008_2012
+            where STATES= '{q3_selected_state}' and CATEGORY= '{q3_selected_category}' )
+            SELECT *  FROM CTE'''
     R3 = execute_query(Q3)
     r3_expander = st.expander("Data set used in this  analysis")
     R3_DF = pd.DataFrame(R3)
     R3_DF.index = R3_DF.index + 1
     r3_expander.write(R3_DF)
-    # Sidebar - Multiple selection for states, categories, and year
-    selected_states = st.multiselect('Select States', R3_DF['STATES'].unique())
-    selected_categories = st.multiselect('Select Categories', R3_DF['CATEGORY'].unique())
-    selected_year = st.selectbox('Select Year', R3_DF['YEAR'].unique())
 
-    # Filter the data based on user selection
-    filtered_data = R3_DF[
-        (R3_DF['STATES'].isin(selected_states)) &
-        (R3_DF['CATEGORY'].isin(selected_categories)) &
-        (R3_DF['YEAR'] == selected_year)
-    ]
+    def plot_chart(data, x_axis, y_axes):
+        selected_columns = [x_axis] + y_axes
+        melted_data = data.melt('YEAR', value_vars=y_axes, var_name='CATEGORY')
+        
+        chart = alt.Chart(melted_data).mark_line(point=True).encode(
+            x=alt.X('YEAR:N', title='YEAR',axis=alt.Axis(grid=True)),
+            y=alt.Y('value:Q', title=f'State {q3_selected_state} category: {q3_selected_category} ', axis=alt.Axis(grid=True)),
+            color='CATEGORY:N',
+            tooltip=['YEAR:N', alt.Tooltip('value:Q', title='girls per hundred', format='d'), 'CATEGORY:N']
+        ).properties(
+            width=600,
+            height=400
+        ).configure_legend(
+        orient='left',
+        title=None,
+        labelFontSize=9
+        ).configure_axis(grid=False).interactive()
+        return chart
 
-    # Plotting using Plotly - X-axis: Year, Y-axis: Classes I-XII (Example, replace with your desired columns)
-    fig = px.bar(filtered_data, x='YEAR', y='CLASSES I-XII', color='STATES', barmode='group')
+    class_columns = [col for col in R3_DF.columns if 'CLASSES' in col]
+    default_selection = class_columns if class_columns else [list(R3_DF.columns)[1]]  
+    # Selecting X-axis (Year) and multiple Y-axis columns
+    x_axis_column ='YEAR'
+    y_axis_columns = st.multiselect('Select Y-axis (Categories)', options=list(R3_DF.columns)[1:], default=default_selection)
+
+    # Plotting the chart with multiple Y-axis columns
+    st.altair_chart(plot_chart(R3_DF, x_axis_column, y_axis_columns), use_container_width=True)   
+
+
+    
     st.divider()
 if __name__ == "__main__":
     main()
