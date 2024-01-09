@@ -197,6 +197,35 @@ def main():
 
     7. Overall, the data shows that there has been significant progress in increasing the number of schools with toilet facilities in India. However, there is still a need to address the gender disparity in access to sanitation facilities and to ensure that all schools have adequate and functional toilets.
 
+    SOMEMORE INTERESTING FACTS
+    
+    1. **Increase in Toilet Infrastructure:**
+
+   - There has been a significant increase in the availability of toilets in government schools across India.
+   - For instance, the percentage of schools with toilets for girls increased from 57.91% in 2014-15 to 97.09% in 2015-16.
+
+    2. **Improved Access to Water Facilities:**
+
+    - The percentage of schools with access to water has also increased, although at a slower pace compared to toilet infrastructure.
+    - In 2014-15, 91.85% of schools had access to water, which increased to 93.75% in 2015-16.
+
+    3. **Enhanced Electricity Connectivity:**
+
+    - There has been a considerable improvement in electricity connectivity in schools.
+    - In 2014-15, 91.08% of schools had electricity, and this increased to 96.2% in 2015-16.
+
+    4. **Computers in Schools:**
+
+    - The availability of computers in schools has seen a slight increase.
+    - In 2014-15, 38.74% of schools had computers, which increased to 39.53% in 2015-16.
+
+    5. **Regional Disparities:**
+
+    - There are significant regional disparities in the availability of infrastructure and facilities in schools.
+    - For instance, states like Kerala, Himachal Pradesh, and Puducherry have consistently performed well in terms of providing adequate infrastructure and facilities.
+    - On the other hand, states like Uttar Pradesh, Bihar, and Rajasthan still lag behind in these aspects.
+
+    These findings highlight the progress made in improving infrastructure and facilities in government schools in India. However, there is still room for improvement to ensure equitable access to quality education for all children.
 
     ''')
     
