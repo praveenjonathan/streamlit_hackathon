@@ -5,6 +5,7 @@ from pathlib import Path
 import time
 import pandas as pd
 from st_pages import Page, add_page_title, show_pages
+from PIL import Image
 
 
 st.set_page_config(
@@ -79,6 +80,7 @@ st.title('❄️ WELCOME TO INDIAN-FEMALE-EDUCATION-INSIGHTS APP ❄️')
 st.markdown(
     "![Application Flow](https://github.com/97Danu/IndiaShapefiles/blob/main/Application_Flow.jpg)"
 )
+st.image("https://github.com/97Danu/IndiaShapefiles/blob/main/Application_Flow.jpg")
 
 
 
