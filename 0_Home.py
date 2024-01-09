@@ -78,9 +78,9 @@ with st.sidebar:
 
 st.title('❄️ WELCOME TO INDIAN-FEMALE-EDUCATION-INSIGHTS APP ❄️')
 st.markdown(
-    "![Application Flow](https://github.com/97Danu/IndiaShapefiles/blob/main/Application_Flow.jpg)"
+    "![Application Flow](https://drive.google.com/file/d/1DrL0wVsFT0mi7v6TOIIBkZ2SAu6Zd8e5/view?usp=drive_link)"
 )
-st.image("https://github.com/97Danu/IndiaShapefiles/blob/main/Application_Flow.jpg")
+st.image("https://drive.google.com/file/d/1DrL0wVsFT0mi7v6TOIIBkZ2SAu6Zd8e5/view?usp=drive_link")
 
 
 
