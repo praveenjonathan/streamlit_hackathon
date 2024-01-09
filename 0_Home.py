@@ -89,9 +89,7 @@ def main():
 
                 st.markdown('STEP 2:DATASET DOWNLOADED AND LOADED TO SNOWFLAKE USING MY OWN CREATED UTILITY')
                 st.markdown('130+ data set loaded and analysed')
-		st.markdown(
-		    "![Datasets loaded and analysed](https://github.com/97Danu/streamlit_hackathon/blob/main/src/TBLS_CNT.jpg)"
-		)
+		st.markdown("![Datasets loaded and analysed](https://github.com/97Danu/streamlit_hackathon/blob/main/src/TBLS_CNT.jpg)")
 
                 
                 st.markdown('Upload file to Snowflake')
