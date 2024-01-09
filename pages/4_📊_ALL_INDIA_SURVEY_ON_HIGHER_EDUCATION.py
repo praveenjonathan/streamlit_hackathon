@@ -118,7 +118,7 @@ def main():
     st.plotly_chart(fig)
 
     st.markdown("""---------------------------------""")
-    st.title("2.Top count of colleges,Institutes and across India in 2015-16")
+    st.title("2.Top count of colleges,Institutes and Universities across India in 2015-16")
 
     top_options = list(range(1, 31))  # Generates a list from 1 to 30
     top = st.selectbox('Select top COUNT:', options=top_options, index=15)
