@@ -77,7 +77,7 @@ with st.sidebar:
 
 st.title('❄️ WELCOME TO INDIAN-FEMALE-EDUCATION-INSIGHTS APP ❄️')
 st.markdown(
-    "![Application Flow](https://github.com/97Danu/streamlit_hackathon/blob/main/src/Application_Flow.jpg)"
+    "![Application Flow](https://github.com/97Danu/IndiaShapefiles/blob/main/Application_Flow.jpg)"
 )
 
 
