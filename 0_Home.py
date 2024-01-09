@@ -76,7 +76,8 @@ with st.sidebar:
 
 
 st.title('❄️ WELCOME TO INDIAN-FEMALE-EDUCATION-INSIGHTS APP ❄️')
-st.image('src\Application_Flow.jpg', caption='APP FLOW')
+st.markdown("https://github.com/97Danu/streamlit_hackathon/blob/main/src/Application_Flow.jpg")
+# st.image('src\Application_Flow.jpg', caption='APP FLOW')
 
 
 def main(): 
@@ -86,7 +87,7 @@ def main():
 
                 st.markdown('STEP 2:DATASET DOWNLOADED AND LOADED TO SNOWFLAKE USING MY OWN CREATED UTILITY')
                 st.markdown('130+ data set loaded and analysed')
-                st.image('src\TBLS_CNT.jpg', caption='Data set loaded and analysed')
+                # st.image('src\TBLS_CNT.jpg', caption='Data set loaded and analysed')
                 
                 st.markdown('Upload file to Snowflake')
                 file = st.file_uploader('Upload file', type=['xls', 'xlsx', 'csv', 'txt'])
