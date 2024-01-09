@@ -59,7 +59,7 @@ def main():
 
 
     st.divider()
-    st.title("1.Number of colleges,Institutes and across India in 2015-16")
+    st.title("1.Number of colleges,Institutes and Universities across India in 2015-16")
 
     ais_edu_options = ["Colleges",  "Standalone Institutes" ,"Universities" ]
     ais_edu_index = ais_edu_options.index("Colleges")
