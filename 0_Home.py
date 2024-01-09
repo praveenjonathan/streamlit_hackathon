@@ -75,8 +75,8 @@ with st.sidebar:
         connection = create_snowflake_connection(account, role, warehouse, database, schema, user, password)
 
 
-
-
+st.title('❄️ WELCOME TO INDIAN-FEMALE-EDUCATION-INSIGHTS APP ❄️')
+st.image('src\Application_Flow.jpg', caption='APP FLOW')
 
 
 def main(): 
@@ -84,7 +84,10 @@ def main():
 
                 st.markdown('STEP 1:DATA DOWNLOADED FROM data.gov.in IN CSV FORMAT')
 
-                st.markdown('STEP 2:DATA DOWNLOADED LOADED ALL TABLES WITH MY OWN CREATED UTILITY')
+                st.markdown('STEP 2:DATASET DOWNLOADED AND LOADED TO SNOWFLAKE USING MY OWN CREATED UTILITY')
+                st.markdown('130+ data set loaded and analysed')
+                st.image('src\TBLS_CNT.jpg', caption='Data set loaded and analysed')
+                
                 st.markdown('Upload file to Snowflake')
                 file = st.file_uploader('Upload file', type=['xls', 'xlsx', 'csv', 'txt'])
 
@@ -114,7 +117,8 @@ def main():
                                     st.error(f'Error: {str(e)}')
                         else:
                             st.error('Unable to connect to Snowflake. Please check your credentials.')
-                st.markdown('STEP 3:COMPLEX SQL QUERUIES CREATED TO ANALYSE DATA SETS')
+                st.markdown('STEP 3:COMPLEX  VIEWS CREATED AND SQLS USED TO DO ANALYSIS ')
+                st.markdown('STEP 4:All PAGES DEVELOPED ')
 
 if __name__ == "__main__":
     main()
