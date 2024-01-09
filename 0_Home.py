@@ -68,6 +68,29 @@ def create_snowflake_connection(account, role, warehouse, database, schema, user
         st.error(f"Error connecting to Snowflake: {str(e)}")    
     return conn
 
+def execute_query(query):
+    try:
+        conn = snowflake.connector.connect(
+            account=st.session_state.account,
+            role=st.session_state.role,
+            warehouse=st.session_state.warehouse,
+            database=st.session_state.database,
+            schema=st.session_state.schema,
+            user=st.session_state.user,
+            password=st.session_state.password,
+            client_session_keep_alive=True
+        )
+        cursor = conn.cursor()
+        cursor.execute(query)
+        result = cursor.fetchall()
+        columns = [col[0] for col in cursor.description]  # Extract column names from cursor
+        conn.close()
+        result_df = pd.DataFrame(result, columns=columns)  # Create DataFrame with column names
+        return result_df
+    except Exception as e:
+        st.error(f"Error executing query: {str(e)}")
+        return None
+
 with st.sidebar:
 
     st.markdown("[![Foo](https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Linkedin_unofficial_colored_svg-48.png)](https://www.linkedin.com/in/danammahiremath/) Connect me.")
@@ -101,6 +124,17 @@ def main():
                 tbl_url = "https://github.com/97Danu/streamlit_hackathon/raw/main/src/TBLS_CNT.jpg"
                 tbl_caption='Datasets loaded and analysed'
                 display_image_from_github(tbl_url,tbl_caption)
+
+                Q1='''SELECT distinct C.table_name,T.COMMENT AS COMMENTS
+                            FROM information_schema.columns C
+                            inner join information_schema.tables T ON (T.table_name=C.table_name)
+                            WHERE C.table_schema = 'IND_SCHEMA' and COMMENTS is not null
+                            ORDER BY C.table_name'''
+                R1 = execute_query(Q1)
+                r1_expander = st.expander("Tables used in this entire analysis.")
+                R1_DF = pd.DataFrame(R1)
+                R1_DF.index = R1_DF.index + 1
+                r1_expander.write(R1_DF)
 
                 
                 st.markdown('Upload file to Snowflake')
