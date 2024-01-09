@@ -291,6 +291,51 @@ def main():
 
     6. **Delhi and Chandigarh Have Strong University Presence**: Delhi and Chandigarh, despite being relatively smaller regions, have a significant presence of Universities. This highlights their role as centers of higher learning and academic excellence in India.
 
+                            
+    Somemore insights EDUCATION LOANS in 2015-2016 
+    1. **Maharashtra has the highest number of EDUCATION LOANS in both Universities and Standalone Institutes**: 
+    - Maharashtra leads in both universities and standalone institutes in terms of the total number of education loans. 
+    - This suggests that the state has a high demand for higher education, and students are willing to take on debt to finance their studies.
+
+
+    2. **Tamil Nadu has the second-highest number of EDUCATION LOANS in Universities**: 
+    - Tamil Nadu has the second-highest number of education loans in universities, highlighting the state's focus on higher education. 
+    - The large number of loans disbursed in Tamil Nadu indicates a strong demand for higher education, especially among students from marginalized communities.
+
+
+    3. **Karnataka has the second-highest number of EDUCATION LOANS in Standalone Institutes**: 
+    - Karnataka emerges as the second-highest state in terms of education loans in standalone institutes. 
+    - The high number of loans in Karnataka indicates a vibrant private higher education sector in the state, providing diverse educational opportunities to students.
+
+
+    4. **PWD, Muslim Minority, and Other Minority categories have a low representation across states**: 
+    - The data shows that categories such as PWD, Muslim Minority, and Other Minority have a low representation across states in both universities and standalone institutes. 
+    - This suggests that there is a need for more inclusive policies and outreach efforts to ensure equal access to education for these marginalized groups.
+
+
+    5. **Punjab and Delhi have the highest percentage of General category loans in Universities**: 
+    - Punjab and Delhi have the highest percentage of General category loans in universities, indicating a concentration of education loans among non-reserved categories. 
+    - This suggests areas where targeted interventions may be needed to increase access to education loans for marginalized groups.
+
+
+    6. **Kerala has a high percentage of Muslim Minority loans in Universities**: 
+    - Kerala stands out with a notably high percentage of Muslim Minority loans in universities, demonstrating the state's efforts to promote education among minority communities. 
+    - This is a positive trend that can serve as a model for other states in ensuring equitable access to higher education.                        
+    
+    Somemore insights SCHOLARSHIPS in 2015-2016 
+
+    **1.** Out of the named states in the dataset, Tamil Nadu had the highest number of granted scholarships, with 29049 scholars. On the other hand, Mizoram, Nagaland, and Arunachal Pradesh had the lowest with only 0 scholars granted. 
+
+    **2.** The most number of scholarships were granted to the ST category, with a total of 7389. This was followed by the OBC category with 3184 scholars. The least number of scholarships were granted to the PWD category with 36.
+
+    **3.** In the Universities category, Gujarat had the highest number of scholarships granted to the Muslim minority with a total of 98. In the Standalone Institutes category, Maharashtra had the highest number of scholarships granted to the Muslim minority with a total of 5132.
+
+    **4.** In the Universities category, Karnataka had the highest number of scholarships granted to the Other Minority with a total of 6434. In the Standalone Institutes category, Tamil Nadu had the highest number of scholarships granted to the Other Minority with a total of 1901.
+
+    **5.** The total number of scholarships granted in the Universities was 45438, and the total number of scholarships granted in the Standalone Institutes was 62038. 
+
+    **6.** The total number of scholarships granted across all the states was 107476.                                                                       
+                            
     ### Strategies to Increase the Quality of Educational Institutions:
 
     1. **Faculty Development and Training:**
