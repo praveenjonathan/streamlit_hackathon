@@ -238,7 +238,7 @@ def main():
 
     ## Regional Influence on Education:
 
-    s- States in the northeastern region, such as Mizoram, Meghalaya, and Manipur, tend to exhibit higher enrollment rates for girls compared to other regions in India.
+    - States in the northeastern region, such as Mizoram, Meghalaya, and Manipur, tend to exhibit higher enrollment rates for girls compared to other regions in India.
 
     ## Differences Among Education Stages:
 
