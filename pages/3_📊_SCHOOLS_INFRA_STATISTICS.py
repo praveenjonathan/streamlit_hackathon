@@ -59,7 +59,7 @@ def main():
 
 
     st.divider()
-    st.title("1.Schooll INFRA stats from 2013-14 to 2015-16")
+    st.title("1.School INFRA stats from 2013-14 to 2015-16")
 
     col1,col2,col3=st.columns(3)
 
