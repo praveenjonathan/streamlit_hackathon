@@ -6,6 +6,8 @@ import time
 import pandas as pd
 from st_pages import Page, add_page_title, show_pages
 from PIL import Image
+from io import BytesIO
+import requests 
 
 
 st.set_page_config(
@@ -28,6 +30,13 @@ show_pages(
       )  
 # add_page_title()
 # Function to store Snowflake credentials in session state
+
+def display_image_from_github(url,caption):
+    response = requests.get(url)
+    img = Image.open(BytesIO(response.content))
+    st.image(img, caption=caption)
+
+
 def store_credentials(account, role, warehouse, database, schema, user, password):
     st.session_state.account = account
     st.session_state.role = role
@@ -77,11 +86,9 @@ with st.sidebar:
 
 
 st.title('❄️ WELCOME TO INDIAN-FEMALE-EDUCATION-INSIGHTS APP ❄️')
-st.markdown(
-    "![Application Flow](https://drive.google.com/file/d/1DrL0wVsFT0mi7v6TOIIBkZ2SAu6Zd8e5/view?usp=drive_link)"
-)
-st.image("https://drive.google.com/file/d/1DrL0wVsFT0mi7v6TOIIBkZ2SAu6Zd8e5/view?usp=drive_link")
-
+image_url = "https://github.com/97Danu/streamlit_hackathon/raw/main/src/Application_Flow.jpg"
+caption='APP FLOW'
+display_image_from_github(image_url,caption)
 
 
 def main(): 
@@ -91,7 +98,9 @@ def main():
 
                 st.markdown('STEP 2:DATASET DOWNLOADED AND LOADED TO SNOWFLAKE USING MY OWN CREATED UTILITY')
                 st.markdown('130+ data set loaded and analysed')
-		# st.markdown("![Datasets loaded and analysed](https://github.com/97Danu/streamlit_hackathon/blob/main/src/TBLS_CNT.jpg)")
+                tbl_url = "https://github.com/97Danu/streamlit_hackathon/raw/main/src/TBLS_CNT.jpg"
+                tbl_caption='Datasets loaded and analysed'
+                display_image_from_github(tbl_url,tbl_caption)
 
                 
                 st.markdown('Upload file to Snowflake')
