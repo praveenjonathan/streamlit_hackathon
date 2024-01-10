@@ -160,8 +160,15 @@ def main():
                                 try:
                                     data_f=pd.DataFrame(data)
                                     success, nchunks, nrows, _ = write_pandas(conn=conn,df=data_f,table_name=table_name,database=database,schema=schema,auto_create_table=True)
-                                    
-                                    st.success(f'Dataloaded to snowflake table: {table_name}  rows : {nrows}')
+                                    LOAD_Q=f'''call system$send_email(
+                                            'SF_Email_Notifications',
+                                            'danuhiremath123@gmail.com',
+                                            '[SF_Email_Notifications]:Email Alert: file loading finished.',
+                                            'File has successfully loaded to table {table_name}   .\n   ON:' || TO_VARCHAR(CURRENT_TIMESTAMP()) || 
+                                            'Total Records loaded: {nrows} '
+                                             )'''
+                                    execute_query(LOAD_Q)
+                                    st.success(f'Dataloaded to snowflake table: {table_name}  rows : {nrows} also email sent')
                                 except Exception as e:
                                     st.error(f'Error: {str(e)}')
                         else:
