@@ -149,7 +149,7 @@ def main():
                 ).configure_legend(
                 orient='left',
                 title=None,
-                labelFontSize=9
+                labelFontSize=15
                 ).configure_axis(grid=False).interactive()
                 return chart
 
