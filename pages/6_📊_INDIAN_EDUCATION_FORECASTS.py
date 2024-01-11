@@ -35,10 +35,10 @@ def execute_query(query):
 # Streamlit app layout
 def main():
 
-    st.title("📊 DROP OUT RATES FUTURE PREDICTION IN INDIA USING SNOWFLAKE.ML.FORECAST")
+    st.title("📊FUTURE PREDICTION of DROP OUT RATES IN INDIA USING SNOWFLAKE.ML.FORECAST")
     col1,col2=st.columns(2)
     with col1:
-        yr_options = [10,15,20]  
+        yr_options = [10,15,20,25,30]  
         yr = st.selectbox('Select predicts years:', options=yr_options, index=1)
     with col2:
         s_col_options = ["I_V_BOYS",
@@ -69,7 +69,7 @@ def main():
                         "ST_I_X_GIRLS",
                         "ST_I_X_TOTAL"] 
         s_col_index = s_col_options.index("SC_I_X_TOTAL")  # Find the index of the default value
-        s_col = st.selectbox('Select class:', options=s_col_options, index=s_col_index)
+        s_col = st.selectbox('Select class (catergory):', options=s_col_options, index=s_col_index)
 
     Q1=f'''
         BEGIN
@@ -87,7 +87,7 @@ def main():
         TARGET_COLNAME => '{s_col}');
 
         
-        CALL DROPDATE_FORECAST!FORECAST(FORECASTING_PERIODS => 365 * {yr} );
+        CALL DROPDATE_FORECAST_{s_col}!FORECAST(FORECASTING_PERIODS => 365 * {yr} );
         
         LET x := SQLID;
         CREATE OR REPLACE TABLE SF_FORECAST_{s_col} AS 
@@ -118,7 +118,7 @@ def main():
                 LOAD_Q=f'''call system$send_email(
                                             'SF_Email_Notifications',
                                             'danuhiremath123@gmail.com',
-                                            '[SF_Email_Notifications]:Email Alert: Forecast for dropout rate  class: {s_col}  generated for  {yr}.',
+                                            '[SF_Email_Notifications]:Email Alert: Forecast for dropout rate  class: {s_col}  generated for  {yr} years.',
                                             'Forecast for dropout rate  class: {s_col}  generated for  {yr}   .\n   ON:' || TO_VARCHAR(CURRENT_TIMESTAMP()) || 
                                             'Hurryyyy!! :) '
                                              )'''
@@ -149,16 +149,82 @@ def main():
                 ).configure_legend(
                 orient='left',
                 title=None,
-                labelFontSize=15
+                labelFontSize=10
                 ).configure_axis(grid=False).interactive()
                 return chart
 
             x_axis_column ='YEAR'
-            y_axis_columns = st.multiselect('Select Y-axis', options=list(R2_DF.columns)[1:], default=list(R2_DF.columns)[1:])#[list(R2_DF.columns)[1]])
+            y_axis_columns =st.multiselect('Select Y-axis', options=list(R2_DF.columns)[1:], default=list(R2_DF.columns)[1:])#[list(R2_DF.columns)[1]])
 
             # Plotting the chart with multiple Y-axis columns
             st.altair_chart(plot_chart(R2_DF, x_axis_column, y_axis_columns), use_container_width=True)
 
+    st.divider()
+    st.title("Future Drop out rates in India from 2010 to 2040")
+    Q2_F='''SELECT * FROM DRR_FORECAST_FROM_2011_2028'''
+    R2_F = execute_query(Q2_F)
+    r2_f_expander = st.expander("Data set used in this  analysis")
+    R2_F_DF = pd.DataFrame(R2_F)
+    R2_F_DF.index = R2_F_DF.index + 1
+    r2_f_expander.write(R2_F_DF)
+    st.write('Year-wise drop out rate for all categories')
+
+    # Creating the chart with multiple Y-axis columns
+    def plot_chart(data, x_axis, y_axes):
+        selected_columns = [x_axis] + y_axes
+        melted_data = data.melt('YEAR', value_vars=y_axes, var_name='CATEGORY')
+        
+        chart = alt.Chart(melted_data).mark_line(point=True).encode(
+            x=alt.X('YEAR:N', title='YEAR'),
+            y=alt.Y('value:Q', title='DROPOUT_RATE'),
+            color='CATEGORY:N',
+            tooltip=['YEAR:N', alt.Tooltip('value:Q', title='DROPOUT_RATE', format='.2f'), 'CATEGORY:N']
+        ).properties(
+            width=600,
+            height=400
+        ).configure_legend(
+        orient='left',
+        title=None,
+        labelFontSize=9
+        ).configure_axis(grid=False).interactive()
+        return chart
+    # Selecting X-axis (Year) and multiple Y-axis columns with 'GIRL' keyword
+    girl_columns = [col for col in R2_F_DF.columns if 'GIRLS' in col]
+    default_selection = girl_columns if girl_columns else [list(R2_F_DF.columns)[1]]  # If 'GIRL' columns exist, use them as default, else use the first column
+    # Selecting X-axis (Year) and multiple Y-axis columns
+    x_axis_column ='YEAR'
+    y_axis_columns = st.multiselect('Select Y-axis (Categories)', options=list(R2_F_DF.columns)[1:], default=default_selection)#[list(R2_DF.columns)[1]])
+
+    # Plotting the chart with multiple Y-axis columns
+    st.altair_chart(plot_chart(R2_F_DF, x_axis_column, y_axis_columns), use_container_width=True)
+    f_expander= st.expander("Complete Insights/Recommendations for  classwise girls per hundred boys")
+    f_expander.markdown('''
+        **Data Insights:**
+
+        1. **Decreasing Dropout Rates:** There has been a consistent decline in dropout rates across all categories from 2012 to 2040, indicating an improvement in educational opportunities and access to quality education.
+
+        2. **Gender Disparity:** While both boys and girls have experienced a decrease in dropout rates, girls consistently have lower dropout rates compared to boys. This suggests progress towards gender equality in education.
+
+        3. **Socio-Economic Status Impact:** Students from socio-economically disadvantaged backgrounds, including Scheduled Castes (SC), Scheduled Tribes (ST), and economically weaker sections, have higher dropout rates compared to their more affluent peers. Addressing socio-economic disparities is crucial for reducing dropout rates further.
+
+        4. **Class-Wise Trends:** Dropout rates seem to be higher in the earlier grades (I-V) compared to later grades (I-X), indicating a need for focused interventions to support students during their initial years of schooling.
+
+        5. **Need for Continued Improvement:** While dropout rates are decreasing, there is still room for further improvement. By addressing factors such as access to quality education, socio-economic disparities, and student support systems, dropout rates can be reduced even further.
+
+        **Recommendations:**
+
+        1. **Targeted Interventions:** Implement targeted interventions to address the needs of students from socio-economically disadvantaged backgrounds, including SC, ST, and economically weaker sections, to help them stay in school and succeed.
+
+        2. **Early Childhood Education:** Focus on early childhood education programs to provide a strong foundation and reduce the risk of students dropping out later in their schooling.
+
+        3. **Quality Education:** Invest in improving the quality of education, including teacher training, curriculum development, and infrastructure upgrades, to make schools more attractive and engaging for students.
+
+        4. **Counseling and Support Services:** Provide counseling and support services to students facing challenges, such as poverty, family issues, or learning difficulties, to help them overcome these obstacles and stay in school.
+
+        5. **Community Involvement:** Engage parents, communities, and local organizations in efforts to reduce dropout rates by promoting the importance of education and providing support to students and their families.
+
+        6. **Policy Reviews:** Conduct regular reviews of education policies and programs to identify areas where improvements can be made to further reduce dropout rates and ensure equitable access to quality education for all students. 
+    ''')
 
 if __name__ == '__main__':
     main()
