@@ -306,7 +306,7 @@ def main():
                                 "OTHER_MINORITY_TOTAL_PERSONS", "OTHER_MINORITY_TOTAL_FEMALES"]
         scholarship_col_index = scholarship_col_options.index("TOTAL_SC_FEMALES")
         scholarship_col_category = st.selectbox('Select scholarship cast of category :', options=scholarship_col_options, index=scholarship_col_index)
-    scholarship_selected_items = f"Education loan distribution for Education type: {scholarship_edu}  category: {scholarship_col_category}  in India  Year: 2015-16"
+    scholarship_selected_items = f"Education scholarship distribution for Education type: {scholarship_edu}  category: {scholarship_col_category}  in India  Year: 2015-16"
     st.title(scholarship_selected_items)
     Q5 = f''' WITH CTE AS 
                 (SELECT STATES,"{scholarship_col_category}" SCHOLARSHIP_COUNT 
