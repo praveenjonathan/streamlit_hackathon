@@ -125,13 +125,13 @@ def main():
                 tbl_caption='Datasets loaded and analysed'
                 display_image_from_github(tbl_url,tbl_caption)
 
-                Q1='''SELECT distinct C.table_name,T.COMMENT AS COMMENTS
-                            FROM information_schema.columns C
-                            inner join information_schema.tables T ON (T.table_name=C.table_name)
-                            WHERE C.table_schema = 'IND_SCHEMA' and COMMENTS is not null
-                            ORDER BY C.table_name'''
+                Q1='''SELECT distinct table_name,COMMENTS
+                            FROM T01_METADAT_IND_SCHEMA C
+                           
+                            WHERE  COMMENTS is not null
+                            ORDER BY table_name'''
                 R1 = execute_query(Q1)
-                r1_expander = st.expander("Tables used in this entire analysis.")
+                r1_expander = st.expander("Main Tables used in this entire analysis.")
                 R1_DF = pd.DataFrame(R1)
                 R1_DF.index = R1_DF.index + 1
                 r1_expander.write(R1_DF)
