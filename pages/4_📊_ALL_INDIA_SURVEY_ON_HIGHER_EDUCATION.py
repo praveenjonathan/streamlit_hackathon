@@ -45,12 +45,9 @@ st.title('📊 ALL INDIA SURVEY ON HIGHER EDUCATION')
 
 def main():
 
-    Q1='''SELECT C.table_name, LISTAGG(C.column_name, ',') AS ALL_COLUMNS,T.COMMENT AS COMMENTS
-            FROM information_schema.columns C
-            inner join information_schema.tables T ON (T.table_name=C.table_name)
-            WHERE C.table_schema = 'IND_SCHEMA' AND  (C.table_name LIKE 'AISHE_%')
-            GROUP BY C.table_name,COMMENTS
-            ORDER BY C.table_name'''
+    Q1='''SELECT table_name, ALL_COLUMNS, COMMENTS
+         FROM T01_METADAT_IND_SCHEMA WHERE table_name LIKE  'AISHE_%'
+         ORDER BY table_name'''
     R1 = execute_query(Q1)
     r1_expander = st.expander("Data sets used in this entire analysis")
     R1_DF = pd.DataFrame(R1)
@@ -184,7 +181,7 @@ def main():
                                 "OTHER_MINORITY_ST_TOTAL", "OTHER_MINORITY_ST_FEMALES",
                                 "OTHER_MINORITY_OBC_TOTAL", "OTHER_MINORITY_OBC_FEMALES",
                                 "OTHER_MINORITY_TOTAL_PERSONS", "OTHER_MINORITY_TOTAL_FEMALES"]
-        ais_loan_col_index = ais_loan_col_options.index("PWD_TOTAL_FEMALES")
+        ais_loan_col_index = ais_loan_col_options.index("TOTAL_SC_FEMALES")
         ais_loan_col = st.selectbox('Select cast of category :', options=ais_loan_col_options, index=ais_loan_col_index)
     selected_items = f"Education loan distribution for Education type: {ais_loan_edu}  category: {ais_loan_col}  in India  Year: 2015-16"
     st.title(selected_items)
@@ -225,7 +222,7 @@ def main():
     # Create a plotly figure with categorical colors
     fig = px.choropleth_mapbox(merged_data, geojson=merged_data.geometry, locations=merged_data.index,
                             color='color',
-                            color_discrete_map={'Below 100': 'Green', '100 - 1000': 'Blue', 'Above 1000': 'Red', 'NA': 'Yellow'},
+                            color_discrete_map={'Below 100': 'Red', '100 - 1000': 'Blue', 'Above 1000': 'Green', 'NA': 'Yellow'},
                             mapbox_style="carto-positron",
                             hover_data={'STATES': True, 'LOAN_COUNT': True},
                             center={"lat": 20.5937, "lon": 78.9629},
@@ -250,7 +247,7 @@ def main():
             (SELECT STATES,"{ais_loan_col}" LOAN_COUNT, 
                 DENSE_RANK() OVER ( ORDER BY LOAN_COUNT DESC) DNK 
                 FROM  V01_AISHE_EDUCATION_TYPE_LOANS_2015_2016 WHERE  EDUCATION_TYPE= '{ais_loan_edu}' )
-                SELECT CTE.STATES,CTE.LOAN_COUNT, CTE.DNK RANK FROM CTE where DNK <= 10  '''
+                SELECT CTE.STATES,CTE.LOAN_COUNT, CTE.DNK RANK FROM CTE where DNK <= {top_loan}  '''
     R4 = execute_query(Q4)
     r4_expander = st.expander("Data sets used in this analysis")
     R4_DF = pd.DataFrame(R4)
@@ -276,7 +273,131 @@ def main():
 
         # Displaying the chart using Streamlit
     st.altair_chart(chart, use_container_width=True)
+    st.markdown("""---------------------------------""")
+
+    st.title("5.Education scholarship distribution stats across India in 2015-16")
+
+    col8,col9=st.columns(2)
+    with col8:
+        scholarship_options = ["Standalone Institutes" ,"Universities","Colleges" ]
+        scholarship_index = scholarship_options.index("Universities")
+        scholarship_edu= st.selectbox('Select Education type:', options=scholarship_options, index=scholarship_index)
+
+    with col9:
+        scholarship_col_options = ["TOTAL_GENERAL_TOTAL", "TOTAL_GENERAL_FEMALES",
+                                "TOTAL_SC_TOTAL", "TOTAL_SC_FEMALES",
+                                "TOTAL_ST_TOTAL", "TOTAL_ST_FEMALES",
+                                "TOTAL_OBC_TOTAL", "TOTAL_OBC_FEMALES",
+                                "TOTAL_TOTAL_PERSONS", "TOTAL_TOTAL_FEMALES",
+                                "PWD_GENERAL_TOTAL", "PWD_GENERAL_FEMALES",
+                                "PWD_SC_TOTAL", "PWD_SC_FEMALES",
+                                "PWD_ST_TOTAL", "PWD_ST_FEMALES",
+                                "PWD_OBC_TOTAL", "PWD_OBC_FEMALES",
+                                "PWD_TOTAL_PERSONS", "PWD_TOTAL_FEMALES",
+                                "MUSLIM_MINORITY_GENERAL_TOTAL", "MUSLIM_MINORITY_GENERAL_FEMALES",
+                                "MUSLIM_MINORITY_SC_TOTAL", "MUSLIM_MINORITY_SC_FEMALES",
+                                "MUSLIM_MINORITY_ST_TOTAL", "MUSLIM_MINORITY_ST_FEMALES",
+                                "MUSLIM_MINORITY_OBC_TOTAL", "MUSLIM_MINORITY_OBC_FEMALES",
+                                "MUSLIM_MINORITY_TOTAL_PERSONS", "MUSLIM_MINORITY_TOTAL_FEMALES",
+                                "OTHER_MINORITY_GENERAL_TOTAL", "OTHER_MINORITY_GENERAL_FEMALES",
+                                "OTHER_MINORITY_SC_TOTAL", "OTHER_MINORITY_SC_FEMALES",
+                                "OTHER_MINORITY_ST_TOTAL", "OTHER_MINORITY_ST_FEMALES",
+                                "OTHER_MINORITY_OBC_TOTAL", "OTHER_MINORITY_OBC_FEMALES",
+                                "OTHER_MINORITY_TOTAL_PERSONS", "OTHER_MINORITY_TOTAL_FEMALES"]
+        scholarship_col_index = scholarship_col_options.index("TOTAL_SC_FEMALES")
+        scholarship_col_category = st.selectbox('Select scholarship cast of category :', options=scholarship_col_options, index=scholarship_col_index)
+    scholarship_selected_items = f"Education loan distribution for Education type: {scholarship_edu}  category: {scholarship_col_category}  in India  Year: 2015-16"
+    st.title(scholarship_selected_items)
+    Q5 = f''' WITH CTE AS 
+                (SELECT STATES,"{scholarship_col_category}" SCHOLARSHIP_COUNT 
+                    FROM V01_AISHE_EDUCATION_TYPE_SCHOLARSHIP_2015_2016 WHERE  EDUCATION_TYPE= '{scholarship_edu}' 
+                    )           
+                SELECT INDIA_STATES.STATES,CTE.SCHOLARSHIP_COUNT  FROM INDIA_STATES 
+                    LEFT JOIN CTE ON (CTE.STATES=INDIA_STATES.STATES)'''
+    R5 = execute_query(Q5)
+
+    r5_expander = st.expander("Data sets used in this analysis")
+    R5_DF = pd.DataFrame(R5)
+    R5_DF.index = R5_DF.index + 1
+    r5_expander.write(R5_DF)
+
+    india_states_shp = 'https://github.com/97Danu/Maps_with_python/raw/master/india-polygon.shp'
+    india_states = gpd.read_file(india_states_shp)
+    india_states.rename(columns={'st_nm': 'STATES'}, inplace=True)
+
+    # Merge dropout rates with GeoDataFrame
+    merged_data = india_states.merge(R5_DF, how='left', on='STATES')
+
+    # Define bins and labels
+    bins = [float('-inf'), 1000, 10000, float('inf')]
+    labels = ['Below 100', '1000 - 10000', 'Above 10000']
+
+    # Assigning values to bins and handling 'NA' values
+    conditions = [
+        merged_data['SCHOLARSHIP_COUNT'] < 100,
+        (merged_data['SCHOLARSHIP_COUNT'] >= 1000) & (merged_data['SCHOLARSHIP_COUNT'] <= 10000),
+        merged_data['SCHOLARSHIP_COUNT'] > 10000
+    ]
+
+    # Assigning labels
+    merged_data['color'] = np.select(conditions, labels, default='NA')
+
+    # Create a plotly figure with categorical colors
+    fig = px.choropleth_mapbox(merged_data, geojson=merged_data.geometry, locations=merged_data.index,
+                            color='color',
+                            color_discrete_map={'Below 1000': 'Red', '1000 - 10000': 'Blue', 'Above 10000': 'Green', 'NA': 'Yellow'},
+                            mapbox_style="carto-positron",
+                            hover_data={'STATES': True, 'SCHOLARSHIP_COUNT': True},
+                            center={"lat": 20.5937, "lon": 78.9629},
+                            zoom=3,
+                            opacity=0.5)
     
+
+    # Update layout for better visualization
+    fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0}, mapbox={'center': {'lat': 20, 'lon': 78}})
+
+    # Display the map in Streamlit
+    st.plotly_chart(fig)
+    st.markdown("""---------------------------------""")
+
+    st.title("6.Top states based on scholarship  distribution across India in 2015-16")
+
+    top_scholarship_options = list(range(1, 10))  # Generates a list from 1 to 10
+    top_scholarship = st.selectbox('Select top SCHOLARSHIP_COUNT:', options=top_scholarship_options, index=8)
+    
+    Q6 = f'''   WITH CTE AS 
+            (SELECT STATES,"{scholarship_col_category}" SCHOLARSHIP_COUNT, 
+                DENSE_RANK() OVER ( ORDER BY SCHOLARSHIP_COUNT DESC) DNK 
+                FROM  V01_AISHE_EDUCATION_TYPE_SCHOLARSHIP_2015_2016 WHERE  EDUCATION_TYPE= '{scholarship_edu}' )
+                SELECT CTE.STATES,CTE.SCHOLARSHIP_COUNT, CTE.DNK RANK FROM CTE where DNK <= {top_scholarship} '''
+    R6 = execute_query(Q6)
+    r6_expander = st.expander("Data sets used in this analysis")
+    R6_DF = pd.DataFrame(R6)
+    R6_DF.index = R6_DF.index + 1
+    r6_expander.write(R6_DF)
+    R6_DF = R6_DF.sort_values(by="SCHOLARSHIP_COUNT", ascending=False)
+    selected_items = f"Top  {top_loan} scholarships given states for edu loan Education type : {scholarship_edu} category: {scholarship_col_category}  in India  Year: 2015-16"
+    # Creating the Altair chart
+    chart = (
+        alt.Chart(R6_DF)
+        .mark_bar()
+        .encode(
+            x=alt.X("SCHOLARSHIP_COUNT:Q", title="SCHOLARSHIP_COUNT"),
+            y=alt.Y("STATES:N", title="States", sort="-x"),
+            tooltip=[
+            alt.Tooltip("STATES", title="State"),
+            alt.Tooltip("SCHOLARSHIP_COUNT", title="SCHOLARSHIP_COUNT"),
+            ]
+        )
+        .properties(width=800,  title=f"{selected_items}")
+        .interactive()
+    )
+
+        # Displaying the chart using Streamlit
+    st.altair_chart(chart, use_container_width=True)
+
+
+    st.markdown("""---------------------------------""")
     aishe_expander= st.expander("Complete Insights/Recommendations for  all India survey on education")
     aishe_expander.markdown(''' 
     1. **Colleges Dominate Educational Landscape**: Colleges account for the majority of educational institutions across all states, with a total count of 37,038 in 2015-16. This highlights the significant role colleges play in providing higher education opportunities to students.
