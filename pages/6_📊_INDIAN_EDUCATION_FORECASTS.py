@@ -160,7 +160,7 @@ def main():
             st.altair_chart(plot_chart(R2_DF, x_axis_column, y_axis_columns), use_container_width=True)
 
     st.divider()
-    st.title("Future Drop out rates in India from 2010 to 2040")
+    st.title("Future Drop out rates in India from 2011 to 2040")
     Q2_F='''SELECT * FROM DRR_FORECAST_FROM_2011_2028'''
     R2_F = execute_query(Q2_F)
     r2_f_expander = st.expander("Data set used in this  analysis")
