@@ -91,8 +91,13 @@ def main():
         
         LET x := SQLID;
         CREATE OR REPLACE TABLE SF_FORECAST_{s_col} AS 
-        SELECT YEAR(TS) YEAR,avg(ROUND(FORECAST,2)) FORECAST,avg(ROUND(LOWER_BOUND,2)) LOWER_BOUND,
-        avg(ROUND(UPPER_BOUND,2)) UPPER_BOUND  
+        SELECT YEAR(TS) YEAR,(CASE WHEN avg(ROUND(FORECAST,2))<0 THEN 0
+                                  ELSE  avg(ROUND(FORECAST,2)) END ) FORECAST,
+        (CASE WHEN avg(ROUND(LOWER_BOUND,2))<0 THEN 0
+                                        ELSE  avg(ROUND(LOWER_BOUND,2)) END ) AS LOWER_BOUND,
+                                        
+        (CASE WHEN avg(ROUND(UPPER_BOUND,2))<0 THEN 0
+                                        ELSE  avg(ROUND(UPPER_BOUND,2)) END ) AS UPPER_BOUND
         FROM TABLE(RESULT_SCAN(:x))
         GROUP BY YEAR;
 
@@ -161,7 +166,7 @@ def main():
 
     st.divider()
     st.title("Future Drop out rates in India from 2011 to 2040")
-    Q2_F='''SELECT * FROM DRR_FORECAST_FROM_2011_2028'''
+    Q2_F='''SELECT * FROM DRR_FORECAST_FROM_2011_2040'''
     R2_F = execute_query(Q2_F)
     r2_f_expander = st.expander("Data set used in this  analysis")
     R2_F_DF = pd.DataFrame(R2_F)
