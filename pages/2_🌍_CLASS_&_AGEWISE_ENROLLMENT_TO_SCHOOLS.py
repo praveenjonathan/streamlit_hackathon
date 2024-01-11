@@ -45,12 +45,9 @@ st.title('CLASSWISE & AGEWISE ENROLLMENT TO SCHOOLS')
 
 def main():
 
-    Q1='''SELECT C.table_name, LISTAGG(C.column_name, ',') AS ALL_COLUMNS,T.COMMENT AS COMMENTS
-            FROM information_schema.columns C
-            inner join information_schema.tables T ON (T.table_name=C.table_name)
-            WHERE C.table_schema = 'IND_SCHEMA' AND (C.table_name LIKE 'CLSWISE_ENR_%' or C.table_name LIKE 'ENRL_BY_AGE_%')
-            GROUP BY C.table_name,COMMENTS
-            ORDER BY C.table_name'''
+    Q1='''SELECT table_name, ALL_COLUMNS, COMMENTS
+            FROM T01_METADAT_IND_SCHEMA WHERE (table_name LIKE 'CLSWISE_ENR_%' or table_name LIKE 'ENRL_BY_AGE_%')
+            ORDER BY table_name'''
     R1 = execute_query(Q1)
     r1_expander = st.expander("Data sets used in this entire analysis")
     R1_DF = pd.DataFrame(R1)
