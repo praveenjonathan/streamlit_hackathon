@@ -106,7 +106,7 @@ with st.sidebar:
     client_session_keep_alive = st.secrets.db_credentials.client_session_keep_alive
     # if expander.button("Connect"):
     store_credentials(account, role, warehouse, database, schema, user, password)
-    connection = create_snowflake_connection(account, role, warehouse, database, schema, user, password)
+    # connection = create_snowflake_connection(account, role, warehouse, database, schema, user, password)
 
 
 st.title('❄️ WELCOME TO INDIAN-FEMALE-EDUCATION-INSIGHTS APP ❄️')
