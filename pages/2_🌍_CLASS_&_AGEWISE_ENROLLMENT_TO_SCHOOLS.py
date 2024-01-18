@@ -145,17 +145,17 @@ def main():
     R3_DF.index = R3_DF.index + 1
     r3_expander.write(R3_DF)
     R3_DF = R3_DF.sort_values(by="GROSS_ENRL_RATIO", ascending=False)
-    selected_items = f"Top  {top} dropout states of the Year: {enr_s_year} for Class: {enr_s_col}"
+    selected_items = f"Top  {top} GROSS_ENRL_RATIO states of the Year: {enr_s_year} for Class: {enr_s_col}"
     # Creating the Altair chart
     chart = (
         alt.Chart(R3_DF)
         .mark_bar()
         .encode(
-            x=alt.X("GROSS_ENRL_RATIO:Q", title="  Dropout Rate"),
+            x=alt.X("GROSS_ENRL_RATIO:Q", title="  GROSS_ENRL_RATIO "),
             y=alt.Y("STATES:N", title="States", sort="-x"),
             tooltip=[
             alt.Tooltip("STATES", title="State"),
-            alt.Tooltip("GROSS_ENRL_RATIO", title="Dropout Rate"),
+            alt.Tooltip("GROSS_ENRL_RATIO", title="GROSS_ENRL_RATIO"),
             ]
         )
         .properties(width=800,  title=f"{selected_items}")
