@@ -91,7 +91,7 @@ def main():
     # st.write(india_states)
     india_states.rename(columns={'st_nm': 'STATES'}, inplace=True)
 
-    # Merge dropout rates with GeoDataFrame
+    # Merge ENROLLMENT rates with GeoDataFrame
     merged_data = india_states.merge(R2_DF, how='left', on='STATES')
 
     # Define bins and labels
