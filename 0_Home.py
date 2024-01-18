@@ -92,7 +92,6 @@ def execute_query(query):
         return None
 
 with st.sidebar:
-
     st.markdown("[![Foo](https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Linkedin_unofficial_colored_svg-48.png)](https://www.linkedin.com/in/danammahiremath/) Connect me.")
     # st.sidebar.header("Snowflake Credentials")
     # expander = st.expander("Set Up SF Connection")
