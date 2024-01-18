@@ -94,18 +94,19 @@ def execute_query(query):
 with st.sidebar:
 
     st.markdown("[![Foo](https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Linkedin_unofficial_colored_svg-48.png)](https://www.linkedin.com/in/danammahiremath/) Connect me.")
-    st.sidebar.header("Snowflake Credentials")
-    expander = st.expander("Set Up SF Connection")
-    account = expander.text_input('Acount','qa07240.ap-southeast-1')
-    role = expander.text_input('Role','ACCOUNTADMIN')
-    warehouse = expander.text_input('Warehouse','COMPUTE_WH')
-    database = expander.text_input('Database','IND_DATA')
-    schema = expander.text_input('Schema','IND_SCHEMA')
-    user = expander.text_input('User','Hackathon')
-    password = expander.text_input("Password", type="password")
-    if expander.button("Connect"):
-        store_credentials(account, role, warehouse, database, schema, user, password)
-        connection = create_snowflake_connection(account, role, warehouse, database, schema, user, password)
+    # st.sidebar.header("Snowflake Credentials")
+    # expander = st.expander("Set Up SF Connection")
+    account = st.secrets.db_credentials.account # expander.text_input('Acount','qa07240.ap-southeast-1')
+    role = st.secrets.db_credentials.role #expander.text_input('Role','ACCOUNTADMIN')
+    warehouse = st.secrets.db_credentials.warehouse # expander.text_input('Warehouse','COMPUTE_WH')
+    database = st.secrets.db_credentials.database # expander.text_input('Database','IND_DATA')
+    schema = st.secrets.db_credentials.schema # expander.text_input('Schema','IND_SCHEMA')
+    user = st.secrets.db_credentials.user #expander.text_input('User','Hackathon')
+    password = st.secrets.db_credentials.password #expander.text_input("Password", type="password")
+    client_session_keep_alive = st.secrets.db_credentials.client_session_keep_alive
+    # if expander.button("Connect"):
+    store_credentials(account, role, warehouse, database, schema, user, password,client_session_keep_alive)
+    connection = create_snowflake_connection(account, role, warehouse, database, schema, user, password,client_session_keep_alive)
 
 
 st.title('❄️ WELCOME TO INDIAN-FEMALE-EDUCATION-INSIGHTS APP ❄️')
