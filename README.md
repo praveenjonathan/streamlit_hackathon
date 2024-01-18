@@ -1,5 +1,5 @@
 # I'm thrilled to share that my app own (Mac Mini ~ INR 60K) Snowflake Data for Good Hackathon India 2023-2024 ! 🏆🎉
-# This is made with trail account not sure when all the snowfalke credits will be exhausted 
+This is made with trail account not sure when all the snowfalke credits will be exhausted 
 
 ##🔗📊 Features:
 
